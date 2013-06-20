@@ -137,4 +137,19 @@ public class GeoHashTest {
 	public void testCoverBoundingBoxMustBePassedMinHashesGreaterThanZero() {
 		GeoHash.hashesToCoverBoundingBox(0, 135, 10, 145, 0);
 	}
+
+	@Test
+	public void test() {
+		String h = "sew1c2vs2q5r";
+		for (int i = h.length(); i >= 1; i--) {
+			String hash = h.substring(0, i);
+			LatLong p1 = GeoHash.decodeHash(hash);
+			LatLong p2 = GeoHash.decodeHash(GeoHash.adjacentHash(hash,
+					Direction.RIGHT));
+			double v = Math.abs(180 / (p2.getLon() - p1.getLon()));
+			System.out.println(v);
+			System.out.println(i + " " + Math.log(v) / Math.log(2));
+		}
+
+	}
 }
