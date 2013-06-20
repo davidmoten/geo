@@ -3,6 +3,9 @@ geo
 
 Java utility methods for creating and performing calculations with geohashes.
 
+Features
+----------
+
 * encodes geohashes from latitude,longitude to arbitrary length (`GeoHash.encodeHash()`)
 * decodes latitude,longitude from geohashes (`GeoHash.decodeHash()`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
@@ -13,7 +16,7 @@ Java utility methods for creating and performing calculations with geohashes.
 * good performance (~2 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
 * threadsafe 
-* good [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html)
+* 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html)
 
 Status: **pre-alpha**
 
