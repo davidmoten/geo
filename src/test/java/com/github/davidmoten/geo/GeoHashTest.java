@@ -117,4 +117,11 @@ public class GeoHashTest {
 				5,
 				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(3900));
 	}
+
+	@Test
+	public void testCoverBoundingBox() {
+		for (String hash : GeoHash.hashesToCoverBoundingBox(0, 135, 10, 145, 1)) {
+			System.out.println(GeoHash.decodeHash(hash));
+		}
+	}
 }
