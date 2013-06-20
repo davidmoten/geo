@@ -73,4 +73,11 @@ public class GeoHashTest {
 		assertEquals(neighbours, Sets.newHashSet(GeoHash.neighbours(center)));
 	}
 
+	@Test
+	public void testHashDecodeOnBlankString() {
+		LatLong point = GeoHash.decodeHash("");
+		assertEquals(0, point.getLat(), PRECISION);
+		assertEquals(0, point.getLon(), PRECISION);
+	}
+
 }

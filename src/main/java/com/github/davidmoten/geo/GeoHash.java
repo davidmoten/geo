@@ -205,6 +205,7 @@ public class GeoHash {
 	 * @return
 	 */
 	public static LatLong decodeHash(String geohash) {
+		Preconditions.checkNotNull(geohash, "geohash cannot be null");
 		boolean isEven = true;
 		double[] lat = new double[2];
 		double[] lon = new double[2];
