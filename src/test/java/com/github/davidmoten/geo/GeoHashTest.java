@@ -11,10 +11,19 @@ import com.google.common.collect.Sets;
 
 public class GeoHashTest {
 
+	private static final double PRECISION = 0.000000001;
+
 	@Test
 	public void testWhiteHouseHashEncode() {
 		assertEquals("dqcjqcp84c6e",
 				GeoHash.encodeHash(38.89710201881826, -77.03669792041183));
+	}
+
+	@Test
+	public void testWhiteHouseHashDecode() {
+		LatLong point = GeoHash.decodeHash("dqcjqcp84c6e");
+		assertEquals(point.getLat(), 38.89710201881826, PRECISION);
+		assertEquals(point.getLon(), -77.03669792041183, PRECISION);
 	}
 
 	@Test

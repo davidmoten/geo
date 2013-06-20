@@ -33,6 +33,12 @@ public class GeoHash {
 		m.get(Direction.TOP).put(Parity.EVEN, "prxz");
 		m.get(Direction.BOTTOM).put(Parity.EVEN, "028b");
 
+		addOddParityEntries(m);
+		return m;
+	}
+
+	private static void addOddParityEntries(
+			Map<Direction, Map<Parity, String>> m) {
 		m.get(Direction.BOTTOM).put(Parity.ODD,
 				m.get(Direction.LEFT).get(Parity.EVEN));
 		m.get(Direction.TOP).put(Parity.ODD,
@@ -41,7 +47,6 @@ public class GeoHash {
 				m.get(Direction.BOTTOM).get(Parity.EVEN));
 		m.get(Direction.RIGHT).put(Parity.ODD,
 				m.get(Direction.TOP).get(Parity.EVEN));
-		return m;
 	}
 
 	private static Map<Direction, Map<Parity, String>> createNeighbours() {
@@ -59,14 +64,7 @@ public class GeoHash {
 				"p0r21436x8zb9dcf5h7kjnmqesgutwvy");
 		m.get(Direction.BOTTOM).put(Parity.EVEN,
 				"14365h7k9dcfesgujnmqp0r2twvyx8zb");
-		m.get(Direction.BOTTOM).put(Parity.ODD,
-				m.get(Direction.LEFT).get(Parity.EVEN));
-		m.get(Direction.TOP).put(Parity.ODD,
-				m.get(Direction.RIGHT).get(Parity.EVEN));
-		m.get(Direction.LEFT).put(Parity.ODD,
-				m.get(Direction.BOTTOM).get(Parity.EVEN));
-		m.get(Direction.RIGHT).put(Parity.ODD,
-				m.get(Direction.TOP).get(Parity.EVEN));
+		addOddParityEntries(m);
 
 		return m;
 	}
