@@ -120,9 +120,26 @@ public class GeoHashTest {
 
 	@Test
 	public void testCoverBoundingBox() {
-		for (String hash : GeoHash.hashesToCoverBoundingBox(0, 135, 10, 145, 1)) {
+		Set<String> hashes = GeoHash.hashesToCoverBoundingBox(0, 135, 10, 145,
+				1);
+		for (String hash : hashes) {
 			System.out.println(GeoHash.decodeHash(hash) + ", hash=" + hash);
 		}
+		// TODO validate this answer, it looks wrong
+		assertEquals(Sets.newHashSet("rp", "qz", "wb", "wc", "x0", "x1"),
+				hashes);
+	}
+
+	@Test
+	public void testCoverBoundingBoxAroundBoston() {
+		Set<String> hashes = GeoHash.hashesToCoverBoundingBox(42.3583,
+				-71.0603, 45, -73, 1);
+		for (String hash : hashes) {
+			System.out.println(GeoHash.decodeHash(hash) + ", hash=" + hash);
+		}
+		// checked qualitatively against
+		// http://www.lucenerevolution.org/sites/default/files/Lucene%20Rev%20Preso%20Smiley%20Spatial%20Search.pdf
+		assertEquals(Sets.newHashSet("drv", "drs", "drt", "dru"), hashes);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

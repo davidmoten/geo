@@ -18,7 +18,7 @@ Features
 * threadsafe 
 * 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html)
 
-Status: **beta**
+Status: **alpha**
 
 Primary source was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
 
