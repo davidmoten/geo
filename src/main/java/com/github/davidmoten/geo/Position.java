@@ -2,9 +2,9 @@ package com.github.davidmoten.geo;
 
 import java.awt.Polygon;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 
 /**
@@ -205,23 +205,23 @@ public class Position {
 		return result;
 	}
 
-	/**
-	 * calculates the distance of a point to the great circle path between p1
-	 * and p2.
-	 * 
-	 * Formula from: http://www.movable-type.co.uk/scripts/latlong.html
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @return
-	 */
-	public final double getDistanceKmToPath(Position p1, Position p2) {
-		double d = radiusEarthKm
-				* Math.asin(Math.sin(getDistanceToKm(p1) / radiusEarthKm)
-						* Math.sin(Math.toRadians(getBearingDegrees(p1)
-								- p1.getBearingDegrees(p2))));
-		return Math.abs(d);
-	}
+	// /**
+	// * calculates the distance of a point to the great circle path between p1
+	// * and p2.
+	// *
+	// * Formula from: http://www.movable-type.co.uk/scripts/latlong.html
+	// *
+	// * @param p1
+	// * @param p2
+	// * @return
+	// */
+	// public final double getDistanceKmToPath(Position p1, Position p2) {
+	// double d = radiusEarthKm
+	// * Math.asin(Math.sin(getDistanceToKm(p1) / radiusEarthKm)
+	// * Math.sin(Math.toRadians(getBearingDegrees(p1)
+	// - p1.getBearingDegrees(p2))));
+	// return Math.abs(d);
+	// }
 
 	public static String toDegreesMinutesDecimalMinutesLatitude(double lat) {
 		long degrees = Math.round(Math.signum(lat) * Math.floor(Math.abs(lat)));
@@ -243,7 +243,8 @@ public class Position {
 		return result;
 	}
 
-	private static double mod(double y, double x) {
+	@VisibleForTesting
+	static double mod(double y, double x) {
 
 		x = Math.abs(x);
 		int n = (int) (y / x);
@@ -292,31 +293,31 @@ public class Position {
 					"Proportion must be between 0 and 1 inclusive");
 	}
 
-	public final List<Position> getPositionsAlongPath(Position position,
-			double maxSegmentLengthKm) {
+	// public final List<Position> getPositionsAlongPath(Position position,
+	// double maxSegmentLengthKm) {
+	//
+	// // Get distance from this to position
+	// double distanceKm = this.getDistanceToKm(position);
+	//
+	// List<Position> positions = new ArrayList<Position>();
+	//
+	// long numSegments = Math.round(Math.floor(distanceKm
+	// / maxSegmentLengthKm)) + 1;
+	// positions.add(this);
+	// for (int i = 1; i < numSegments; i++)
+	// positions.add(getPositionAlongPath(position, i
+	// / (double) numSegments));
+	// positions.add(position);
+	// return positions;
+	// }
 
-		// Get distance from this to position
-		double distanceKm = this.getDistanceToKm(position);
-
-		List<Position> positions = new ArrayList<Position>();
-
-		long numSegments = Math.round(Math.floor(distanceKm
-				/ maxSegmentLengthKm)) + 1;
-		positions.add(this);
-		for (int i = 1; i < numSegments; i++)
-			positions.add(getPositionAlongPath(position, i
-					/ (double) numSegments));
-		positions.add(position);
-		return positions;
-	}
-
-	public final Position to360() {
-		double lat = this.lat;
-		double lon = this.lon;
-		if (lon < 0)
-			lon += 360;
-		return new Position(lat, lon);
-	}
+	// public final Position to360() {
+	// double lat = this.lat;
+	// double lon = this.lon;
+	// if (lon < 0)
+	// lon += 360;
+	// return new Position(lat, lon);
+	// }
 
 	/**
 	 * normalize the lat lon values of this to ensure that no large longitude

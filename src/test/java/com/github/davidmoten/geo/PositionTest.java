@@ -743,10 +743,15 @@ public class PositionTest {
 		assertEquals(3.0, p.getAlt(), 0.00001);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testPredictThrowsExceptionIfAltitudeGreaterThanZero() {
+		Position p = new Position(1, 2, 3);
+		p.predict(100, 75);
+	}
+
 	@Test
-	public void testGetEarthLimb() {
-		Position p = new Position(0, 0, 1000);
-		p.getEarthLimb(5);
+	public void testModOnNegativeValues() {
+		assertEquals(1, Position.mod(-3, 2), 0.0001);
 	}
 
 }
