@@ -13,7 +13,7 @@ Features
 * hash length calculation based on max intercell distance (`GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres`)
 * calculate geohashes to cover a bounding box given min hashes per axis (`GeoHash.hashesToCoverBoundingBox`)
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
-* good performance (~2 million `GeoHash.encodeHash` calls per second on an I7, single thread)
+* good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
 * threadsafe 
 * 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html)
