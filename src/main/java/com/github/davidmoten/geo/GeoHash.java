@@ -1,7 +1,9 @@
 package com.github.davidmoten.geo;
 
+import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class GeoHash {
@@ -88,6 +90,28 @@ public class GeoHash {
 				+ BASE32.charAt(NEIGHBOURS.get(direction).get(parity)
 						.indexOf(lastChar));
 
+	}
+
+	/**
+	 * Returns a list of the 8 surrounding hashes for a given hash in order
+	 * left,right,top,bottom,left-top,left-bottom,right-top,right-bottom.
+	 * 
+	 * @param hash
+	 * @return
+	 */
+	public static List<String> neighbours(String hash) {
+		List<String> list = Lists.newArrayList();
+		String left = adjacentHash(hash, Direction.LEFT);
+		String right = adjacentHash(hash, Direction.RIGHT);
+		list.add(left);
+		list.add(right);
+		list.add(adjacentHash(hash, Direction.TOP));
+		list.add(adjacentHash(hash, Direction.BOTTOM));
+		list.add(adjacentHash(left, Direction.TOP));
+		list.add(adjacentHash(left, Direction.BOTTOM));
+		list.add(adjacentHash(right, Direction.TOP));
+		list.add(adjacentHash(right, Direction.BOTTOM));
+		return list;
 	}
 
 	public static String encodeHash(double latitude, double longitude) {
