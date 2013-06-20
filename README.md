@@ -11,7 +11,7 @@ Geohash utilities:
 Features
 
 * simple api
-* good performance
+* good performance (~2 million encodeHash per second on an I7)
 * no mutable types exposed by api
 * threadsafe api
 * 100% unit test coverage

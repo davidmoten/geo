@@ -85,4 +85,15 @@ public class GeoHashTest {
 		GeoHash.instantiate();
 	}
 
+	@Test
+	public void testSpeed() {
+		long t = System.currentTimeMillis();
+		int numIterations = 100000;
+		for (int i = 0; i < numIterations; i++)
+			GeoHash.encodeHash(38.89710201881826, -77.03669792041183);
+		double numPerSecond = numIterations / (System.currentTimeMillis() - t)
+				* 1000;
+		System.out.println("num encodeHash per second=" + numPerSecond);
+
+	}
 }
