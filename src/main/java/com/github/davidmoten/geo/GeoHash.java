@@ -2,11 +2,13 @@ package com.github.davidmoten.geo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * <p>
@@ -282,5 +284,42 @@ public final class GeoHash {
 				return i + 1;
 		}
 		return hashLengthCellSeparationsInMetres.size() + 1;
+	}
+
+	public static Set<String> hashesToCoverBoundingBox(double topLeftLat,
+			double topLeftLon, double bottomRightLat, double bottomRightLon,
+			int minHashesPerAxis) {
+		Preconditions.checkArgument(minHashesPerAxis > 0,
+				"minHashesPerAxis must be greater than zero");
+		double topRightLat = topLeftLat;
+		double topRightLon = bottomRightLon;
+		double bottomLeftLat = bottomRightLat;
+		double bottomLeftLon = topLeftLon;
+
+		Position topLeft = Position.create(topLeftLat, topLeftLon);
+		Position topRight = Position.create(topRightLat, topRightLon);
+		Position bottomLeft = Position.create(bottomLeftLat, bottomLeftLon);
+		double xAxisDistanceMetres = topLeft.getDistanceToKm(topRight) * 1000;
+		double yAxisDistanceMetres = topLeft.getDistanceToKm(bottomLeft) * 1000;
+		double minAxisDistanceMetres = Math.min(xAxisDistanceMetres,
+				yAxisDistanceMetres);
+		double maxSeparationDistanceMetres = minAxisDistanceMetres
+				/ minHashesPerAxis;
+		int length = minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(maxSeparationDistanceMetres);
+		long countX = Math.round(Math.floor(xAxisDistanceMetres
+				/ maxSeparationDistanceMetres) + 1);
+		long countY = Math.round(Math.floor(yAxisDistanceMetres
+				/ maxSeparationDistanceMetres) + 1);
+
+		Set<String> hashes = Sets.newHashSet();
+		for (int i = 0; i <= countX; i++)
+			for (int j = 0; j <= countY; j++) {
+				double lat = topLeftLat + (bottomLeftLat - topLeftLat) * i
+						/ countX;
+				double lon = topLeftLon + (topRightLon - topLeftLon) * j
+						/ countY;
+				hashes.add(encodeHash(lat, lon, length));
+			}
+		return hashes;
 	}
 }
