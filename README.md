@@ -15,7 +15,7 @@ Features
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~2 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by GeoHash class api
-* threadsafe api
+* threadsafe 
 * good unit test coverage
 
 Primary source was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
