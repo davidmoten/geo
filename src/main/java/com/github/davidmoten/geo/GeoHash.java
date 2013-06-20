@@ -306,18 +306,36 @@ public final class GeoHash {
 		double maxSeparationDistanceMetres = minAxisDistanceMetres
 				/ minHashesPerAxis;
 		int length = minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(maxSeparationDistanceMetres);
-		long countX = Math.round(Math.floor(xAxisDistanceMetres
-				/ maxSeparationDistanceMetres) + 1);
-		long countY = Math.round(Math.floor(yAxisDistanceMetres
-				/ maxSeparationDistanceMetres) + 1);
+
+		// calculate number of degrees in hash width
+		String topLeftHash = encodeHash(topLeft.getLat(), topLeft.getLon(),
+				length);
+		LatLong centre1 = decodeHash(topLeftHash);
+		String centre2Hash = adjacentHash(topLeftHash, Direction.RIGHT);
+		LatLong centre2 = decodeHash(centre2Hash);
+		double hashWidthDegrees = Math.abs(centre2.getLon() - centre1.getLon());
+		System.out.println("hashWidth=" + hashWidthDegrees);
+
+		// calculate number of degrees in hash width
+		centre2Hash = adjacentHash(topLeftHash, Direction.BOTTOM);
+		centre2 = decodeHash(centre2Hash);
+		double hashHeightDegrees = Math
+				.abs(centre2.getLat() - centre1.getLat());
+		System.out.println("hashHeight=" + hashHeightDegrees);
+
+		// TODO needs normalization of degrees for when right lon < left lon
+		long countX = Math.round(Math.floor((topRight.getLon() - topLeft
+				.getLon()) / hashWidthDegrees) + 1);
+		long countY = Math.round(Math.floor((topLeft.getLat() - bottomLeft
+				.getLat()) / hashHeightDegrees) + 1);
+
+		System.out.println("countx=" + countX + ",county=" + countY);
 
 		Set<String> hashes = Sets.newHashSet();
 		for (int i = 0; i <= countX; i++)
 			for (int j = 0; j <= countY; j++) {
-				double lat = topLeftLat + (bottomLeftLat - topLeftLat) * i
-						/ countX;
-				double lon = topLeftLon + (topRightLon - topLeftLon) * j
-						/ countY;
+				double lat = bottomLeftLat + hashHeightDegrees * i / countX;
+				double lon = topLeftLon + hashWidthDegrees * j / countY;
 				hashes.add(encodeHash(lat, lon, length));
 			}
 		return hashes;
