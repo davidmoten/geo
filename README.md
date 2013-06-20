@@ -10,7 +10,7 @@ Geohash utilities:
 
 Features
 
-* simple api
+* simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~2 million encodeHash per second on an I7)
 * no mutable types exposed by api
 * threadsafe api
