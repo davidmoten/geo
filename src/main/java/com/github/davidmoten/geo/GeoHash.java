@@ -340,4 +340,23 @@ public final class GeoHash {
 			}
 		return hashes;
 	}
+
+	public static double getGeoHashHeightInDegrees(int n) {
+		double a;
+		if (n % 2 == 0)
+			a = 1;
+		else
+			a = 0.5;
+		return 180 / Math.pow(2, 2.5 * n + a);
+	}
+
+	public static double getGeoHashWidthInDegrees(int n) {
+		double a;
+		if (n % 2 == 0)
+			a = -1;
+		else
+			a = -0.5;
+		return 360 / Math.pow(2, 2.5 * n + a);
+	}
+
 }

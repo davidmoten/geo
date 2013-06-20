@@ -146,10 +146,26 @@ public class GeoHashTest {
 			LatLong p1 = GeoHash.decodeHash(hash);
 			LatLong p2 = GeoHash.decodeHash(GeoHash.adjacentHash(hash,
 					Direction.RIGHT));
+			LatLong p3 = GeoHash.decodeHash(GeoHash.adjacentHash(hash,
+					Direction.BOTTOM));
 			double v = Math.abs(180 / (p2.getLon() - p1.getLon()));
-			System.out.println(v);
-			System.out.println(i + " " + Math.log(v) / Math.log(2));
+			double v2 = Math.abs(360 / (p3.getLat() - p1.getLat()));
+			System.out.println("lon " + i + "\t" + Math.log(v) / Math.log(2));
+			System.out.println("lat " + i + "\t" + Math.log(v2) / Math.log(2));
 		}
+	}
 
+	@Test
+	public void testGeoHashWidth() {
+		assertEquals(90, GeoHash.getGeoHashWidthInDegrees(1), 0.0001);
+		assertEquals(360.0 / 16, GeoHash.getGeoHashWidthInDegrees(2), 0.0001);
+		assertEquals(360.0 / 128, GeoHash.getGeoHashWidthInDegrees(3), 0.0001);
+	}
+
+	@Test
+	public void testGeoHashHeight() {
+		assertEquals(180.0 / 8, GeoHash.getGeoHashHeightInDegrees(1), 0.0001);
+		assertEquals(180.0 / 64, GeoHash.getGeoHashHeightInDegrees(2), 0.0001);
+		assertEquals(180.0 / 256, GeoHash.getGeoHashHeightInDegrees(3), 0.0001);
 	}
 }
