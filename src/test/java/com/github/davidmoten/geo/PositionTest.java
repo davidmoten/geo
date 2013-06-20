@@ -287,7 +287,7 @@ public class PositionTest {
 	}
 
 	@Test
-	public final void testEnsureContinuous() {
+	public final void testContinuous() {
 		{
 			Position a = new Position(-35, 179);
 			Position b = new Position(-35, -178);
@@ -301,6 +301,12 @@ public class PositionTest {
 			Position b = new Position(-35, 360);
 			Position c = b.ensureContinuous(a);
 			Assert.assertEquals(0, c.getLon(), 0.0001);
+		}
+		{
+			Position a = new Position(-35, -2);
+			Position b = new Position(-35, -3);
+			Position c = b.ensureContinuous(a);
+			Assert.assertEquals(-3.0, c.getLon(), 0.0001);
 		}
 
 	}
