@@ -96,4 +96,25 @@ public class GeoHashTest {
 		System.out.println("num encodeHash per second=" + numPerSecond);
 
 	}
+
+	@Test
+	public void testHashLengthCalculationForZeroSeparationDistance() {
+		assertEquals(
+				11,
+				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(0));
+	}
+
+	@Test
+	public void testHashLengthCalculationWhenVeryLargeSeparationDistance() {
+		assertEquals(
+				1,
+				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(5003530 * 2));
+	}
+
+	@Test
+	public void testHashLengthCalculationWhenMediumDistance() {
+		assertEquals(
+				5,
+				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(3900));
+	}
 }

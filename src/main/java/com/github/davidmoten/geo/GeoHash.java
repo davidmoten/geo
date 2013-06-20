@@ -260,4 +260,27 @@ public final class GeoHash {
 			interval[1] = (interval[0] + interval[1]) / 2;
 	}
 
+	private static List<Double> hashLengthCellSeparationsInMetres = Lists
+			.newArrayList(5003530.0, 625441.0, 123264.0, 19545.0, 3803.0,
+					610.0, 118.0, 19.0, 3.71, 0.6);
+
+	/**
+	 * Returns the minimum hash length to ensure that the distance between
+	 * hashes of this length are at most <i>N</i> metres apart.
+	 * 
+	 * @param maxSeparationDistanceMetres
+	 *            (N)
+	 * @return
+	 */
+	public static int minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(
+			double maxSeparationDistanceMetres) {
+		// from
+		// http://stackoverflow.com/questions/13836416/geohash-and-max-distance
+		for (int i = 0; i < hashLengthCellSeparationsInMetres.size(); i++) {
+			if (maxSeparationDistanceMetres > hashLengthCellSeparationsInMetres
+					.get(i))
+				return i + 1;
+		}
+		return hashLengthCellSeparationsInMetres.size() + 1;
+	}
 }

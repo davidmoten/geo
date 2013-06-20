@@ -7,6 +7,7 @@ Geohash utilities:
 * decodes latitude,longitude from geohashes (`GeoHash.decodeHash()`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
 * finds all 8 adjacent to a hash (`GeoHash.neighbours()`)
+* hash length calculation based on max intercell distance (`GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres')
 
 Features
 
