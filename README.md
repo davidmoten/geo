@@ -1,7 +1,7 @@
 geo
 ===
 
-Utility methods for creating and performing calculations with geohashes.
+Java utility methods for creating and performing calculations with geohashes.
 
 * encodes geohashes from latitude,longitude to arbitrary length (`GeoHash.encodeHash()`)
 * decodes latitude,longitude from geohashes (`GeoHash.decodeHash()`)
