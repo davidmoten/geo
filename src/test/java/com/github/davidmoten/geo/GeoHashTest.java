@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 
 public class GeoHashTest {
 
+	private static final double PRECISION_2 = 0.0001;
 	private static final double PRECISION = 0.000000001;
 
 	@Test
@@ -158,14 +159,19 @@ public class GeoHashTest {
 	@Test
 	public void testGeoHashWidth() {
 		assertEquals(90, GeoHash.getGeoHashWidthInDegrees(1), 0.0001);
-		assertEquals(360.0 / 16, GeoHash.getGeoHashWidthInDegrees(2), 0.0001);
-		assertEquals(360.0 / 128, GeoHash.getGeoHashWidthInDegrees(3), 0.0001);
+		assertEquals(360.0 / 16, GeoHash.getGeoHashWidthInDegrees(2),
+				PRECISION_2);
+		assertEquals(360.0 / 128, GeoHash.getGeoHashWidthInDegrees(3),
+				PRECISION_2);
 	}
 
 	@Test
 	public void testGeoHashHeight() {
-		assertEquals(180.0 / 8, GeoHash.getGeoHashHeightInDegrees(1), 0.0001);
-		assertEquals(180.0 / 64, GeoHash.getGeoHashHeightInDegrees(2), 0.0001);
-		assertEquals(180.0 / 256, GeoHash.getGeoHashHeightInDegrees(3), 0.0001);
+		assertEquals(180.0 / 8, GeoHash.getGeoHashHeightInDegrees(1),
+				PRECISION_2);
+		assertEquals(180.0 / 64, GeoHash.getGeoHashHeightInDegrees(2),
+				PRECISION_2);
+		assertEquals(180.0 / 256, GeoHash.getGeoHashHeightInDegrees(3),
+				PRECISION_2);
 	}
 }
