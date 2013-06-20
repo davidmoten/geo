@@ -8,9 +8,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * Utility functions for geohashing. See http://en.wikipedia.org/wiki/Geohash.
- * Majority of code here based on javascript implementation at
- * https://github.com/davetroy/geohash-js.
+ * <p>
+ * Utility functions for <a
+ * href="http://en.wikipedia.org/wiki/Geohash">geohashing</a>. Majority of code
+ * here based on javascript implementation <a
+ * href="https://github.com/davetroy/geohash-js">here</a>.
+ * </p>
  * 
  * @author dxm
  * 
