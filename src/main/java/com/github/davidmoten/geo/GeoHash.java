@@ -3,6 +3,7 @@ package com.github.davidmoten.geo;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -24,6 +25,16 @@ public final class GeoHash {
 	private static final String BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 	private static final Map<Direction, Map<Parity, String>> NEIGHBOURS = createNeighbours();
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
+
+	private GeoHash() {
+		// prevent instantiation
+	}
+
+	@VisibleForTesting
+	static void instantiate() {
+		// ensure full code coverage
+		new GeoHash();
+	}
 
 	/**
 	 * Returns a map to be used in hash border calculations.

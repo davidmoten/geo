@@ -80,4 +80,9 @@ public class GeoHashTest {
 		assertEquals(0, point.getLon(), PRECISION);
 	}
 
+	@Test
+	public void testInstantiation() {
+		GeoHash.instantiate();
+	}
+
 }

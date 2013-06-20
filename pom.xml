@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cobertura.version>2.5.1</cobertura.version>
+		<cobertura.version>2.5.2</cobertura.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<checkstyle.version>2.7</checkstyle.version>
 		<findbugs.version>2.3.2</findbugs.version>

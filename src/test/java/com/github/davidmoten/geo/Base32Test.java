@@ -21,4 +21,9 @@ public class Base32Test {
 		assertEquals("-3v", Base32.base32(-123));
 	}
 
+	@Test
+	public void testInstantiation() {
+		Base32.instantiate();
+	}
+
 }
