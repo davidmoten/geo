@@ -1,6 +1,5 @@
 package com.github.davidmoten.geo;
 
-
 import java.util.HashMap;
 
 public class Base32 {
@@ -30,4 +29,5 @@ public class Base32 {
 			buf[--charPos] = '-';
 		return new String(buf, charPos, (65 - charPos));
 	}
+
 }

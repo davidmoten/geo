@@ -8,14 +8,6 @@ import com.google.common.collect.Maps;
 
 public class GeoHash {
 
-	public static enum Direction {
-		BOTTOM, TOP, LEFT, RIGHT;
-	}
-
-	public static enum Parity {
-		EVEN, ODD;
-	}
-
 	private static final int[] BITS = new int[] { 16, 8, 4, 2, 1 };
 	private static final String BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 	private static final Map<Direction, Map<Parity, String>> NEIGHBOURS = createNeighbours();
@@ -112,6 +104,14 @@ public class GeoHash {
 		return list;
 	}
 
+	/**
+	 * Returns a geohash of length 12 for the given WGS84 point
+	 * (latitude,longitude).
+	 * 
+	 * @param latitude
+	 * @param longitude
+	 * @return
+	 */
 	public static String encodeHash(double latitude, double longitude) {
 		return encodeHash(latitude, longitude, 12);
 	}

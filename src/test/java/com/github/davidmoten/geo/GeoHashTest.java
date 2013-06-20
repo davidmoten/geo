@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.github.davidmoten.geo.GeoHash.Direction;
 import com.google.common.collect.Sets;
 
 public class GeoHashTest {
