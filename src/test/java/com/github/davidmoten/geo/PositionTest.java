@@ -754,4 +754,19 @@ public class PositionTest {
 		assertEquals(1, Position.mod(-3, 2), 0.0001);
 	}
 
+	@Test
+	public void testHashCode() {
+		assertTrue(new Position(1, 2).hashCode() > 0);
+	}
+
+	@Test
+	public void testEquals() {
+		Position p1 = new Position(1, 2);
+		Position p2 = new Position(3, 4);
+		assertFalse(p1.equals(null));
+		assertFalse(p1.equals(p2));
+		assertFalse(p2.equals(p1));
+		assertTrue(p1.equals(p1));
+		assertFalse(p1.equals("hello"));
+	}
 }
