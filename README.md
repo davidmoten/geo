@@ -8,6 +8,7 @@ Geohash utilities:
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
 * finds all 8 adjacent to a hash (`GeoHash.neighbours()`)
 * hash length calculation based on max intercell distance (`GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres`)
+* calculate gephashes to cover a bounding box given min hashes per axis (`GeoHash.hashesToCoverBoundingBox`)
 
 Features
 
