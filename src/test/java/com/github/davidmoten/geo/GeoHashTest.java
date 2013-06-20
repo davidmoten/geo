@@ -124,4 +124,9 @@ public class GeoHashTest {
 			System.out.println(GeoHash.decodeHash(hash));
 		}
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCoverBoundingBoxMustBePassedMinHashesGreaterThanZero() {
+		GeoHash.hashesToCoverBoundingBox(0, 135, 10, 145, 0);
+	}
 }
