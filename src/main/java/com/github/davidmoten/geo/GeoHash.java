@@ -3,9 +3,18 @@ package com.github.davidmoten.geo;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * Utility functions for geohashing. See http://en.wikipedia.org/wiki/Geohash.
+ * Majority of code here based on javascript implementation at
+ * https://github.com/davetroy/geohash-js.
+ * 
+ * @author dxm
+ * 
+ */
 public class GeoHash {
 
 	private static final int[] BITS = new int[] { 16, 8, 4, 2, 1 };
@@ -13,6 +22,11 @@ public class GeoHash {
 	private static final Map<Direction, Map<Parity, String>> NEIGHBOURS = createNeighbours();
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
 
+	/**
+	 * Returns a map to be used in border calculations for hashes.
+	 * 
+	 * @return
+	 */
 	private static Map<Direction, Map<Parity, String>> createBorders() {
 		Map<Direction, Map<Parity, String>> m = Maps.newHashMap();
 		m.put(Direction.BOTTOM, Maps.<Parity, String> newHashMap());
@@ -29,18 +43,11 @@ public class GeoHash {
 		return m;
 	}
 
-	private static void addOddParityEntries(
-			Map<Direction, Map<Parity, String>> m) {
-		m.get(Direction.BOTTOM).put(Parity.ODD,
-				m.get(Direction.LEFT).get(Parity.EVEN));
-		m.get(Direction.TOP).put(Parity.ODD,
-				m.get(Direction.RIGHT).get(Parity.EVEN));
-		m.get(Direction.LEFT).put(Parity.ODD,
-				m.get(Direction.BOTTOM).get(Parity.EVEN));
-		m.get(Direction.RIGHT).put(Parity.ODD,
-				m.get(Direction.TOP).get(Parity.EVEN));
-	}
-
+	/**
+	 * Returns a map to be used in neighbour calculations for hashes.
+	 * 
+	 * @return
+	 */
 	private static Map<Direction, Map<Parity, String>> createNeighbours() {
 		Map<Direction, Map<Parity, String>> m = Maps.newHashMap();
 		m.put(Direction.BOTTOM, Maps.<Parity, String> newHashMap());
@@ -59,6 +66,23 @@ public class GeoHash {
 		addOddParityEntries(m);
 
 		return m;
+	}
+
+	/**
+	 * Puts odd parity entries in the map m based purely on the even entries.
+	 * 
+	 * @param m
+	 */
+	private static void addOddParityEntries(
+			Map<Direction, Map<Parity, String>> m) {
+		m.get(Direction.BOTTOM).put(Parity.ODD,
+				m.get(Direction.LEFT).get(Parity.EVEN));
+		m.get(Direction.TOP).put(Parity.ODD,
+				m.get(Direction.RIGHT).get(Parity.EVEN));
+		m.get(Direction.LEFT).put(Parity.ODD,
+				m.get(Direction.BOTTOM).get(Parity.EVEN));
+		m.get(Direction.RIGHT).put(Parity.ODD,
+				m.get(Direction.TOP).get(Parity.EVEN));
 	}
 
 	/**
@@ -109,15 +133,30 @@ public class GeoHash {
 	 * (latitude,longitude).
 	 * 
 	 * @param latitude
+	 *            in decimal degrees (WGS84)
 	 * @param longitude
+	 *            in decimal degrees (WGS84)
 	 * @return
 	 */
 	public static String encodeHash(double latitude, double longitude) {
 		return encodeHash(latitude, longitude, 12);
 	}
 
+	/**
+	 * Returns a geohash of given length for the given WGS84 point
+	 * (latitude,longitude).
+	 * 
+	 * @param latitude
+	 *            in decimal degrees (WGS84)
+	 * @param longitude
+	 *            in decimal degrees (WGS84)
+	 * @return
+	 */
 	public static String encodeHash(double latitude, double longitude,
 			int length) {
+		Preconditions.checkArgument(length > 0,
+				"length must be greater than zero");
+
 		boolean isEven = true;
 		double[] lat = new double[2];
 		double[] lon = new double[2];
@@ -159,6 +198,12 @@ public class GeoHash {
 		return geohash.toString();
 	}
 
+	/**
+	 * Returns a latitude,longitude pair as the centre of the given geohash.
+	 * 
+	 * @param geohash
+	 * @return
+	 */
 	public static LatLong decodeHash(String geohash) {
 		boolean isEven = true;
 		double[] lat = new double[2];
@@ -174,9 +219,9 @@ public class GeoHash {
 			for (int j = 0; j < 5; j++) {
 				int mask = BITS[j];
 				if (isEven) {
-					refine_interval(lon, cd, mask);
+					refineInterval(lon, cd, mask);
 				} else {
-					refine_interval(lat, cd, mask);
+					refineInterval(lat, cd, mask);
 				}
 				isEven = !isEven;
 			}
@@ -187,7 +232,7 @@ public class GeoHash {
 		return new LatLong(resultLat, resultLon);
 	}
 
-	private static void refine_interval(double[] interval, int cd, int mask) {
+	private static void refineInterval(double[] interval, int cd, int mask) {
 		if ((cd & mask) != 0)
 			interval[0] = (interval[0] + interval[1]) / 2;
 		else

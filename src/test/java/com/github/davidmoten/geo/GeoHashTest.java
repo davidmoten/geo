@@ -31,8 +31,13 @@ public class GeoHashTest {
 	}
 
 	@Test
-	public void testPrecision() {
+	public void testHashOfNonDefaultLength() {
 		assertEquals("6gkzwg", GeoHash.encodeHash(-25.382708, -49.265506, 6));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testHashEncodeGivenNonPositiveLength() {
+		GeoHash.encodeHash(-25.382708, -49.265506, 0);
 	}
 
 	@Test
