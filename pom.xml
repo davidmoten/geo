@@ -5,7 +5,7 @@
 
     <groupId>com.github.davidmoten</groupId>
     <artifactId>geo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
 	<name>${project.artifactId}</name>
 	<description>Geohash utilities</description>
