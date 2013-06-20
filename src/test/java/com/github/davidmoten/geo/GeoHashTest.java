@@ -121,7 +121,7 @@ public class GeoHashTest {
 	@Test
 	public void testCoverBoundingBox() {
 		for (String hash : GeoHash.hashesToCoverBoundingBox(0, 135, 10, 145, 1)) {
-			System.out.println(GeoHash.decodeHash(hash));
+			System.out.println(GeoHash.decodeHash(hash) + ", hash=" + hash);
 		}
 	}
 
