@@ -9,10 +9,6 @@ import com.google.common.base.Preconditions;
 
 /**
  * @author dxm
- *
- */
-/**
- * @author dxm
  * 
  */
 public class Position {
@@ -102,50 +98,54 @@ public class Position {
 		return d * d;
 	}
 
-	/**
-	 * Return an array of Positions representing the earths limb (aka: horizon)
-	 * as viewed from this Position in space. This position must have altitude >
-	 * 0
-	 * 
-	 * The array returned will have the specified number of elements (radials).
-	 * 
-	 * 
-	 * This method is useful for the calculation of satellite footprints or the
-	 * position of the Earth's day/night terminator.
-	 * 
-	 * 
-	 * This formula from Aviation Formula by Ed Williams
-	 * (http://williams.best.vwh.net/avform.htm)
-	 * 
-	 * @param radials
-	 *            the number of radials to calculated (evenly spaced around the
-	 *            circumference of the circle
-	 * 
-	 * @return An array of radial points a fixed distance from this point
-	 *         representing the Earth's limb as viewed from this point in space.
-	 * 
-	 */
-	public final Position[] getEarthLimb(int radials) {
-
-		Position[] result = new Position[radials];
-
-		double radialDegrees = 0.0;
-		double incDegrees = 360.0 / radials;
-		double quarterEarthKm = circumferenceEarthKm / 4.0;
-		Position surfacePosition = new Position(this.lat, this.lon, 0.0);
-
-		// Assert( this.alt>0.0, "getEarthLimb() requires Position a positive
-		// altitude");
-		for (int i = 0; i < radials; i++) {
-
-			// TODO: base the distance on the altitude above the Earth
-
-			result[i] = surfacePosition.predict(quarterEarthKm, radialDegrees);
-			radialDegrees += incDegrees;
-		}
-
-		return result;
-	}
+	// /**
+	// * Return an array of Positions representing the earths limb (aka:
+	// horizon)
+	// * as viewed from this Position in space. This position must have altitude
+	// >
+	// * 0
+	// *
+	// * The array returned will have the specified number of elements
+	// (radials).
+	// *
+	// *
+	// * This method is useful for the calculation of satellite footprints or
+	// the
+	// * position of the Earth's day/night terminator.
+	// *
+	// *
+	// * This formula from Aviation Formula by Ed Williams
+	// * (http://williams.best.vwh.net/avform.htm)
+	// *
+	// * @param radials
+	// * the number of radials to calculated (evenly spaced around the
+	// * circumference of the circle
+	// *
+	// * @return An array of radial points a fixed distance from this point
+	// * representing the Earth's limb as viewed from this point in space.
+	// *
+	// */
+	// public final Position[] getEarthLimb(int radials) {
+	//
+	// Position[] result = new Position[radials];
+	//
+	// double radialDegrees = 0.0;
+	// double incDegrees = 360.0 / radials;
+	// double quarterEarthKm = circumferenceEarthKm / 4.0;
+	// Position surfacePosition = new Position(this.lat, this.lon, 0.0);
+	//
+	// // Assert( this.alt>0.0, "getEarthLimb() requires Position a positive
+	// // altitude");
+	// for (int i = 0; i < radials; i++) {
+	//
+	// // TODO: base the distance on the altitude above the Earth
+	//
+	// result[i] = surfacePosition.predict(quarterEarthKm, radialDegrees);
+	// radialDegrees += incDegrees;
+	// }
+	//
+	// return result;
+	// }
 
 	/**
 	 * returns distance between two WGS84 positions according to Vincenty's
@@ -253,12 +253,6 @@ public class Position {
 			mod += x;
 		}
 		return mod;
-	}
-
-	public static void assertWithMsg(boolean assertion, String msg) {
-		if (!assertion)
-			throw new RuntimeException("Assertion failed: " + msg);
-
 	}
 
 	/**
