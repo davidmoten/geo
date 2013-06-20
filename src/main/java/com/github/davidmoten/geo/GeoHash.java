@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
  * @author dxm
  * 
  */
-public class GeoHash {
+public final class GeoHash {
 
 	private static final int[] BITS = new int[] { 16, 8, 4, 2, 1 };
 	private static final String BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
@@ -23,16 +23,12 @@ public class GeoHash {
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
 
 	/**
-	 * Returns a map to be used in border calculations for hashes.
+	 * Returns a map to be used in hash border calculations.
 	 * 
 	 * @return
 	 */
 	private static Map<Direction, Map<Parity, String>> createBorders() {
-		Map<Direction, Map<Parity, String>> m = Maps.newHashMap();
-		m.put(Direction.BOTTOM, Maps.<Parity, String> newHashMap());
-		m.put(Direction.TOP, Maps.<Parity, String> newHashMap());
-		m.put(Direction.LEFT, Maps.<Parity, String> newHashMap());
-		m.put(Direction.RIGHT, Maps.<Parity, String> newHashMap());
+		Map<Direction, Map<Parity, String>> m = createDirectionParityMap();
 
 		m.get(Direction.RIGHT).put(Parity.EVEN, "bcfguvyz");
 		m.get(Direction.LEFT).put(Parity.EVEN, "0145hjnp");
@@ -44,16 +40,12 @@ public class GeoHash {
 	}
 
 	/**
-	 * Returns a map to be used in neighbour calculations for hashes.
+	 * Returns a map to be used in adjacent hash calculations.
 	 * 
 	 * @return
 	 */
 	private static Map<Direction, Map<Parity, String>> createNeighbours() {
-		Map<Direction, Map<Parity, String>> m = Maps.newHashMap();
-		m.put(Direction.BOTTOM, Maps.<Parity, String> newHashMap());
-		m.put(Direction.TOP, Maps.<Parity, String> newHashMap());
-		m.put(Direction.LEFT, Maps.<Parity, String> newHashMap());
-		m.put(Direction.RIGHT, Maps.<Parity, String> newHashMap());
+		Map<Direction, Map<Parity, String>> m = createDirectionParityMap();
 
 		m.get(Direction.RIGHT).put(Parity.EVEN,
 				"bc01fg45238967deuvhjyznpkmstqrwx");
@@ -65,6 +57,20 @@ public class GeoHash {
 				"14365h7k9dcfesgujnmqp0r2twvyx8zb");
 		addOddParityEntries(m);
 
+		return m;
+	}
+
+	/**
+	 * Create a direction and parity map for use in adjacent hash calculations.
+	 * 
+	 * @return
+	 */
+	private static Map<Direction, Map<Parity, String>> createDirectionParityMap() {
+		Map<Direction, Map<Parity, String>> m = Maps.newHashMap();
+		m.put(Direction.BOTTOM, Maps.<Parity, String> newHashMap());
+		m.put(Direction.TOP, Maps.<Parity, String> newHashMap());
+		m.put(Direction.LEFT, Maps.<Parity, String> newHashMap());
+		m.put(Direction.RIGHT, Maps.<Parity, String> newHashMap());
 		return m;
 	}
 

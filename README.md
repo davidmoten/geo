@@ -1,4 +1,8 @@
 geo
 ===
 
-Geohash utitlies including long, base32 string utility functions and adjacent hash functions.
+Geohash utitlies:
+
+ 
+
+Primary source was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
