@@ -27,6 +27,7 @@ public final class GeoHash {
 	private static final String BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 	private static final Map<Direction, Map<Parity, String>> NEIGHBOURS = createNeighbours();
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
+	private static final int MAX_HASH_LENGTH = 12;
 
 	private GeoHash() {
 		// prevent instantiation
@@ -217,11 +218,14 @@ public final class GeoHash {
 				ch = 0;
 			}
 		}
+		// System.out.println("latDiff=" + (lat[1] - lat[0]));
+		// System.out.println("lonDiff=" + (lon[1] - lon[0]));
 		return geohash.toString();
 	}
 
 	/**
 	 * Returns a latitude,longitude pair as the centre of the given geohash.
+	 * Latitude will be between -90 and 90 and longitude between -180 and 180.
 	 * 
 	 * @param geohash
 	 * @return
@@ -262,101 +266,148 @@ public final class GeoHash {
 			interval[1] = (interval[0] + interval[1]) / 2;
 	}
 
-	private static List<Double> hashLengthCellSeparationsInMetres = Lists
-			.newArrayList(5003530.0, 625441.0, 123264.0, 19545.0, 3803.0,
-					610.0, 118.0, 19.0, 3.71, 0.6);
-
-	/**
-	 * Returns the minimum hash length to ensure that the distance between
-	 * hashes of this length are at most <i>N</i> metres apart.
-	 * 
-	 * @param maxSeparationDistanceMetres
-	 *            (N)
-	 * @return
-	 */
-	public static int minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(
-			double maxSeparationDistanceMetres) {
-		// from
-		// http://stackoverflow.com/questions/13836416/geohash-and-max-distance
-		for (int i = 0; i < hashLengthCellSeparationsInMetres.size(); i++) {
-			if (maxSeparationDistanceMetres > hashLengthCellSeparationsInMetres
-					.get(i))
-				return i + 1;
-		}
-		return hashLengthCellSeparationsInMetres.size() + 1;
-	}
-
 	public static Set<String> hashesToCoverBoundingBox(double topLeftLat,
 			double topLeftLon, double bottomRightLat, double bottomRightLon,
 			int minHashesPerAxis) {
 		Preconditions.checkArgument(minHashesPerAxis > 0,
 				"minHashesPerAxis must be greater than zero");
-		double topRightLat = topLeftLat;
-		double topRightLon = bottomRightLon;
-		double bottomLeftLat = bottomRightLat;
-		double bottomLeftLon = topLeftLon;
+		final double topRightLon = bottomRightLon;
+		final double bottomLeftLat = bottomRightLat;
+		final double bottomLeftLon = topLeftLon;
 
-		Position topLeft = Position.create(topLeftLat, topLeftLon);
-		Position topRight = Position.create(topRightLat, topRightLon);
-		Position bottomLeft = Position.create(bottomLeftLat, bottomLeftLon);
-		double xAxisDistanceMetres = topLeft.getDistanceToKm(topRight) * 1000;
-		double yAxisDistanceMetres = topLeft.getDistanceToKm(bottomLeft) * 1000;
-		double minAxisDistanceMetres = Math.min(xAxisDistanceMetres,
-				yAxisDistanceMetres);
-		double maxSeparationDistanceMetres = minAxisDistanceMetres
-				/ minHashesPerAxis;
-		int length = minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(maxSeparationDistanceMetres);
+		final int length1;
+		final double heightDegrees = topLeftLat - bottomLeftLat;
+		{
+			final double minHeightDegreesPerHash = heightDegrees
+					/ minHashesPerAxis;
+			length1 = maxGeoHashLengthToBeAtLeastWidthDegrees(minHeightDegreesPerHash);
+		}
 
-		// calculate number of degrees in hash width
-		String topLeftHash = encodeHash(topLeft.getLat(), topLeft.getLon(),
-				length);
-		LatLong centre1 = decodeHash(topLeftHash);
-		String centre2Hash = adjacentHash(topLeftHash, Direction.RIGHT);
-		LatLong centre2 = decodeHash(centre2Hash);
-		double hashWidthDegrees = Math.abs(centre2.getLon() - centre1.getLon());
-		System.out.println("hashWidth=" + hashWidthDegrees);
+		final int length2;
+		final double widthDegrees = longitudeDiff(topRightLon, topLeftLon);
+		{
+			final double minWidthDegreesPerHash = widthDegrees
+					/ minHashesPerAxis;
+			length2 = maxGeoHashLengthToBeAtLeastWidthDegrees(minWidthDegreesPerHash);
+		}
+		final int length = Math.min(length1, length2);
+		final double actualWidthDegreesPerHash = getGeoHashWidthInDegrees(length);
+		final double actualHeightDegreesPerHash = getGeoHashHeightInDegrees(length);
 
-		// calculate number of degrees in hash width
-		centre2Hash = adjacentHash(topLeftHash, Direction.BOTTOM);
-		centre2 = decodeHash(centre2Hash);
-		double hashHeightDegrees = Math
-				.abs(centre2.getLat() - centre1.getLat());
-		System.out.println("hashHeight=" + hashHeightDegrees);
+		long countX = Math.round(Math.floor(widthDegrees
+				/ actualWidthDegreesPerHash) + 1);
 
-		// TODO needs normalization of degrees for when right lon < left lon
-		long countX = Math.round(Math.floor((topRight.getLon() - topLeft
-				.getLon()) / hashWidthDegrees) + 1);
-		long countY = Math.round(Math.floor((topLeft.getLat() - bottomLeft
-				.getLat()) / hashHeightDegrees) + 1);
-
-		System.out.println("countx=" + countX + ",county=" + countY);
+		long countY = Math.round(Math.floor(heightDegrees
+				/ actualHeightDegreesPerHash) + 1);
 
 		Set<String> hashes = Sets.newHashSet();
 		for (int i = 0; i <= countX; i++)
 			for (int j = 0; j <= countY; j++) {
-				double lat = bottomLeftLat + hashHeightDegrees * i / countX;
-				double lon = topLeftLon + hashWidthDegrees * j / countY;
+				double lat = bottomLeftLat + actualHeightDegreesPerHash * i;
+				double lon = bottomLeftLon + actualWidthDegreesPerHash * j;
 				hashes.add(encodeHash(lat, lon, length));
 			}
 		return hashes;
 	}
 
+	@VisibleForTesting
+	static double longitudeDiff(double a, double b) {
+		a = to180(a);
+		b = to180(b);
+		if (a < b)
+			return a - b + 360;
+		else
+			return a - b;
+	}
+
+	/**
+	 * Converts an angle in degrees to range -180< x <= 180.
+	 * 
+	 * @param d
+	 * @return
+	 */
+	@VisibleForTesting
+	static double to180(double d) {
+		if (d < 0)
+			return -to180(Math.abs(d));
+		else {
+			if (d > 180) {
+				long n = Math.round(Math.floor((d + 180) / 360.0));
+				return d - n * 360;
+			} else
+				return d;
+		}
+	}
+
+	private static Map<Integer, Double> hashHeightCache = Maps.newHashMap();
+
+	/**
+	 * Returns height in degrees of all geohashes of length n. Results are
+	 * deterministic and cached to increase performance.
+	 * 
+	 * @param n
+	 * @return
+	 */
 	public static double getGeoHashHeightInDegrees(int n) {
-		double a;
-		if (n % 2 == 0)
-			a = 1;
-		else
-			a = 0.5;
-		return 180 / Math.pow(2, 2.5 * n + a);
+		if (hashHeightCache.get(n) == null) {
+			double a;
+			if (n % 2 == 0)
+				a = -1;
+			else
+				a = -0.5;
+			double result = 180 / Math.pow(2, 2.5 * n + a);
+			hashHeightCache.put(n, result);
+		}
+		return hashHeightCache.get(n);
 	}
 
+	private static Map<Integer, Double> hashWidthCache = Maps.newHashMap();
+
+	/**
+	 * * Returns width in degrees of all geohashes of length n. Results are
+	 * deterministic and cached to increase performance.
+	 * 
+	 * @param n
+	 * @return
+	 */
 	public static double getGeoHashWidthInDegrees(int n) {
-		double a;
-		if (n % 2 == 0)
-			a = -1;
-		else
-			a = -0.5;
-		return 360 / Math.pow(2, 2.5 * n + a);
+		if (hashWidthCache.get(n) == null) {
+			double a;
+			if (n % 2 == 0)
+				a = -1;
+			else
+				a = -0.5;
+			double result = 180 / Math.pow(2, 2.5 * n + a);
+			hashWidthCache.put(n, result);
+		}
+		return hashWidthCache.get(n);
 	}
 
+	public static int maxGeoHashLengthToBeAtLeastWidthDegrees(double x) {
+		Preconditions.checkArgument(x >= 0, "width must be non-negative");
+		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
+			double w = getGeoHashWidthInDegrees(i);
+			if (w < x)
+				if (i == 1)
+					throw new RuntimeException(
+							"too wide for geohash of length 1!");
+				else
+					return i - 1;
+		}
+		return MAX_HASH_LENGTH;
+	}
+
+	public static int maxGeoHashLengthToBeAtLeastHeightDegrees(double x) {
+		Preconditions.checkArgument(x >= 0, "width must be non-negative");
+		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
+			double w = getGeoHashHeightInDegrees(i);
+			if (w < x)
+				if (i == 1)
+					throw new RuntimeException(
+							"too high for geohash of length 1!");
+				else
+					return i - 1;
+		}
+		return MAX_HASH_LENGTH;
+	}
 }

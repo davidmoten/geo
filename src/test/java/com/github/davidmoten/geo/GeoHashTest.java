@@ -10,6 +10,10 @@ import com.google.common.collect.Sets;
 
 public class GeoHashTest {
 
+	private static final double HARTFORD_LON = -72.727175;
+	private static final double HARTFORD_LAT = 41.842967;
+	private static final double SCHENECTADY_LON = -73.950691;
+	private static final double SCHENECTADY_LAT = 42.819581;
 	private static final double PRECISION_2 = 0.0001;
 	private static final double PRECISION = 0.000000001;
 
@@ -98,40 +102,50 @@ public class GeoHashTest {
 
 	}
 
-	@Test
-	public void testHashLengthCalculationForZeroSeparationDistance() {
-		assertEquals(
-				11,
-				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(0));
-	}
-
-	@Test
-	public void testHashLengthCalculationWhenVeryLargeSeparationDistance() {
-		assertEquals(
-				1,
-				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(5003530 * 2));
-	}
-
-	@Test
-	public void testHashLengthCalculationWhenMediumDistance() {
-		assertEquals(
-				5,
-				GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres(3900));
-	}
-
+	/**
+	 * <p>
+	 * Use this <a href=
+	 * "http://www.lucenerevolution.org/sites/default/files/Lucene%20Rev%20Preso%20Smiley%20Spatial%20Search.pdf"
+	 * >link</a> for double-checking.
+	 * </p>
+	 */
 	@Test
 	public void testCoverBoundingBoxAroundBoston() {
-		double d = 0.1;
 
-		Set<String> hashes = GeoHash.hashesToCoverBoundingBox(42.3583 + d,
-				-71.0603 - d, 42.3583 - d, -71.0603 + d, 1);
+		Set<String> hashes = GeoHash.hashesToCoverBoundingBox(SCHENECTADY_LAT,
+				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
+
+		// check schenectady hash
+		assertEquals("dre",
+				GeoHash.encodeHash(SCHENECTADY_LAT, SCHENECTADY_LON, 3));
+		// check hartford hash
+		assertEquals("drk", GeoHash.encodeHash(HARTFORD_LAT, HARTFORD_LON, 3));
+
+		// check neighbours
+		assertEquals("drs", GeoHash.adjacentHash("dre", Direction.RIGHT));
+		assertEquals("dr7", GeoHash.adjacentHash("dre", Direction.BOTTOM));
+		assertEquals("drk", GeoHash.adjacentHash("drs", Direction.BOTTOM));
+
 		for (String hash : hashes) {
 			System.out.println(GeoHash.decodeHash(hash) + ", hash=" + hash);
 		}
 		// checked qualitatively against
-		// http://www.lucenerevolution.org/sites/default/files/Lucene%20Rev%20Preso%20Smiley%20Spatial%20Search.pdf
-		assertEquals(Sets.newHashSet("drt2t", "drt2k", "drt2m", "drt2s"),
-				hashes);
+		//
+		assertEquals(Sets.newHashSet("dre", "dr7", "drs", "drk"), hashes);
+	}
+
+	@Test
+	public void testCoverBoundingBoxAroundBostonNumIsTwo() {
+
+		Set<String> hashes = GeoHash.hashesToCoverBoundingBox(SCHENECTADY_LAT,
+				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
+
+		for (String hash : hashes) {
+			System.out.println(GeoHash.decodeHash(hash) + ", hash=" + hash);
+		}
+		// checked qualitatively against
+		//
+		assertEquals(Sets.newHashSet("dre", "dr7", "drs", "drk"), hashes);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -157,21 +171,58 @@ public class GeoHashTest {
 	}
 
 	@Test
-	public void testGeoHashWidth() {
-		assertEquals(90, GeoHash.getGeoHashWidthInDegrees(1), 0.0001);
-		assertEquals(360.0 / 16, GeoHash.getGeoHashWidthInDegrees(2),
-				PRECISION_2);
-		assertEquals(360.0 / 128, GeoHash.getGeoHashWidthInDegrees(3),
-				PRECISION_2);
+	public void testTo180() {
+		assertEquals(0, GeoHash.to180(0), PRECISION);
+		assertEquals(10, GeoHash.to180(10), PRECISION);
+		assertEquals(-10, GeoHash.to180(-10), PRECISION);
+		assertEquals(180, GeoHash.to180(180), PRECISION);
+		assertEquals(-180, GeoHash.to180(-180), PRECISION);
+		assertEquals(-170, GeoHash.to180(190), PRECISION);
+		assertEquals(170, GeoHash.to180(-190), PRECISION);
+		assertEquals(-170, GeoHash.to180(190 + 360), PRECISION);
 	}
 
 	@Test
-	public void testGeoHashHeight() {
-		assertEquals(180.0 / 8, GeoHash.getGeoHashHeightInDegrees(1),
-				PRECISION_2);
-		assertEquals(180.0 / 64, GeoHash.getGeoHashHeightInDegrees(2),
-				PRECISION_2);
-		assertEquals(180.0 / 256, GeoHash.getGeoHashHeightInDegrees(3),
-				PRECISION_2);
+	public void testLongitudeDiff() {
+		assertEquals(10, GeoHash.longitudeDiff(15, 5), PRECISION);
+		assertEquals(10, GeoHash.longitudeDiff(-175, 175), PRECISION);
+		assertEquals(350, GeoHash.longitudeDiff(175, -175), PRECISION);
+	}
+
+	@Test
+	public void testGeoHashWidthDegrees() {
+		GeoHash.encodeHash(-25.382708, -49.265506, 6);
+		GeoHash.encodeHash(-25.382708, -49.265506, 5);
+		GeoHash.encodeHash(-25.382708, -49.265506, 4);
+		GeoHash.encodeHash(-25.382708, -49.265506, 3);
+		GeoHash.encodeHash(-25.382708, -49.265506, 2);
+		GeoHash.encodeHash(-25.382708, -49.265506, 1);
+		assertEquals(45.0, GeoHash.getGeoHashWidthInDegrees(1), 0.00001);
+
+		assertEquals(11.25, GeoHash.getGeoHashWidthInDegrees(2), 0.00001);
+		assertEquals(1.40625, GeoHash.getGeoHashWidthInDegrees(3), 0.00001);
+		assertEquals(0.3515625, GeoHash.getGeoHashWidthInDegrees(4), 0.00001);
+		assertEquals(0.0439453125, GeoHash.getGeoHashWidthInDegrees(5), 0.00001);
+		assertEquals(0.010986328125, GeoHash.getGeoHashWidthInDegrees(6),
+				0.00001);
+	}
+
+	@Test
+	public void testGeoHashHeightDegrees() {
+		GeoHash.encodeHash(-25.382708, -49.265506, 6);
+		GeoHash.encodeHash(-25.382708, -49.265506, 5);
+		GeoHash.encodeHash(-25.382708, -49.265506, 4);
+		GeoHash.encodeHash(-25.382708, -49.265506, 3);
+		GeoHash.encodeHash(-25.382708, -49.265506, 2);
+		GeoHash.encodeHash(-25.382708, -49.265506, 1);
+		assertEquals(45.0, GeoHash.getGeoHashHeightInDegrees(1), 0.00001);
+
+		assertEquals(11.25, GeoHash.getGeoHashHeightInDegrees(2), 0.00001);
+		assertEquals(1.40625, GeoHash.getGeoHashHeightInDegrees(3), 0.00001);
+		assertEquals(0.3515625, GeoHash.getGeoHashHeightInDegrees(4), 0.00001);
+		assertEquals(0.0439453125, GeoHash.getGeoHashHeightInDegrees(5),
+				0.00001);
+		assertEquals(0.010986328125, GeoHash.getGeoHashHeightInDegrees(6),
+				0.00001);
 	}
 }
