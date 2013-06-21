@@ -129,6 +129,18 @@ public final class GeoHash {
 
 	}
 
+	public static String adjacentHash(String hash, Direction direction,
+			int steps) {
+		if (steps < 0)
+			return adjacentHash(hash, direction.opposite(), Math.abs(steps));
+		else {
+			String h = hash;
+			for (int i = 0; i < steps; i++)
+				h = adjacentHash(h, direction);
+			return h;
+		}
+	}
+
 	/**
 	 * Returns a list of the 8 surrounding hashes for a given hash in order
 	 * left,right,top,bottom,left-top,left-bottom,right-top,right-bottom.
@@ -402,5 +414,19 @@ public final class GeoHash {
 
 		}
 		return MAX_HASH_LENGTH;
+	}
+
+	public static String matrix(String hash, int fromRight, int fromBottom,
+			int toRight, int toBottom) {
+		StringBuilder s = new StringBuilder();
+		for (int bottom = fromBottom; bottom <= toBottom; bottom++) {
+			for (int right = fromRight; right <= toRight; right++) {
+				String h = adjacentHash(hash, Direction.RIGHT, right);
+				h = adjacentHash(h, Direction.BOTTOM, bottom);
+				s.append(h).append(" ");
+			}
+			s.append("\n");
+		}
+		return s.toString();
 	}
 }

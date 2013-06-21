@@ -227,4 +227,9 @@ public class GeoHashTest {
 		assertEquals(0.010986328125, GeoHash.getGeoHashHeightInDegrees(6),
 				0.00001);
 	}
+
+	@Test
+	public void testMatrix() {
+		System.out.println(GeoHash.matrix("dreq", -5, -5, 5, 5));
+	}
 }
