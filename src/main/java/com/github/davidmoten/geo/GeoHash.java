@@ -1,5 +1,6 @@
 package com.github.davidmoten.geo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -306,19 +307,10 @@ public final class GeoHash {
 		final double actualWidthDegreesPerHash = getGeoHashWidthInDegrees(length);
 		final double actualHeightDegreesPerHash = getGeoHashHeightInDegrees(length);
 
-		long countX = Math.round(Math.floor(widthDegrees
-				/ actualWidthDegreesPerHash) + 1);
-
-		long countY = Math.round(Math.floor(heightDegrees
-				/ actualHeightDegreesPerHash) + 1);
-
 		Set<String> hashes = Sets.newHashSet();
-		for (int i = 0; i <= countX; i++)
-			for (int j = 0; j <= countY; j++) {
-				double lat = bottomLeftLat + actualHeightDegreesPerHash * i;
-				double lon = bottomLeftLon + actualWidthDegreesPerHash * j;
+		for (double lat = bottomLeftLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
+			for (double lon = bottomLeftLon; lon <= topRightLon; lon += actualWidthDegreesPerHash)
 				hashes.add(encodeHash(lat, lon, length));
-			}
 		return hashes;
 	}
 
@@ -418,11 +410,19 @@ public final class GeoHash {
 
 	public static String matrix(String hash, int fromRight, int fromBottom,
 			int toRight, int toBottom) {
+		return matrix(hash, fromRight, fromBottom, toRight, toBottom,
+				Collections.<String> emptySet());
+	}
+
+	public static String matrix(String hash, int fromRight, int fromBottom,
+			int toRight, int toBottom, Set<String> highlightThese) {
 		StringBuilder s = new StringBuilder();
 		for (int bottom = fromBottom; bottom <= toBottom; bottom++) {
 			for (int right = fromRight; right <= toRight; right++) {
 				String h = adjacentHash(hash, Direction.RIGHT, right);
 				h = adjacentHash(h, Direction.BOTTOM, bottom);
+				if (highlightThese.contains(h))
+					h = h.toUpperCase();
 				s.append(h).append(" ");
 			}
 			s.append("\n");

@@ -131,6 +131,7 @@ public class GeoHashTest {
 		// checked qualitatively against
 		//
 		// assertEquals(Sets.newHashSet("dre", "dr7", "drs", "drk"), hashes);
+		System.out.println(GeoHash.matrix("dreb", -5, -5, 5, 5, hashes));
 		assertEquals(Sets.newHashSet("dreq", "dr7q", "dreu", "dres", "dr7w",
 				"dre6", "dre2", "drek", "drkn", "dreb", "drsh", "dref", "dred",
 				"dre8", "dr7y", "drs4", "drsn", "drew", "drs0", "drey"), hashes);
@@ -230,6 +231,6 @@ public class GeoHashTest {
 
 	@Test
 	public void testMatrix() {
-		System.out.println(GeoHash.matrix("dreq", -5, -5, 5, 5));
+		System.out.println(GeoHash.matrix("dred", -5, -5, 5, 5));
 	}
 }
