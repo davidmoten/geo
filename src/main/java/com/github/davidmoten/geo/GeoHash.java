@@ -280,7 +280,7 @@ public final class GeoHash {
 		{
 			final double minHeightDegreesPerHash = heightDegrees
 					/ minHashesPerAxis;
-			length1 = maxGeoHashLengthToBeAtLeastWidthDegrees(minHeightDegreesPerHash);
+			length1 = minGeoHashLengthToBeAtMostHeightDegrees(minHeightDegreesPerHash);
 		}
 
 		final int length2;
@@ -288,9 +288,9 @@ public final class GeoHash {
 		{
 			final double minWidthDegreesPerHash = widthDegrees
 					/ minHashesPerAxis;
-			length2 = maxGeoHashLengthToBeAtLeastWidthDegrees(minWidthDegreesPerHash);
+			length2 = minGeoHashLengthToBeAtMostWidthDegrees(minWidthDegreesPerHash);
 		}
-		final int length = Math.min(length1, length2);
+		final int length = Math.max(length1, length2);
 		final double actualWidthDegreesPerHash = getGeoHashWidthInDegrees(length);
 		final double actualHeightDegreesPerHash = getGeoHashHeightInDegrees(length);
 
@@ -383,30 +383,23 @@ public final class GeoHash {
 		return hashWidthCache.get(n);
 	}
 
-	public static int maxGeoHashLengthToBeAtLeastWidthDegrees(double x) {
+	public static int minGeoHashLengthToBeAtMostWidthDegrees(double x) {
 		Preconditions.checkArgument(x >= 0, "width must be non-negative");
 		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
 			double w = getGeoHashWidthInDegrees(i);
 			if (w < x)
-				if (i == 1)
-					throw new RuntimeException(
-							"too wide for geohash of length 1!");
-				else
-					return i - 1;
+				return i;
 		}
 		return MAX_HASH_LENGTH;
 	}
 
-	public static int maxGeoHashLengthToBeAtLeastHeightDegrees(double x) {
+	public static int minGeoHashLengthToBeAtMostHeightDegrees(double x) {
 		Preconditions.checkArgument(x >= 0, "width must be non-negative");
 		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
 			double w = getGeoHashHeightInDegrees(i);
 			if (w < x)
-				if (i == 1)
-					throw new RuntimeException(
-							"too high for geohash of length 1!");
-				else
-					return i - 1;
+				return i;
+
 		}
 		return MAX_HASH_LENGTH;
 	}
