@@ -14,7 +14,6 @@ public class GeoHashTest {
 	private static final double HARTFORD_LAT = 41.842967;
 	private static final double SCHENECTADY_LON = -73.950691;
 	private static final double SCHENECTADY_LAT = 42.819581;
-	private static final double PRECISION_2 = 0.0001;
 	private static final double PRECISION = 0.000000001;
 
 	@Test
