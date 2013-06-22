@@ -402,10 +402,9 @@ public final class GeoHash {
 	 * @param length
 	 * @return
 	 */
-	public static Coverage coverBoundingBoxWithHashLength(
-			double topLeftLat, final double topLeftLon,
-			final double bottomRightLat, final double bottomRightLon,
-			final int length) {
+	public static Coverage coverBoundingBoxWithHashLength(double topLeftLat,
+			final double topLeftLon, final double bottomRightLat,
+			final double bottomRightLon, final int length) {
 		Preconditions.checkArgument(length > 0,
 				"length must be greater than zero");
 		final double actualWidthDegreesPerHash = widthDegrees(length);
@@ -434,7 +433,6 @@ public final class GeoHash {
 		double coverageAreaDegrees = hashes.size() * widthDegrees(length)
 				* heightDegrees(length);
 		double ratio = areaDegrees / coverageAreaDegrees;
-		System.out.println("length=" + length + ",ratio = " + ratio);
 		return new Coverage(hashes, ratio);
 	}
 
