@@ -209,18 +209,19 @@ public class GeoHashTest {
 		assertEquals(ex, hashes);
 	}
 
+	@Test
+	public void testCoverBoundingBoxWithHashLengthOneAroundBoston() {
+
+		Set<String> hashes = hashesToCoverBoundingBoxWithHashLength(
+				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
+		assertEquals(Sets.newHashSet("d"), hashes);
+	}
+
 	// @Test
 	public void testCoverBoundingBoxAroundBostonNumIsTwo() {
 
 		Set<String> hashes = hashesToCoverBoundingBoxWithMinHashesPerAxis(
 				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
-
-		for (String hash : hashes) {
-			// System.out.println(decodeHash(hash) + ", hash=" + hash);
-		}
-		// checked qualitatively against
-		//
-		// assertEquals(Sets.newHashSet("dre", "dr7", "drs", "drk"), hashes);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

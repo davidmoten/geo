@@ -333,6 +333,23 @@ public final class GeoHash {
 				bottomRightLat, bottomRightLon, length);
 	}
 
+	public static int hashLengthToEncloseBoundingBox(double topLeftLat,
+			double topLeftLon, double bottomRightLat, double bottomRightLon) {
+		for (int i = MAX_HASH_LENGTH; i >= 1; i--) {
+			String hash = encodeHash(topLeftLat, topLeftLon, i);
+			if (hashContains(hash, bottomRightLat, bottomRightLon))
+				return i;
+		}
+		return 0;
+	}
+
+	public static boolean hashContains(String hash, double lat, double lon) {
+		LatLong centre = decodeHash(hash);
+		return Math.abs(centre.getLat() - lat) <= heightDegrees(hash.length()) / 2
+				&& Math.abs(centre.getLon() - lon) <= widthDegrees(hash
+						.length()) / 2;
+	}
+
 	public static Set<String> hashesToCoverBoundingBoxWithHashLength(
 			double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon,
