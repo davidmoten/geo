@@ -14,6 +14,7 @@ import static com.github.davidmoten.geo.GeoHash.to180;
 import static com.github.davidmoten.geo.GeoHash.top;
 import static com.github.davidmoten.geo.GeoHash.widthDegrees;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -157,6 +158,8 @@ public class GeoHashTest {
 		assertEquals("dre7", encodeHash(SCHENECTADY_LAT, SCHENECTADY_LON, 4));
 		// check hartford hash
 		assertEquals("drkq", encodeHash(HARTFORD_LAT, HARTFORD_LON, 4));
+		assertEquals("drs7", encodeHash(SCHENECTADY_LAT, HARTFORD_LON, 4));
+		assertEquals("dr7q", encodeHash(HARTFORD_LAT, SCHENECTADY_LON, 4));
 
 		// check neighbours
 		assertEquals("drs", adjacentHash("dre", Direction.RIGHT));
@@ -166,16 +169,19 @@ public class GeoHashTest {
 		for (String hash : hashes) {
 			System.out.println(decodeHash(hash) + ", hash=" + hash);
 		}
-		// checked qualitatively against
-		//
-		// assertEquals(Sets.newHashSet("dre", "dr7", "drs", "drk"), hashes);
 		System.out.println(matrix("dreb", 5, hashes));
+
+		// check corners are in
+		assertTrue(hashes.contains("dre7"));
+		assertTrue(hashes.contains("drkq"));
+		assertTrue(hashes.contains("drs7"));
+		assertTrue(hashes.contains("dr7q"));
 		assertEquals(Sets.newHashSet("dreq", "dr7q", "dreu", "dres", "dr7w",
 				"dre6", "dre2", "drek", "drkn", "dreb", "drsh", "dref", "dred",
 				"dre8", "dr7y", "drs4", "drsn", "drew", "drs0", "drey"), hashes);
 	}
 
-	@Test
+	// @Test
 	public void testCoverBoundingBoxAroundBostonNumIsTwo() {
 
 		Set<String> hashes = hashesToCoverBoundingBox(SCHENECTADY_LAT,

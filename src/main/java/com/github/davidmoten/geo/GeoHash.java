@@ -328,8 +328,10 @@ public final class GeoHash {
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
 		Set<String> hashes = Sets.newHashSet();
+		double maxLon = (bottomLeftLon < topRightLon ? topRightLon
+				: topRightLon + 360);
 		for (double lat = bottomLeftLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
-			for (double lon = bottomLeftLon; lon <= topRightLon; lon += actualWidthDegreesPerHash)
+			for (double lon = bottomLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash)
 				hashes.add(encodeHash(lat, lon, length));
 		return hashes;
 	}
