@@ -10,13 +10,14 @@ Features
 * decodes latitude, longitude from geohashes (`GeoHash.decodeHash()`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
 * finds all 8 adjacent hashes to a hash (`GeoHash.neighbours()`)
-* calculate hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
-* calculate geohashes of given length to cover a bounding box (`GeoHash.hashesToCoverBoundingBox`)
+* calculates hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
+* calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBoxWithHashLength`)
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
 * threadsafe 
 * 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html)
+* Apache 2.0 licence
 
 Status: **pre-alpha**
 

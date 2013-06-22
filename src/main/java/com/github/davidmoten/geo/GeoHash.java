@@ -121,6 +121,7 @@ public final class GeoHash {
 	 * @return
 	 */
 	public static String adjacentHash(String hash, Direction direction) {
+		checkHash(hash);
 		String source = hash.toLowerCase();
 		char lastChar = source.charAt(source.length() - 1);
 		Parity parity = (source.length() % 2 == 0) ? Parity.EVEN : Parity.ODD;
@@ -130,7 +131,11 @@ public final class GeoHash {
 		return base
 				+ BASE32.charAt(NEIGHBOURS.get(direction).get(parity)
 						.indexOf(lastChar));
+	}
 
+	private static void checkHash(String hash) {
+		Preconditions.checkArgument(hash != null && hash.length() > 0,
+				"hash must be non-null of length>1");
 	}
 
 	/**
@@ -255,6 +260,9 @@ public final class GeoHash {
 			int length) {
 		Preconditions.checkArgument(length > 0,
 				"length must be greater than zero");
+		Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
+				"latitude must be between -90 and 90 inclusive");
+		longitude = to180(longitude);
 
 		boolean isEven = true;
 		double[] lat = new double[2];
@@ -394,10 +402,12 @@ public final class GeoHash {
 	 * @param length
 	 * @return
 	 */
-	public static Coverage hashesToCoverBoundingBoxWithHashLength(
+	public static Coverage coverBoundingBoxWithHashLength(
 			double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon,
 			final int length) {
+		Preconditions.checkArgument(length > 0,
+				"length must be greater than zero");
 		final double actualWidthDegreesPerHash = widthDegrees(length);
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
