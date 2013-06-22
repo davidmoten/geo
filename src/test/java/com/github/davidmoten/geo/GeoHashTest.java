@@ -3,7 +3,8 @@ package com.github.davidmoten.geo;
 import static com.github.davidmoten.geo.GeoHash.adjacentHash;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
-import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBox;
+import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithHashLength;
+import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithMinHashesPerAxis;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.instantiate;
 import static com.github.davidmoten.geo.GeoHash.longitudeDiff;
@@ -16,7 +17,9 @@ import static com.github.davidmoten.geo.GeoHash.widthDegrees;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Test;
 
@@ -149,10 +152,10 @@ public class GeoHashTest {
 	 * </p>
 	 */
 	@Test
-	public void testCoverBoundingBoxAroundBoston() {
+	public void testCoverBoundingBoxWithHashLengthAroundBoston() {
 
-		Set<String> hashes = hashesToCoverBoundingBox(SCHENECTADY_LAT,
-				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
+		Set<String> hashes = hashesToCoverBoundingBoxWithHashLength(
+				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 4);
 
 		// check schenectady hash
 		assertEquals("dre7", encodeHash(SCHENECTADY_LAT, SCHENECTADY_LON, 4));
@@ -176,16 +179,19 @@ public class GeoHashTest {
 		assertTrue(hashes.contains("drkq"));
 		assertTrue(hashes.contains("drs7"));
 		assertTrue(hashes.contains("dr7q"));
-		assertEquals(Sets.newHashSet("dreq", "dr7q", "dreu", "dres", "dr7w",
-				"dre6", "dre2", "drek", "drkn", "dreb", "drsh", "dref", "dred",
-				"dre8", "dr7y", "drs4", "drsn", "drew", "drs0", "drey"), hashes);
+		String expected = "dre7,dree,dreg,drs5,drs7,dre6,dred,dref,drs4,drs6,dre3,dre9,drec,drs1,drs3,dre2,dre8,dreb,drs0,drs2,dr7r,dr7x,dr7z,drkp,drkr,dr7q,dr7w,dr7y,drkn,drkq";
+		TreeSet<String> ex = Sets
+				.newTreeSet(Arrays.asList(expected.split(",")));
+		System.out.println(ex);
+		System.out.println(hashes);
+		assertEquals(ex, hashes);
 	}
 
 	// @Test
 	public void testCoverBoundingBoxAroundBostonNumIsTwo() {
 
-		Set<String> hashes = hashesToCoverBoundingBox(SCHENECTADY_LAT,
-				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
+		Set<String> hashes = hashesToCoverBoundingBoxWithMinHashesPerAxis(
+				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
 
 		for (String hash : hashes) {
 			System.out.println(decodeHash(hash) + ", hash=" + hash);
@@ -197,7 +203,7 @@ public class GeoHashTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCoverBoundingBoxMustBePassedMinHashesGreaterThanZero() {
-		hashesToCoverBoundingBox(0, 135, 10, 145, 0);
+		hashesToCoverBoundingBoxWithMinHashesPerAxis(0, 135, 10, 145, 0);
 	}
 
 	@Test

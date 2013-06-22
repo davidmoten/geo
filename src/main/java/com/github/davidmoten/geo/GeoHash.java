@@ -299,9 +299,9 @@ public final class GeoHash {
 			interval[1] = (interval[0] + interval[1]) / 2;
 	}
 
-	public static Set<String> hashesToCoverBoundingBox(double topLeftLat,
-			double topLeftLon, double bottomRightLat, double bottomRightLon,
-			int minHashesPerAxis) {
+	public static Set<String> hashesToCoverBoundingBoxWithMinHashesPerAxis(
+			double topLeftLat, double topLeftLon, double bottomRightLat,
+			double bottomRightLon, int minHashesPerAxis) {
 		Preconditions.checkArgument(minHashesPerAxis > 0,
 				"minHashesPerAxis must be greater than zero");
 		final double topRightLon = bottomRightLon;
@@ -324,14 +324,26 @@ public final class GeoHash {
 			length2 = minGeoHashLengthToBeAtMostWidthDegrees(minWidthDegreesPerHash);
 		}
 		final int length = Math.max(length1, length2);
+
+		return hashesToCoverBoundingBoxWithHashLength(topLeftLat, topLeftLon,
+				bottomRightLat, bottomRightLon, length);
+	}
+
+	public static Set<String> hashesToCoverBoundingBoxWithHashLength(
+			double topLeftLat, final double topLeftLon,
+			final double bottomRightLat, final double bottomRightLon,
+			final int length) {
 		final double actualWidthDegreesPerHash = widthDegrees(length);
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
-		Set<String> hashes = Sets.newHashSet();
-		double maxLon = (bottomLeftLon < topRightLon ? topRightLon
-				: topRightLon + 360);
-		for (double lat = bottomLeftLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
-			for (double lon = bottomLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash)
+		Set<String> hashes = Sets.newTreeSet();
+		double maxLon = (topLeftLon < bottomRightLon ? bottomRightLon
+				: bottomRightLon + 360);
+		// TODO don't understand why need to add actualWidthDegrees to longitude
+		// to get coverage of right hand border.s
+		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
+			for (double lon = topLeftLon; lon <= maxLon
+					+ actualWidthDegreesPerHash; lon += actualWidthDegreesPerHash)
 				hashes.add(encodeHash(lat, lon, length));
 		return hashes;
 	}
