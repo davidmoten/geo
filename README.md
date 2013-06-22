@@ -9,9 +9,9 @@ Features
 * encodes geohashes from latitude,longitude to arbitrary length (`GeoHash.encodeHash()`)
 * decodes latitude,longitude from geohashes (`GeoHash.decodeHash()`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
-* finds all 8 adjacent to a hash (`GeoHash.neighbours()`)
-* hash length calculation based on max intercell distance (`GeoHash.minHashLengthToEnsureCellCentreSeparationDistanceIsLessThanMetres`)
-* calculate geohashes to cover a bounding box given min hashes per axis (`GeoHash.hashesToCoverBoundingBox`)
+* finds all 8 adjacent hashes to a hash (`GeoHash.neighbours()`)
+* calculate hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
+* calculate geohashes of given length to cover a bounding box (`GeoHash.hashesToCoverBoundingBox`)
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
