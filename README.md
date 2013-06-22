@@ -6,8 +6,8 @@ Java utility methods for creating and performing calculations with geohashes.
 Features
 ----------
 
-* encodes geohashes from latitude,longitude to arbitrary length (`GeoHash.encodeHash()`)
-* decodes latitude,longitude from geohashes (`GeoHash.decodeHash()`)
+* encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash()`)
+* decodes latitude, longitude from geohashes (`GeoHash.decodeHash()`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
 * finds all 8 adjacent hashes to a hash (`GeoHash.neighbours()`)
 * calculate hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
