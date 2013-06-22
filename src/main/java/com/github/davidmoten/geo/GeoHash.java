@@ -394,7 +394,7 @@ public final class GeoHash {
 	 * @param length
 	 * @return
 	 */
-	public static Set<String> hashesToCoverBoundingBoxWithHashLength(
+	public static Coverage hashesToCoverBoundingBoxWithHashLength(
 			double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon,
 			final int length) {
@@ -402,7 +402,8 @@ public final class GeoHash {
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
 		Set<String> hashes = Sets.newTreeSet();
-		double maxLon = topLeftLon + longitudeDiff(bottomRightLon, topLeftLon);
+		double diff = longitudeDiff(bottomRightLon, topLeftLon);
+		double maxLon = topLeftLon + diff;
 
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
 			for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
@@ -418,7 +419,13 @@ public final class GeoHash {
 		}
 
 		addHash(hashes, topLeftLat, maxLon, length);
-		return hashes;
+
+		double areaDegrees = diff * (topLeftLat - bottomRightLat);
+		double coverageAreaDegrees = hashes.size() * widthDegrees(length)
+				* heightDegrees(length);
+		double ratio = areaDegrees / coverageAreaDegrees;
+		System.out.println("length=" + length + ",ratio = " + ratio);
+		return new Coverage(hashes, ratio);
 	}
 
 	/**
@@ -551,4 +558,5 @@ public final class GeoHash {
 		}
 		return s.toString();
 	}
+
 }
