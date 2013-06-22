@@ -299,40 +299,6 @@ public final class GeoHash {
 			interval[1] = (interval[0] + interval[1]) / 2;
 	}
 
-	public static interface BoundingBoxCoverageStrategy {
-		int hashLength(double topLeftLat, double topLeftLon,
-				double bottomRightLat, double bottomRightLon);
-	}
-
-	public static Set<String> hashesToCoverBoundingBoxWithMinHashesPerAxis(
-			double topLeftLat, double topLeftLon, double bottomRightLat,
-			double bottomRightLon, int minHashesPerAxis) {
-		Preconditions.checkArgument(minHashesPerAxis > 0,
-				"minHashesPerAxis must be greater than zero");
-		final double topRightLon = bottomRightLon;
-		final double bottomLeftLat = bottomRightLat;
-
-		final int length1;
-		final double heightDegrees = topLeftLat - bottomLeftLat;
-		{
-			final double minHeightDegreesPerHash = heightDegrees
-					/ minHashesPerAxis;
-			length1 = minGeoHashLengthToBeAtMostHeightDegrees(minHeightDegreesPerHash);
-		}
-
-		final int length2;
-		final double widthDegrees = longitudeDiff(topRightLon, topLeftLon);
-		{
-			final double minWidthDegreesPerHash = widthDegrees
-					/ minHashesPerAxis;
-			length2 = minGeoHashLengthToBeAtMostWidthDegrees(minWidthDegreesPerHash);
-		}
-		final int length = Math.max(length1, length2);
-
-		return hashesToCoverBoundingBoxWithHashLength(topLeftLat, topLeftLon,
-				bottomRightLat, bottomRightLon, length);
-	}
-
 	public static int hashLengthToEncloseBoundingBox(double topLeftLat,
 			double topLeftLon, double bottomRightLat, double bottomRightLon) {
 		for (int i = MAX_HASH_LENGTH; i >= 1; i--) {
@@ -454,27 +420,6 @@ public final class GeoHash {
 			hashWidthCache.put(n, result);
 		}
 		return hashWidthCache.get(n);
-	}
-
-	public static int minGeoHashLengthToBeAtMostWidthDegrees(double x) {
-		Preconditions.checkArgument(x >= 0, "width must be non-negative");
-		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
-			double w = widthDegrees(i);
-			if (w < x)
-				return i;
-		}
-		return MAX_HASH_LENGTH;
-	}
-
-	public static int minGeoHashLengthToBeAtMostHeightDegrees(double x) {
-		Preconditions.checkArgument(x >= 0, "width must be non-negative");
-		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
-			double w = heightDegrees(i);
-			if (w < x)
-				return i;
-
-		}
-		return MAX_HASH_LENGTH;
 	}
 
 	public static String matrix(String hash, int size,

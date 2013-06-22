@@ -6,7 +6,6 @@ import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.hashLengthToEncloseBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithHashLength;
-import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithMinHashesPerAxis;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.instantiate;
 import static com.github.davidmoten.geo.GeoHash.left;
@@ -18,6 +17,7 @@ import static com.github.davidmoten.geo.GeoHash.to180;
 import static com.github.davidmoten.geo.GeoHash.top;
 import static com.github.davidmoten.geo.GeoHash.widthDegrees;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -234,18 +234,6 @@ public class GeoHashTest {
 		assertEquals(Sets.newHashSet("dr7", "dre", "drk", "drs"), hashes);
 	}
 
-	// @Test
-	public void testCoverBoundingBoxAroundBostonNumIsTwo() {
-
-		Set<String> hashes = hashesToCoverBoundingBoxWithMinHashesPerAxis(
-				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testCoverBoundingBoxMustBePassedMinHashesGreaterThanZero() {
-		hashesToCoverBoundingBoxWithMinHashesPerAxis(0, 135, 10, 145, 0);
-	}
-
 	@Test
 	public void test() {
 		String h = "sew1c2vs2q5r";
@@ -317,5 +305,22 @@ public class GeoHashTest {
 	@Test
 	public void testMatrix() {
 		System.out.println(matrix("dred", -5, -5, 5, 5));
+	}
+
+	@Test
+	public void testHashContains() {
+		LatLong centre = decodeHash("dre7");
+		assertTrue(GeoHash.hashContains("dre7", centre.getLat(),
+				centre.getLon()));
+		assertFalse(GeoHash.hashContains("dre7", centre.getLat() + 20,
+				centre.getLon()));
+		assertFalse(GeoHash.hashContains("dre7", centre.getLat(),
+				centre.getLon() + 20));
+	}
+
+	@Test
+	public void testHashLengthToEncloseBoundingBoxReturns0IfBoxTooBig() {
+		assertEquals(0,
+				GeoHash.hashLengthToEncloseBoundingBox(80, -170, -80, 170));
 	}
 }
