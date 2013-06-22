@@ -216,6 +216,7 @@ public class GeoHashTest {
 		Coverage coverage = hashesToCoverBoundingBoxWithHashLength(
 				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
 		assertEquals(Sets.newHashSet("d"), coverage.getHashes());
+		assertEquals(0.0011801509677274082, coverage.getRatio(), PRECISION);
 	}
 
 	@Test
