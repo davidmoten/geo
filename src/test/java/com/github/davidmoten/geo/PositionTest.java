@@ -30,6 +30,13 @@ public class PositionTest {
 	}
 
 	@Test
+	public void testCreate() {
+		Position p = Position.create(1, 2);
+		assertEquals(1, p.getLat(), PRECISION);
+		assertEquals(2, p.getLon(), PRECISION);
+	}
+
+	@Test
 	public final void testPredict() {
 		Position p = new Position(53, 3);
 		Position p2 = p.predict(100, 30);
