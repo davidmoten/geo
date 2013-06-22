@@ -496,7 +496,7 @@ public final class GeoHash {
 	private static Map<Integer, Double> hashWidthCache = Maps.newHashMap();
 
 	/**
-	 * * Returns width in degrees of all geohashes of length n. Results are
+	 * Returns width in degrees of all geohashes of length n. Results are
 	 * deterministic and cached to increase performance.
 	 * 
 	 * @param n
