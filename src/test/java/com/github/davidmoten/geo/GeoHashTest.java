@@ -4,6 +4,7 @@ import static com.github.davidmoten.geo.GeoHash.adjacentHash;
 import static com.github.davidmoten.geo.GeoHash.bottom;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
+import static com.github.davidmoten.geo.GeoHash.hashLengthToEncloseBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithHashLength;
 import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithMinHashesPerAxis;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
@@ -174,7 +175,7 @@ public class GeoHashTest {
 	 * </p>
 	 */
 	@Test
-	public void testCoverBoundingBoxWithHashLengthAroundBoston() {
+	public void testCoverBoundingBoxWithHashLength4AroundBoston() {
 
 		Set<String> hashes = hashesToCoverBoundingBoxWithHashLength(
 				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 4);
@@ -211,10 +212,26 @@ public class GeoHashTest {
 
 	@Test
 	public void testCoverBoundingBoxWithHashLengthOneAroundBoston() {
-
 		Set<String> hashes = hashesToCoverBoundingBoxWithHashLength(
 				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
 		assertEquals(Sets.newHashSet("d"), hashes);
+	}
+
+	@Test
+	public void testEnclosingHashLengthAroundBoston() {
+		int length = hashLengthToEncloseBoundingBox(SCHENECTADY_LAT,
+				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON);
+		Set<String> hashes = hashesToCoverBoundingBoxWithHashLength(
+				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON,
+				length);
+		assertEquals(Sets.newHashSet("dr"), hashes);
+	}
+
+	@Test
+	public void testCoverBoundingBoxWithHashLength3AroundBoston() {
+		Set<String> hashes = hashesToCoverBoundingBoxWithHashLength(
+				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
+		assertEquals(Sets.newHashSet("dr7", "dre", "drk", "drs"), hashes);
 	}
 
 	// @Test
