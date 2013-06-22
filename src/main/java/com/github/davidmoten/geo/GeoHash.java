@@ -30,6 +30,9 @@ public final class GeoHash {
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
 	private static final int MAX_HASH_LENGTH = 12;
 
+	/**
+	 * Private constructor. Instantiated only for test coverage purposes.
+	 */
 	private GeoHash() {
 		// prevent instantiation
 	}
@@ -130,22 +133,55 @@ public final class GeoHash {
 
 	}
 
+	/**
+	 * Returns the adjacent hash to the right.
+	 * 
+	 * @param hash
+	 * @return
+	 */
 	public static String right(String hash) {
 		return adjacentHash(hash, Direction.RIGHT);
 	}
 
+	/**
+	 * Returns the adjacent hash to the left.
+	 * 
+	 * @param hash
+	 * @return
+	 */
 	public static String left(String hash) {
 		return adjacentHash(hash, Direction.LEFT);
 	}
 
+	/**
+	 * Returns the adjacent hash to the top.
+	 * 
+	 * @param hash
+	 * @return
+	 */
 	public static String top(String hash) {
 		return adjacentHash(hash, Direction.TOP);
 	}
 
+	/**
+	 * Returns the adjacent hash to the bottom.
+	 * 
+	 * @param hash
+	 * @return
+	 */
 	public static String bottom(String hash) {
 		return adjacentHash(hash, Direction.BOTTOM);
 	}
 
+	/**
+	 * Returns the adjacent hash N steps in the given {@link Direction}. A
+	 * negative N will use the opposite {@link Direction}.
+	 * 
+	 * @param hash
+	 * @param direction
+	 * @param steps
+	 * @return
+	 */
 	public static String adjacentHash(String hash, Direction direction,
 			int steps) {
 		if (steps < 0)
@@ -194,6 +230,13 @@ public final class GeoHash {
 		return encodeHash(latitude, longitude, 12);
 	}
 
+	/**
+	 * Returns a geohash of given length for the given WGS84 point.
+	 * 
+	 * @param p
+	 * @param length
+	 * @return
+	 */
 	public static String encodeHash(LatLong p, int length) {
 		return encodeHash(p.getLat(), p.getLon(), length);
 	}
@@ -251,8 +294,6 @@ public final class GeoHash {
 				ch = 0;
 			}
 		}
-		// System.out.println("latDiff=" + (lat[1] - lat[0]));
-		// System.out.println("lonDiff=" + (lon[1] - lon[0]));
 		return geohash.toString();
 	}
 
@@ -292,6 +333,13 @@ public final class GeoHash {
 		return new LatLong(resultLat, resultLon);
 	}
 
+	/**
+	 * Refines interval by a factor or 2 in either the 0 or 1 ordinate.
+	 * 
+	 * @param interval
+	 * @param cd
+	 * @param mask
+	 */
 	private static void refineInterval(double[] interval, int cd, int mask) {
 		if ((cd & mask) != 0)
 			interval[0] = (interval[0] + interval[1]) / 2;
@@ -299,6 +347,16 @@ public final class GeoHash {
 			interval[1] = (interval[0] + interval[1]) / 2;
 	}
 
+	/**
+	 * Returns the maximum length of hash that encloses the bounding box. If no
+	 * hash can enclose the bounding box then 0 is returned.
+	 * 
+	 * @param topLeftLat
+	 * @param topLeftLon
+	 * @param bottomRightLat
+	 * @param bottomRightLon
+	 * @return
+	 */
 	public static int hashLengthToEncloseBoundingBox(double topLeftLat,
 			double topLeftLon, double bottomRightLat, double bottomRightLon) {
 		for (int i = MAX_HASH_LENGTH; i >= 1; i--) {
@@ -309,6 +367,15 @@ public final class GeoHash {
 		return 0;
 	}
 
+	/**
+	 * Returns true if and only if the bounding box corresponding to the hash
+	 * contains the given lat and long.
+	 * 
+	 * @param hash
+	 * @param lat
+	 * @param lon
+	 * @return
+	 */
 	public static boolean hashContains(String hash, double lat, double lon) {
 		LatLong centre = decodeHash(hash);
 		return Math.abs(centre.getLat() - lat) <= heightDegrees(hash.length()) / 2
@@ -316,6 +383,17 @@ public final class GeoHash {
 						.length()) / 2;
 	}
 
+	/**
+	 * Returns the hashes of given length that are required to cover the given
+	 * bounding box.
+	 * 
+	 * @param topLeftLat
+	 * @param topLeftLon
+	 * @param bottomRightLat
+	 * @param bottomRightLon
+	 * @param length
+	 * @return
+	 */
 	public static Set<String> hashesToCoverBoundingBoxWithHashLength(
 			double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon,
@@ -325,12 +403,11 @@ public final class GeoHash {
 
 		Set<String> hashes = Sets.newTreeSet();
 		double maxLon = topLeftLon + longitudeDiff(bottomRightLon, topLeftLon);
-		System.out.println("maxLon=" + maxLon);
+
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
 			for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
 				addHash(hashes, lat, lon, length);
 			}
-			System.out.println();
 		}
 		// ensure have the borders covered
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
@@ -344,11 +421,27 @@ public final class GeoHash {
 		return hashes;
 	}
 
+	/**
+	 * Add hash of the given length for a lat long point to a set.
+	 * 
+	 * @param hashes
+	 * @param lat
+	 * @param lon
+	 * @param length
+	 */
 	private static void addHash(Set<String> hashes, double lat, double lon,
 			int length) {
 		hashes.add(encodeHash(lat, lon, length));
 	}
 
+	/**
+	 * Returns the difference between two longitude values. The returned value
+	 * is always >=0.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	@VisibleForTesting
 	static double longitudeDiff(double a, double b) {
 		a = to180(a);
@@ -422,19 +515,29 @@ public final class GeoHash {
 		return hashWidthCache.get(n);
 	}
 
-	public static String matrix(String hash, int size,
+	/**
+	 * Returns a grid of height and width 2*size centred around the given hash.
+	 * Highlighted hashes are displayed in upper case.
+	 * 
+	 * @param hash
+	 * @param size
+	 * @param highlightThese
+	 * @return
+	 */
+	public static String gridToString(String hash, int size,
 			Set<String> highlightThese) {
-		return matrix(hash, -size, -size, size, size, highlightThese);
+		return gridToString(hash, -size, -size, size, size, highlightThese);
 	}
 
-	public static String matrix(String hash, int fromRight, int fromBottom,
-			int toRight, int toBottom) {
-		return matrix(hash, fromRight, fromBottom, toRight, toBottom,
+	public static String gridToString(String hash, int fromRight,
+			int fromBottom, int toRight, int toBottom) {
+		return gridToString(hash, fromRight, fromBottom, toRight, toBottom,
 				Collections.<String> emptySet());
 	}
 
-	public static String matrix(String hash, int fromRight, int fromBottom,
-			int toRight, int toBottom, Set<String> highlightThese) {
+	public static String gridToString(String hash, int fromRight,
+			int fromBottom, int toRight, int toBottom,
+			Set<String> highlightThese) {
 		StringBuilder s = new StringBuilder();
 		for (int bottom = fromBottom; bottom <= toBottom; bottom++) {
 			for (int right = fromRight; right <= toRight; right++) {

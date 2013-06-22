@@ -4,13 +4,13 @@ import static com.github.davidmoten.geo.GeoHash.adjacentHash;
 import static com.github.davidmoten.geo.GeoHash.bottom;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
+import static com.github.davidmoten.geo.GeoHash.gridToString;
 import static com.github.davidmoten.geo.GeoHash.hashLengthToEncloseBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithHashLength;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.instantiate;
 import static com.github.davidmoten.geo.GeoHash.left;
 import static com.github.davidmoten.geo.GeoHash.longitudeDiff;
-import static com.github.davidmoten.geo.GeoHash.matrix;
 import static com.github.davidmoten.geo.GeoHash.neighbours;
 import static com.github.davidmoten.geo.GeoHash.right;
 import static com.github.davidmoten.geo.GeoHash.to180;
@@ -195,7 +195,7 @@ public class GeoHashTest {
 		for (String hash : hashes) {
 			System.out.println(decodeHash(hash) + ", hash=" + hash);
 		}
-		System.out.println(matrix("dreb", 5, hashes));
+		System.out.println(gridToString("dreb", 5, hashes));
 
 		// check corners are in
 		assertTrue(hashes.contains("dre7"));
@@ -304,7 +304,7 @@ public class GeoHashTest {
 
 	@Test
 	public void testMatrix() {
-		System.out.println(matrix("dred", -5, -5, 5, 5));
+		System.out.println(gridToString("dred", -5, -5, 5, 5));
 	}
 
 	@Test
