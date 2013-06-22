@@ -299,6 +299,11 @@ public final class GeoHash {
 			interval[1] = (interval[0] + interval[1]) / 2;
 	}
 
+	public static interface BoundingBoxCoverageStrategy {
+		int hashLength(double topLeftLat, double topLeftLon,
+				double bottomRightLat, double bottomRightLon);
+	}
+
 	public static Set<String> hashesToCoverBoundingBoxWithMinHashesPerAxis(
 			double topLeftLat, double topLeftLon, double bottomRightLat,
 			double bottomRightLon, int minHashesPerAxis) {
@@ -306,7 +311,6 @@ public final class GeoHash {
 				"minHashesPerAxis must be greater than zero");
 		final double topRightLon = bottomRightLon;
 		final double bottomLeftLat = bottomRightLat;
-		final double bottomLeftLon = topLeftLon;
 
 		final int length1;
 		final double heightDegrees = topLeftLat - bottomLeftLat;

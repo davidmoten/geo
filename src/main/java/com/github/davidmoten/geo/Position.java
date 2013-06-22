@@ -16,8 +16,9 @@ public class Position {
 	private final double lon;
 	private final double altitudeMetres;
 	private static final double radiusEarthKm = 6371.01;
-	private static final double circumferenceEarthKm = 2.0 * Math.PI
-			* radiusEarthKm;
+
+	// private static final double circumferenceEarthKm = 2.0 * Math.PI
+	// * radiusEarthKm;
 
 	/**
 	 * @param lat
