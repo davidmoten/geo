@@ -216,7 +216,7 @@ public class GeoHashTest {
 				SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3);
 
 		for (String hash : hashes) {
-			System.out.println(decodeHash(hash) + ", hash=" + hash);
+			// System.out.println(decodeHash(hash) + ", hash=" + hash);
 		}
 		// checked qualitatively against
 		//

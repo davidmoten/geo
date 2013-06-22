@@ -342,13 +342,28 @@ public final class GeoHash {
 
 		Set<String> hashes = Sets.newTreeSet();
 		double maxLon = topLeftLon + longitudeDiff(bottomRightLon, topLeftLon);
-		// TODO don't understand why need to add actualWidthDegrees to longitude
-		// to get coverage of right hand border.s
-		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
-			for (double lon = topLeftLon; lon <= maxLon
-					+ actualWidthDegreesPerHash; lon += actualWidthDegreesPerHash)
-				hashes.add(encodeHash(lat, lon, length));
+		System.out.println("maxLon=" + maxLon);
+		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
+			for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
+				addHash(hashes, lat, lon, length);
+			}
+			System.out.println();
+		}
+		// ensure have the borders covered
+		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
+			addHash(hashes, lat, maxLon, length);
+		}
+		for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
+			addHash(hashes, topLeftLat, lon, length);
+		}
+
+		addHash(hashes, topLeftLat, maxLon, length);
 		return hashes;
+	}
+
+	private static void addHash(Set<String> hashes, double lat, double lon,
+			int length) {
+		hashes.add(encodeHash(lat, lon, length));
 	}
 
 	@VisibleForTesting
