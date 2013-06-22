@@ -1,12 +1,14 @@
 package com.github.davidmoten.geo;
 
 import static com.github.davidmoten.geo.GeoHash.adjacentHash;
+import static com.github.davidmoten.geo.GeoHash.bottom;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithHashLength;
 import static com.github.davidmoten.geo.GeoHash.hashesToCoverBoundingBoxWithMinHashesPerAxis;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.instantiate;
+import static com.github.davidmoten.geo.GeoHash.left;
 import static com.github.davidmoten.geo.GeoHash.longitudeDiff;
 import static com.github.davidmoten.geo.GeoHash.matrix;
 import static com.github.davidmoten.geo.GeoHash.neighbours;
@@ -84,6 +86,26 @@ public class GeoHashTest {
 	@Test
 	public void testAdjacentRight() {
 		assertEquals("u300", adjacentHash("u1pb", Direction.RIGHT));
+	}
+
+	@Test
+	public void testLeft() {
+		assertEquals("u1p8", left("u1pb"));
+	}
+
+	@Test
+	public void testRight() {
+		assertEquals("u300", right("u1pb"));
+	}
+
+	@Test
+	public void testTop() {
+		assertEquals("u1pc", top("u1pb"));
+	}
+
+	@Test
+	public void testBottom() {
+		assertEquals("u0zz", bottom("u1pb"));
 	}
 
 	@Test

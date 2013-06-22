@@ -341,8 +341,7 @@ public final class GeoHash {
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
 		Set<String> hashes = Sets.newTreeSet();
-		double maxLon = (topLeftLon < bottomRightLon ? bottomRightLon
-				: bottomRightLon + 360);
+		double maxLon = topLeftLon + longitudeDiff(bottomRightLon, topLeftLon);
 		// TODO don't understand why need to add actualWidthDegrees to longitude
 		// to get coverage of right hand border.s
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
