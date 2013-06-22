@@ -19,6 +19,10 @@ public class LatLong {
 		return lon;
 	}
 
+	public LatLong add(double deltaLat, double deltaLon) {
+		return new LatLong(lat + deltaLat, lon + deltaLon);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

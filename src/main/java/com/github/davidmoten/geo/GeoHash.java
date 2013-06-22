@@ -130,6 +130,22 @@ public final class GeoHash {
 
 	}
 
+	public static String right(String hash) {
+		return adjacentHash(hash, Direction.RIGHT);
+	}
+
+	public static String left(String hash) {
+		return adjacentHash(hash, Direction.LEFT);
+	}
+
+	public static String top(String hash) {
+		return adjacentHash(hash, Direction.TOP);
+	}
+
+	public static String bottom(String hash) {
+		return adjacentHash(hash, Direction.BOTTOM);
+	}
+
 	public static String adjacentHash(String hash, Direction direction,
 			int steps) {
 		if (steps < 0)
@@ -176,6 +192,10 @@ public final class GeoHash {
 	 */
 	public static String encodeHash(double latitude, double longitude) {
 		return encodeHash(latitude, longitude, 12);
+	}
+
+	public static String encodeHash(LatLong p, int length) {
+		return encodeHash(p.getLat(), p.getLon(), length);
 	}
 
 	/**
@@ -304,8 +324,8 @@ public final class GeoHash {
 			length2 = minGeoHashLengthToBeAtMostWidthDegrees(minWidthDegreesPerHash);
 		}
 		final int length = Math.max(length1, length2);
-		final double actualWidthDegreesPerHash = getGeoHashWidthInDegrees(length);
-		final double actualHeightDegreesPerHash = getGeoHashHeightInDegrees(length);
+		final double actualWidthDegreesPerHash = widthDegrees(length);
+		final double actualHeightDegreesPerHash = heightDegrees(length);
 
 		Set<String> hashes = Sets.newHashSet();
 		for (double lat = bottomLeftLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash)
@@ -352,14 +372,14 @@ public final class GeoHash {
 	 * @param n
 	 * @return
 	 */
-	public static double getGeoHashHeightInDegrees(int n) {
+	public static double heightDegrees(int n) {
 		if (hashHeightCache.get(n) == null) {
 			double a;
 			if (n % 2 == 0)
 				a = -1;
 			else
 				a = -0.5;
-			double result = 180 / Math.pow(2, 2.5 * n + a);
+			double result = 90 / Math.pow(2, 2.5 * n + a);
 			hashHeightCache.put(n, result);
 		}
 		return hashHeightCache.get(n);
@@ -374,7 +394,7 @@ public final class GeoHash {
 	 * @param n
 	 * @return
 	 */
-	public static double getGeoHashWidthInDegrees(int n) {
+	public static double widthDegrees(int n) {
 		if (hashWidthCache.get(n) == null) {
 			double a;
 			if (n % 2 == 0)
@@ -390,7 +410,7 @@ public final class GeoHash {
 	public static int minGeoHashLengthToBeAtMostWidthDegrees(double x) {
 		Preconditions.checkArgument(x >= 0, "width must be non-negative");
 		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
-			double w = getGeoHashWidthInDegrees(i);
+			double w = widthDegrees(i);
 			if (w < x)
 				return i;
 		}
@@ -400,12 +420,17 @@ public final class GeoHash {
 	public static int minGeoHashLengthToBeAtMostHeightDegrees(double x) {
 		Preconditions.checkArgument(x >= 0, "width must be non-negative");
 		for (int i = 1; i <= MAX_HASH_LENGTH; i++) {
-			double w = getGeoHashHeightInDegrees(i);
+			double w = heightDegrees(i);
 			if (w < x)
 				return i;
 
 		}
 		return MAX_HASH_LENGTH;
+	}
+
+	public static String matrix(String hash, int size,
+			Set<String> highlightThese) {
+		return matrix(hash, -size, -size, size, size, highlightThese);
 	}
 
 	public static String matrix(String hash, int fromRight, int fromBottom,
