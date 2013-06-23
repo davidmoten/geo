@@ -20,4 +20,11 @@ public class Coverage {
 	public double getRatio() {
 		return ratio;
 	}
+
+	public int getHashLength() {
+		if (hashes.size() == 0)
+			return 0;
+		else
+			return hashes.iterator().next().length();
+	}
 }
