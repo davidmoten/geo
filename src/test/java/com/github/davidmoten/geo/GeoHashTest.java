@@ -266,14 +266,20 @@ public class GeoHashTest {
 		assertEquals(0.0011801509677274082, coverage.getRatio(), PRECISION);
 	}
 
-	// @Test
+	@Test
 	public void testDisplayOfCoverages() {
-		for (int i = 1; i <= 12; i++) {
+		for (int i = 1; i <= 7; i++) {
 			Coverage coverage = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
 					SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, i);
-			System.out.println("length=" + i + ",numHashes="
-					+ coverage.getHashes().size() + ", ratio="
-					+ coverage.getRatio());
+			System.out.println("length="
+					+ i
+					+ ",numHashes="
+					+ coverage.getHashes().size()
+					+ ", ratio="
+					+ coverage.getRatio()
+					+ ", processingTimeFactor="
+					+ (Math.pow(coverage.getHashes().size(), 2)
+							* widthDegrees(i) * heightDegrees(i)));
 		}
 	}
 

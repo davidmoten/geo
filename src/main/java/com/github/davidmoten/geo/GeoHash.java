@@ -393,9 +393,30 @@ public final class GeoHash {
 	 */
 	public static boolean hashContains(String hash, double lat, double lon) {
 		LatLong centre = decodeHash(hash);
+		// TODO normalize longitudes?
 		return Math.abs(centre.getLat() - lat) <= heightDegrees(hash.length()) / 2
-				&& Math.abs(longitudeDiff(centre.getLon(), lon)) <= widthDegrees(hash
+				&& Math.abs(centre.getLon() - lon) <= widthDegrees(hash
 						.length()) / 2;
+	}
+
+	/**
+	 * Returns the hashes that are required to cover the given bounding box.
+	 * Hash length is chosen as the length for a single hash to cover the
+	 * bounding box +1.
+	 * 
+	 * @param topLeftLat
+	 * @param topLeftLon
+	 * @param bottomRightLat
+	 * @param bottomRightLon
+	 * @return
+	 */
+	public static Coverage coverBoundingBoxWithHashLength(double topLeftLat,
+			final double topLeftLon, final double bottomRightLat,
+			final double bottomRightLon) {
+		int length = hashLengthToEncloseBoundingBox(topLeftLat, topLeftLon,
+				bottomRightLat, bottomRightLon) + 1;
+		return coverBoundingBoxWithHashLength(topLeftLat, topLeftLon,
+				bottomRightLat, bottomRightLon, length);
 	}
 
 	/**
