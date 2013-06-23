@@ -4,6 +4,12 @@ import java.util.HashMap;
 
 import com.google.common.annotations.VisibleForTesting;
 
+/**
+ * Conversion methods between long values and geohash-style base 32 encoding.
+ * 
+ * @author dave
+ * 
+ */
 public final class Base32 {
 
 	private Base32() {
