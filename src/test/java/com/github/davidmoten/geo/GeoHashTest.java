@@ -2,7 +2,7 @@ package com.github.davidmoten.geo;
 
 import static com.github.davidmoten.geo.GeoHash.adjacentHash;
 import static com.github.davidmoten.geo.GeoHash.bottom;
-import static com.github.davidmoten.geo.GeoHash.coverBoundingBoxWithHashLength;
+import static com.github.davidmoten.geo.GeoHash.coverBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.gridToString;
@@ -225,8 +225,8 @@ public class GeoHashTest {
 	@Test
 	public void testCoverBoundingBoxWithHashLength4AroundBoston() {
 
-		Set<String> hashes = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
-				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 4).getHashes();
+		Set<String> hashes = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
+				HARTFORD_LAT, HARTFORD_LON, 4).getHashes();
 
 		// check schenectady hash
 		assertEquals("dre7", encodeHash(SCHENECTADY_LAT, SCHENECTADY_LON, 4));
@@ -260,16 +260,23 @@ public class GeoHashTest {
 
 	@Test
 	public void testCoverBoundingBoxWithHashLengthOneAroundBoston() {
-		Coverage coverage = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
-				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
+		Coverage coverage = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
+				HARTFORD_LAT, HARTFORD_LON, 1);
 		assertEquals(Sets.newHashSet("d"), coverage.getHashes());
 		assertEquals(0.0011801509677274082, coverage.getRatio(), PRECISION);
 	}
 
 	@Test
+	public void testCoverBoundingBoxWithOptimalHashLengthAroundBoston() {
+		Coverage coverage = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
+				HARTFORD_LAT, HARTFORD_LON);
+		assertEquals(4, coverage.getHashes().size());
+	}
+
+	@Test
 	public void testDisplayOfCoverages() {
-		for (int i = 1; i <= 7; i++) {
-			Coverage coverage = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
+		for (int i = 1; i <= 6; i++) {
+			Coverage coverage = coverBoundingBox(SCHENECTADY_LAT,
 					SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, i);
 			System.out.println("length="
 					+ i
@@ -287,23 +294,22 @@ public class GeoHashTest {
 	public void testEnclosingHashLengthAroundBoston() {
 		int length = hashLengthToEncloseBoundingBox(SCHENECTADY_LAT,
 				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON);
-		Set<String> hashes = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
-				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, length)
-				.getHashes();
+		Set<String> hashes = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
+				HARTFORD_LAT, HARTFORD_LON, length).getHashes();
 		assertEquals(Sets.newHashSet("dr"), hashes);
 	}
 
 	@Test
 	public void testCoverBoundingBoxWithHashLength3AroundBoston() {
-		Set<String> hashes = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
-				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 3).getHashes();
+		Set<String> hashes = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
+				HARTFORD_LAT, HARTFORD_LON, 3).getHashes();
 		assertEquals(Sets.newHashSet("dr7", "dre", "drk", "drs"), hashes);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCoverBoundingBoxWithZeroLengthThrowsException() {
-		coverBoundingBoxWithHashLength(SCHENECTADY_LAT, SCHENECTADY_LON,
-				HARTFORD_LAT, HARTFORD_LON, 0);
+		coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT,
+				HARTFORD_LON, 0);
 	}
 
 	@Test

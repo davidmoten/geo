@@ -410,13 +410,13 @@ public final class GeoHash {
 	 * @param bottomRightLon
 	 * @return
 	 */
-	public static Coverage coverBoundingBoxWithHashLength(double topLeftLat,
+	public static Coverage coverBoundingBox(double topLeftLat,
 			final double topLeftLon, final double bottomRightLat,
 			final double bottomRightLon) {
 		int length = hashLengthToEncloseBoundingBox(topLeftLat, topLeftLon,
 				bottomRightLat, bottomRightLon) + 1;
-		return coverBoundingBoxWithHashLength(topLeftLat, topLeftLon,
-				bottomRightLat, bottomRightLon, length);
+		return coverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,
+				bottomRightLon, length);
 	}
 
 	/**
@@ -430,7 +430,7 @@ public final class GeoHash {
 	 * @param length
 	 * @return
 	 */
-	public static Coverage coverBoundingBoxWithHashLength(double topLeftLat,
+	public static Coverage coverBoundingBox(double topLeftLat,
 			final double topLeftLon, final double bottomRightLat,
 			final double bottomRightLon, final int length) {
 		Preconditions.checkArgument(length > 0,
@@ -559,8 +559,9 @@ public final class GeoHash {
 	}
 
 	/**
-	 * Returns a grid of height and width 2*size centred around the given hash.
-	 * Highlighted hashes are displayed in upper case.
+	 * Returns a String of lines of hashes to represent the relative positions
+	 * of hashes on a map. The grid is of height and width 2*size centred around
+	 * the given hash. Highlighted hashes are displayed in upper case.
 	 * 
 	 * @param hash
 	 * @param size
@@ -572,12 +573,49 @@ public final class GeoHash {
 		return gridToString(hash, -size, -size, size, size, highlightThese);
 	}
 
+	/**
+	 * Returns a String of lines of hashes to represent the relative positions
+	 * of hashes on a map.
+	 * 
+	 * @param hash
+	 * @param fromRight
+	 *            top left of the grid in hashes to the right (can be negative).
+	 * @param fromBottom
+	 *            top left of the grid in hashes to the bottom (can be
+	 *            negative).
+	 * @param toRight
+	 *            bottom righth of the grid in hashes to the bottom (can be
+	 *            negative).
+	 * @param toBottom
+	 *            bottom right of the grid in hashes to the bottom (can be
+	 *            negative).
+	 * @return
+	 */
 	public static String gridToString(String hash, int fromRight,
 			int fromBottom, int toRight, int toBottom) {
 		return gridToString(hash, fromRight, fromBottom, toRight, toBottom,
 				Collections.<String> emptySet());
 	}
 
+	/**
+	 * Returns a String of lines of hashes to represent the relative positions
+	 * of hashes on a map. Highlighted hashes are displayed in upper case.
+	 * 
+	 * @param hash
+	 * @param fromRight
+	 *            top left of the grid in hashes to the right (can be negative).
+	 * @param fromBottom
+	 *            top left of the grid in hashes to the bottom (can be
+	 *            negative).
+	 * @param toRight
+	 *            bottom righth of the grid in hashes to the bottom (can be
+	 *            negative).
+	 * @param toBottom
+	 *            bottom right of the grid in hashes to the bottom (can be
+	 *            negative).
+	 * @param highlightThese
+	 * @return
+	 */
 	public static String gridToString(String hash, int fromRight,
 			int fromBottom, int toRight, int toBottom,
 			Set<String> highlightThese) {
