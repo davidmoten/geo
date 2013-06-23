@@ -133,6 +133,12 @@ public final class GeoHash {
 						.indexOf(lastChar));
 	}
 
+	/**
+	 * Throws an {@link IllegalArgumentException} if and only if the hash is
+	 * null or blank.
+	 * 
+	 * @param hash
+	 */
 	private static void checkHash(String hash) {
 		Preconditions.checkArgument(hash != null && hash.length() > 0,
 				"hash must be non-null of length>1");
@@ -248,7 +254,8 @@ public final class GeoHash {
 
 	/**
 	 * Returns a geohash of given length for the given WGS84 point
-	 * (latitude,longitude).
+	 * (latitude,longitude). If latitude is not between -90 and 90 throws an
+	 * {@link IllegalArgumentException}.
 	 * 
 	 * @param latitude
 	 *            in decimal degrees (WGS84)
@@ -387,7 +394,7 @@ public final class GeoHash {
 	public static boolean hashContains(String hash, double lat, double lon) {
 		LatLong centre = decodeHash(hash);
 		return Math.abs(centre.getLat() - lat) <= heightDegrees(hash.length()) / 2
-				&& Math.abs(centre.getLon() - lon) <= widthDegrees(hash
+				&& Math.abs(longitudeDiff(centre.getLon(), lon)) <= widthDegrees(hash
 						.length()) / 2;
 	}
 
@@ -426,7 +433,7 @@ public final class GeoHash {
 		for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
 			addHash(hashes, topLeftLat, lon, length);
 		}
-
+		// ensure that the topRight corner is covered
 		addHash(hashes, topLeftLat, maxLon, length);
 
 		double areaDegrees = diff * (topLeftLat - bottomRightLat);

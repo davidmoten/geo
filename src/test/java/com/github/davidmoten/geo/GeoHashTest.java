@@ -266,6 +266,17 @@ public class GeoHashTest {
 		assertEquals(0.0011801509677274082, coverage.getRatio(), PRECISION);
 	}
 
+	// @Test
+	public void testDisplayOfCoverages() {
+		for (int i = 1; i <= 12; i++) {
+			Coverage coverage = coverBoundingBoxWithHashLength(SCHENECTADY_LAT,
+					SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, i);
+			System.out.println("length=" + i + ",numHashes="
+					+ coverage.getHashes().size() + ", ratio="
+					+ coverage.getRatio());
+		}
+	}
+
 	@Test
 	public void testEnclosingHashLengthAroundBoston() {
 		int length = hashLengthToEncloseBoundingBox(SCHENECTADY_LAT,
