@@ -152,7 +152,7 @@ public class GeoHashTest {
 	@Test
 	public void testSpeed() {
 		long t = System.currentTimeMillis();
-		int numIterations = 100000;
+		int numIterations = 10000;
 		for (int i = 0; i < numIterations; i++)
 			encodeHash(38.89710201881826, -77.03669792041183);
 		double numPerSecond = numIterations / (System.currentTimeMillis() - t)
@@ -240,9 +240,6 @@ public class GeoHashTest {
 		assertEquals("dr7", adjacentHash("dre", Direction.BOTTOM));
 		assertEquals("drk", adjacentHash("drs", Direction.BOTTOM));
 
-		for (String hash : hashes) {
-			System.out.println(decodeHash(hash) + ", hash=" + hash);
-		}
 		System.out.println(gridToString("dreb", 5, hashes));
 
 		// check corners are in
@@ -310,21 +307,6 @@ public class GeoHashTest {
 	public void testCoverBoundingBoxWithZeroLengthThrowsException() {
 		coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT,
 				HARTFORD_LON, 0);
-	}
-
-	@Test
-	public void test() {
-		String h = "sew1c2vs2q5r";
-		for (int i = h.length(); i >= 1; i--) {
-			String hash = h.substring(0, i);
-			LatLong p1 = decodeHash(hash);
-			LatLong p2 = decodeHash(adjacentHash(hash, Direction.RIGHT));
-			LatLong p3 = decodeHash(adjacentHash(hash, Direction.BOTTOM));
-			double v = Math.abs(180 / (p2.getLon() - p1.getLon()));
-			double v2 = Math.abs(360 / (p3.getLat() - p1.getLat()));
-			System.out.println("lon " + i + "\t" + Math.log(v) / Math.log(2));
-			System.out.println("lat " + i + "\t" + Math.log(v2) / Math.log(2));
-		}
 	}
 
 	@Test
