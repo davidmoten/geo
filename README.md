@@ -3,6 +3,8 @@ geo
 
 Java utility methods for creating and performing calculations with geohashes.
 
+Status: **pre-alpha**
+
 Features
 ----------
 
@@ -16,10 +18,8 @@ Features
 * good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
 * threadsafe 
-* 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html)
+* 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html) (for what that's worth of course!)
 * Apache 2.0 licence
-
-Status: **pre-alpha**
 
 Primary source was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
 
