@@ -28,7 +28,7 @@ public final class GeoHash {
 	private static final String BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 	private static final Map<Direction, Map<Parity, String>> NEIGHBOURS = createNeighbours();
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
-	private static final int MAX_HASH_LENGTH = 12;
+	public static final int MAX_HASH_LENGTH = 12;
 
 	/**
 	 * Private constructor. Instantiated only for test coverage purposes.
@@ -501,8 +501,7 @@ public final class GeoHash {
 	 * @param d
 	 * @return
 	 */
-	@VisibleForTesting
-	static double to180(double d) {
+	public static double to180(double d) {
 		if (d < 0)
 			return -to180(Math.abs(d));
 		else {
