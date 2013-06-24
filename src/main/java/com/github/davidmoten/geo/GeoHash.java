@@ -513,7 +513,7 @@ public final class GeoHash {
 		}
 	}
 
-	private static Map<Integer, Double> hashHeightCache = Maps.newHashMap();
+	private static Double[] hashHeightCache = new Double[MAX_HASH_LENGTH];
 
 	/**
 	 * Returns height in degrees of all geohashes of length n. Results are
@@ -523,19 +523,19 @@ public final class GeoHash {
 	 * @return
 	 */
 	public static double heightDegrees(int n) {
-		if (hashHeightCache.get(n) == null) {
+		if (hashHeightCache[n - 1] == null) {
 			double a;
 			if (n % 2 == 0)
 				a = -1;
 			else
 				a = -0.5;
 			double result = 90 / Math.pow(2, 2.5 * n + a);
-			hashHeightCache.put(n, result);
+			hashHeightCache[n - 1] = result;
 		}
-		return hashHeightCache.get(n);
+		return hashHeightCache[n - 1];
 	}
 
-	private static Map<Integer, Double> hashWidthCache = Maps.newHashMap();
+	private static Double[] hashWidthCache = new Double[MAX_HASH_LENGTH];
 
 	/**
 	 * Returns width in degrees of all geohashes of length n. Results are
@@ -544,17 +544,17 @@ public final class GeoHash {
 	 * @param n
 	 * @return
 	 */
-	public static double widthDegrees(int n) {
-		if (hashWidthCache.get(n) == null) {
+	public synchronized static double widthDegrees(int n) {
+		if (hashWidthCache[n - 1] == null) {
 			double a;
 			if (n % 2 == 0)
 				a = -1;
 			else
 				a = -0.5;
 			double result = 180 / Math.pow(2, 2.5 * n + a);
-			hashWidthCache.put(n, result);
+			hashWidthCache[n - 1] = result;
 		}
-		return hashWidthCache.get(n);
+		return hashWidthCache[n - 1];
 	}
 
 	/**

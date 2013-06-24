@@ -8,6 +8,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 
 /**
+ * Encapsulates latitude, longitude and altitude. Provides great circle
+ * navigation methods.
+ * 
  * @author dxm
  * 
  */

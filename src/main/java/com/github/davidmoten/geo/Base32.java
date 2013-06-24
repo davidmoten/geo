@@ -12,6 +12,9 @@ import com.google.common.annotations.VisibleForTesting;
  */
 public final class Base32 {
 
+	/**
+	 * Constructor.
+	 */
 	private Base32() {
 		// prevent instantiation.
 	}
