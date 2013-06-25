@@ -23,6 +23,10 @@ Features
 
 Bounding box searches using geohashing
 ---------------------------------------
+Databases of events at specific times occurring at specific places on the earth's surface are likely to be queried in terms of ranges of time and position. One such query is a bounding box query involving a time range and position constraint defined by a bounding lat-long box. 
+
+The challenge is to make your database run these queries quickly. 
+
 Some databases may either not support or suffer major performance degradation when large datasets are queried with inequality conditions on more than one variable.
 
 For example, a search for all ship reports within a time range and within a bounding box could be achieved with a range condition on time combined with a range condition on latitude combined with a range condition on longitude ( *combined with* = logical AND). This type of query *can* perform badly on many database types, SQL and NoSQL. On Google App Engine Datastore for instance only one variable with inequality conditions is allowed per query. This is a sensible step to take to meet scalability guarantees.
