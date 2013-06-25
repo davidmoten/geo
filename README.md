@@ -37,7 +37,7 @@ The bounding box query with a time range can be rejigged using geohashes so that
 
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
 
-Primary source was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
+Core geohash encoding code was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
 
 Continuous integration with Jenkins for this project is [here](https://xuml-tools.ci.cloudbees.com/). <a href="https://xuml-tools.ci.cloudbees.com/"><img  src="http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png"/></a>
  
