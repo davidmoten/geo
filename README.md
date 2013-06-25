@@ -25,7 +25,7 @@ Bounding box searches using geohashing
 ---------------------------------------
 Some databases may either not support or suffer major performance degradation when large datasets are queried with multiple range conditions. For example a search for all ship reports within a time range and within a bounding box could be achieved with a range condition on time combined with a range condition on latitude combined with a range condition on longitude (*combined with* = logical AND). This type of query can perform badly on many database types, SQL and NoSQL. On Google App Engine Datastore for instance only one variable with inequality conditions is allowed per query. This is a sensible step to take to meet scalability guarantees.
 
-The bounding box query with a time range can be rejigged using geohashes so that only one variable is subject to a range condition: time.  The method is:
+The bounding box query with a time range can be rewritten using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
 * store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database
 * calculate a set of geohashes that wholly covers the bounding box
