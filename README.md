@@ -53,7 +53,6 @@ The suggested hash length is based roughly on the assumptions that the:
 
 * database query is not processed using concurrency
 * points are uniformly distributed geographically
-* points are numerous (quantify this!)
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
 * query time is O(n * m / a) where n is number of hashes, m is the size in square degrees of the hash and a is the area of the bounding box.
 
