@@ -31,7 +31,7 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 * calculate a set of geohashes that wholly covers the bounding box
 * perform the query using the time range and equality against the geohashes. For example:
 
-    `(startTime < t < finishTime) and (hash3='drt' or hash3='dr2'))`
+     (startTime < t < finishTime) and (hash3='drt' or hash3='dr2'))
 
 * filter the results of the query to include only those results within the bounding box
 
@@ -40,11 +40,19 @@ The last step is necessary because the set of geohashes contains the bounding bo
 So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of:
 
 * Minimize cpu
-* Minimize query runtime
-* Minimize cost 
-* Minimize data read from datastore
-* Minimize datastore load
+* Minimize total url fetch time
+* Minimize cost (might be a combination of cpu, datastore reads, etc.)
+* Minimize data transfer from datastore
+* Minimize database load
 * Minimize 2nd tier load
+* any other metric!
+
+My suggestion is that a *good* length of geohash to use to cover a bounding box is:
+
+
+
+```
+ that if n is the number of hashes and the time taken to run the query as suggested is O(n)
 
 
 Links
