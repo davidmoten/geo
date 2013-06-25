@@ -87,13 +87,28 @@ public class DatabaseTest {
 				double lat = rs.getDouble(2);
 				double lon = rs.getDouble(3);
 				count++;
-				if (lat >= -6 && lat <= -5 && lon >= 136 && lon < 138)
+				if (lat >= -6 && lat <= -5 && lon >= 136 && lon <= 138)
 					names.add(name);
 			}
 			System.out.println("found=" + names.size() + " from " + count
 					+ " in " + (System.currentTimeMillis() - t) / 1000.0 + "s");
 			ps.close();
 		}
+
+		System.out.println("--------------------------------------");
+		System.out.println("running multiple range query");
+		PreparedStatement ps = con
+				.prepareStatement("select name,lat,lon from report where time >= ? and time <?  and lat>=-6 and lat<=-5 and lon>=136 and lon<=138");
+		ps.setLong(1, now - Math.round(TimeUnit.DAYS.toMillis(1)));
+		ps.setLong(2, now);
+		long t = System.currentTimeMillis();
+		ResultSet rs = ps.executeQuery();
+		int count = 0;
+		while (rs.next())
+			count++;
+		System.out.println("found=" + count + " from " + count + " in "
+				+ (System.currentTimeMillis() - t) / 1000.0 + "s");
+
 		con.close();
 	}
 
