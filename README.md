@@ -72,7 +72,7 @@ The recommended hash length for this example is 3. Increasing to 5 and above cou
 
 
 
-A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link and I'll update this page!
+A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
 Links
 -------
