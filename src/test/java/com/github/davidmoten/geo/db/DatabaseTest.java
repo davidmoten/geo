@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -14,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.github.davidmoten.geo.Coverage;
 import com.github.davidmoten.geo.GeoHash;
+import com.google.common.collect.Lists;
 
 public class DatabaseTest {
 
@@ -52,7 +54,7 @@ public class DatabaseTest {
 		for (int i = 1; i <= 12; i++)
 			execute(con, "create index idx_geohash_" + i + " on report(geohash"
 					+ i + ")");
-		for (int n = 0; n < 3; n++) {
+		for (int n = 0; n < 1; n++) {
 			for (int length = 2; length <= 4; length++) {
 				Coverage coverage = GeoHash.coverBoundingBox(-5, 136, -6, 138,
 						length);
@@ -63,7 +65,7 @@ public class DatabaseTest {
 						s.append(" or ");
 					s.append("geohash" + hash.length() + "='" + hash + "'");
 				}
-				String sql2 = "select count(*) from report where time >= ? and time <?  and ("
+				String sql2 = "select name,lat,lon from report where time >= ? and time <?  and ("
 						+ s + ")";
 				System.out.println(sql2);
 				PreparedStatement ps = con.prepareStatement(sql2);
@@ -72,10 +74,17 @@ public class DatabaseTest {
 				long t = System.currentTimeMillis();
 				System.out.println("querying...");
 				ResultSet rs = ps.executeQuery();
+				List<String> names = Lists.newArrayList();
 				System.out.println((System.currentTimeMillis() - t) / 1000.0
 						+ "ms");
-				while (rs.next())
-					System.out.println("found=" + rs.getLong(1));
+				while (rs.next()) {
+					String name = rs.getString(1);
+					double lat = rs.getDouble(2);
+					double lon = rs.getDouble(3);
+					if (lat >= -6 && lat <= -5 && lon >= 136 && lon < 138)
+						names.add(name);
+				}
+				System.out.println("found=" + names.size());
 				ps.close();
 			}
 		}
