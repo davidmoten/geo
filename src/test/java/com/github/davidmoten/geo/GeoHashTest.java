@@ -172,45 +172,68 @@ public class GeoHashTest {
 
 	@Test
 	public void testMovingHashCentreUpBySlightlyMoreThanHalfGeoHashHeightGivesAdjacentHash() {
-		String hash = "drt2";
-		String top = top(hash);
-		double d = heightDegrees(hash.length());
-		assertEquals(top,
-				encodeHash(decodeHash(hash).add(d / 2 + 0.1, 0), hash.length()));
+		String fullHash = "dqcjqcp84c6e";
+		for (int i = 1; i <= GeoHash.MAX_HASH_LENGTH; i++) {
+			String hash = fullHash.substring(0, i);
+			String top = top(hash);
+			double d = heightDegrees(hash.length());
+			assertEquals(
+					top,
+					encodeHash(decodeHash(hash).add(d / 2 + 0.1, 0),
+							hash.length()));
+		}
 	}
 
 	@Test
 	public void testMovingHashCentreUpBySlightlyLessThanHalfGeoHashHeightGivesSameHash() {
-		String hash = "drt2";
-		double d = heightDegrees(hash.length());
-		assertEquals(hash,
-				encodeHash(decodeHash(hash).add(d / 2 - 0.1, 0), hash.length()));
+		String fullHash = "dqcjqcp84c6e";
+		for (int i = 1; i <= GeoHash.MAX_HASH_LENGTH; i++) {
+			String hash = fullHash.substring(0, i);
+			double d = heightDegrees(hash.length());
+			assertEquals(
+					hash,
+					encodeHash(decodeHash(hash).add(d / 2 - 0.1, 0),
+							hash.length()));
+		}
 	}
 
 	@Test
 	public void testMovingHashCentreRightByGeoHashWidthGivesAdjacentHash() {
-		String hash = "drt2";
-		String right = right(hash);
-		double d = widthDegrees(hash.length());
-		assertEquals(right,
-				encodeHash(decodeHash(hash).add(0, d), hash.length()));
+		String fullHash = "dqcjqcp84c6e";
+		for (int i = 1; i <= GeoHash.MAX_HASH_LENGTH; i++) {
+			String hash = fullHash.substring(0, i);
+			String right = right(hash);
+			double d = widthDegrees(hash.length());
+			assertEquals(right,
+					encodeHash(decodeHash(hash).add(0, d), hash.length()));
+		}
 	}
 
 	@Test
 	public void testMovingHashCentreRightBySlighltyMoreThanHalfGeoHashWidthGivesAdjacentHash() {
-		String hash = "drt2";
-		String right = right(hash);
-		double d = widthDegrees(hash.length());
-		assertEquals(right,
-				encodeHash(decodeHash(hash).add(0, d / 2 + 0.1), hash.length()));
+		String fullHash = "dqcjqcp84c6e";
+		for (int i = 1; i <= GeoHash.MAX_HASH_LENGTH; i++) {
+			String hash = fullHash.substring(0, i);
+			String right = right(hash);
+			double d = widthDegrees(hash.length());
+			assertEquals(
+					right,
+					encodeHash(decodeHash(hash).add(0, d / 2 + 0.1),
+							hash.length()));
+		}
 	}
 
 	@Test
 	public void testMovingHashCentreRightBySlightlyLessThanHalfGeoHashWidthGivesAdjacentHash() {
-		String hash = "drt2";
-		double d = widthDegrees(hash.length());
-		assertEquals(hash,
-				encodeHash(decodeHash(hash).add(0, d / 2 - 0.1), hash.length()));
+		String fullHash = "dqcjqcp84c6e";
+		for (int i = 1; i <= GeoHash.MAX_HASH_LENGTH; i++) {
+			String hash = fullHash.substring(0, i);
+			double d = widthDegrees(hash.length());
+			assertEquals(
+					hash,
+					encodeHash(decodeHash(hash).add(0, d / 2 - 0.1),
+							hash.length()));
+		}
 	}
 
 	/**

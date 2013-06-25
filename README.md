@@ -70,8 +70,6 @@ The starred line corresponds to the hash length suggested above.
 
 The recommended hash length for this example is 3. Increasing to 5 and above could clearly have a big impact on processing times but this will depend on your situation. 
 
-
-
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
 Links
