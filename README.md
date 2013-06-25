@@ -72,7 +72,7 @@ length  numHashes m/a    n*m/a
 ```
 The starred line corresponds to the hash length suggested above and corresponds to the lowest value of `n*m/a`.
 
-The recommended hash length for this example is 3. Increasing to 5 and above could clearly have a big impact on processing times but this will depend on your situation. 
+The recommended hash length for this example is 3. Increasing to 4 may be advantageous depending on your situation. Increasing to 5 and above could clearly have a big negative impact on processing times but this will depend again on your situation. 
 
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
