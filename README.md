@@ -41,42 +41,35 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
 
-So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of:
+So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. If you could boil things down to a *representative* use case I would suggest that a *good* length of geohash to use to cover a bounding box is:
 
-* Minimize cpu
-* Minimize total url fetch time
-* Minimize cost (might be a combination of cpu, datastore reads, etc.)
-* Minimize data transfer from datastore
-* Minimize database load
-* Minimize 2nd tier load
-* any other metric!
-
-My suggestion is that a *good* length of geohash to use to cover a bounding box is:
 ```
 (the maximum length of hash to completely cover the bounding box with one hash) + 1
 ```
 
 Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length recommended above.
 
-This suggestion is based roughly on the assumptions that:
+The suggested hash length is based roughly on the assumptions that:
 
 * database query is not processed concurrently
 * points are uniformly distributed geographically
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
 * query time is O(n) where n is number of hashes
 
-If you really needed to close approximate the bounding box with hashes then increment the hash length by 1 again but that's as far as I would go. As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
+As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
 ```
 length  numHashes
 1       1
 2       1
-3       4
+3*      4
 4       30
 5       667
 6       20227
 ```
-
 The starred line corresponds to the hash length suggested above. 
+
+The recommended hash length for this example is 3. Increasing to 5 and above could clearly have a big impact on processing times but this will depend on your situation. 
+
 
 
 A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link and I'll update this page!
