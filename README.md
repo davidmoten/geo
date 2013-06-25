@@ -61,7 +61,7 @@ This suggestion is based roughly on the assumptions that:
 * bounding box is square to screen like in proportions (rather than very wide/high and skinny)
 * query time is O(n) where n is number of hashes
 
-A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link!
+A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link and I'll update this page!
 
 Links
 -------
