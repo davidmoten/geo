@@ -67,12 +67,13 @@ This suggestion is based roughly on the assumptions that:
 
 If you really needed to close approximate the bounding box with hashes then increment the hash length by 1 again but that's as far as I would go. As a quick example for a bounding box proportioned more a less like a screen with Schenectady and Hartford in Massachusets in USA at the corners here are the hash counts for different hash lengths:
 ```
-length=1  numHashes=1
-length=2  numHashes=2
-length=3  numHashes=4*
-length=4  numHashes=30
-length=5  numHashes=667
-length=6  numHashes=20227
+length  numHashes
+1       1
+2       1
+3       4
+4       30
+5       667
+6       20227
 ```
 
 The starred line corresponds to the hash length suggested above. 
