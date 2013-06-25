@@ -27,7 +27,7 @@ Some databases may either not support or suffer major performance degradation wh
 
 The bounding box query with a time range can be rejigged using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
-* store geohashes of all lengths (depends on the indexing available, a single full length hash may be enough) in indexed fields against each lat long position in the database
+* store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database
 * calculate a set of geohashes that wholly covers the bounding box
 * perform the query using the time range and equality against the geohashes. For example:
 
