@@ -91,7 +91,7 @@ public class DatabaseTest {
 					names.add(name);
 			}
 			System.out.println("found=" + names.size() + " from " + count
-					+ " in" + (System.currentTimeMillis() - t) / 1000.0 + "ms");
+					+ " in " + (System.currentTimeMillis() - t) / 1000.0 + "s");
 			ps.close();
 		}
 		con.close();
