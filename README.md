@@ -66,7 +66,7 @@ length  numHashes ratio  n*m/a
 5       667       1.08   720
 6       20227     1.02   20631
 ```
-The starred line corresponds to the hash length suggested above and corresponds to the lowest value of n*m/a.
+The starred line corresponds to the hash length suggested above and corresponds to the lowest value of `n*m/a`.
 
 The recommended hash length for this example is 3. Increasing to 5 and above could clearly have a big impact on processing times but this will depend on your situation. 
 
