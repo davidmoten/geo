@@ -81,15 +81,17 @@ public class DatabaseTest {
 			System.out.println("querying...");
 			ResultSet rs = ps.executeQuery();
 			List<String> names = Lists.newArrayList();
+			int count = 0;
 			while (rs.next()) {
 				String name = rs.getString(1);
 				double lat = rs.getDouble(2);
 				double lon = rs.getDouble(3);
+				count++;
 				if (lat >= -6 && lat <= -5 && lon >= 136 && lon < 138)
 					names.add(name);
 			}
-			System.out.println("found=" + names.size() + " in"
-					+ (System.currentTimeMillis() - t) / 1000.0 + "ms");
+			System.out.println("found=" + names.size() + " from " + count
+					+ " in" + (System.currentTimeMillis() - t) / 1000.0 + "ms");
 			ps.close();
 		}
 		con.close();
