@@ -13,7 +13,7 @@ Features
 * finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
 * finds all 8 adjacent hashes to a hash (`GeoHash.neighbours()`)
 * calculates hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
-* calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBoxWithHashLength`)
+* calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBox`)
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
@@ -36,6 +36,19 @@ The bounding box query with a time range can be rejigged using geohashes so that
 * filter the results of the query to include only those results within the bounding box
 
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
+
+So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of:
+
+* Minimize cpu
+* Minimize query runtime
+* Minimize cost 
+* Minimize data read from datastore
+* Minimize datastore load
+* Minimize 2nd tier load
+
+
+Links
+-------
 
 Core geohash encoding code was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
 
