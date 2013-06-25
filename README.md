@@ -51,7 +51,7 @@ Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the 
 
 The suggested hash length is based roughly on the assumptions that the:
 
-* database query is not processed concurrently
+* database query is not processed using concurrency
 * points are uniformly distributed geographically
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
 * query time is O(n) where n is number of hashes
