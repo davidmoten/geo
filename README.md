@@ -58,7 +58,7 @@ The suggested hash length is based roughly on the assumptions that the:
 
 As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
 ```
-length  numHashes ratio  n*m/a
+length  numHashes m/a  n*m/a
 1       1         1694   1694
 2       1         53     53
 3*      4         6.6    26.4
