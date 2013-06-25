@@ -263,6 +263,11 @@ public final class GeoHash {
 	 *            in decimal degrees (WGS84)
 	 * @return
 	 */
+	// Translated to java from:
+	// geohash.js
+	// Geohash library for Javascript
+	// (c) 2008 David Troy
+	// Distributed under the MIT License
 	public static String encodeHash(double latitude, double longitude,
 			int length) {
 		Preconditions.checkArgument(length > 0,
@@ -319,6 +324,11 @@ public final class GeoHash {
 	 * @param geohash
 	 * @return
 	 */
+	// Translated to java from:
+	// geohash.js
+	// Geohash library for Javascript
+	// (c) 2008 David Troy
+	// Distributed under the MIT License
 	public static LatLong decodeHash(String geohash) {
 		Preconditions.checkNotNull(geohash, "geohash cannot be null");
 		boolean isEven = true;
