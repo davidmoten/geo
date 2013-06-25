@@ -53,20 +53,21 @@ The suggested hash length is based roughly on the assumptions that the:
 
 * database query is not processed using concurrency
 * points are uniformly distributed geographically
+* points are numerous (quantify this!)
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
-* query time is O(n) where n is number of hashes
+* query time is O(n * m / a) where n is number of hashes, m is the size in square degrees of the hash and a is the area of the bounding box.
 
 As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
 ```
-length  numHashes
-1       1
-2       1
-3*      4
-4       30
-5       667
-6       20227
+length  numHashes ratio  n*m/a
+1       1         1694   1694
+2       1         53     53
+3*      4         6.6    26.4
+4       30        1.6    48
+5       667       1.08   720
+6       20227     1.02   20631
 ```
-The starred line corresponds to the hash length suggested above. 
+The starred line corresponds to the hash length suggested above and corresponds to the lowest value of n*m/a.
 
 The recommended hash length for this example is 3. Increasing to 5 and above could clearly have a big impact on processing times but this will depend on your situation. 
 
