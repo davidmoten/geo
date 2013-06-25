@@ -23,7 +23,9 @@ Features
 
 Bounding box searches using geohashing
 ---------------------------------------
-Some databases may either not support or suffer major performance degradation when large datasets are queried with multiple range conditions. For example a search for all ship reports within a time range and within a bounding box could be achieved with a range condition on time combined with a range condition on latitude combined with a range condition on longitude (*combined with* = logical AND). This type of query can perform badly on many database types, SQL and NoSQL. On Google App Engine Datastore for instance only one variable with inequality conditions is allowed per query. This is a sensible step to take to meet scalability guarantees.
+Some databases may either not support or suffer major performance degradation when large datasets are queried with inequality conditions on more than one variable.
+
+For example, a search for all ship reports within a time range and within a bounding box could be achieved with a range condition on time combined with a range condition on latitude combined with a range condition on longitude (*combined with* = logical AND). This type of query *can* perform badly on many database types, SQL and NoSQL. On Google App Engine Datastore for instance only one variable with inequality conditions is allowed per query. This is a sensible step to take to meet scalability guarantees. In short it avoids O(n&sup;2) performance.
 
 The bounding box query with a time range can be rewritten using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
@@ -54,12 +56,26 @@ My suggestion is that a *good* length of geohash to use to cover a bounding box 
 (the maximum length of hash to completely cover the bounding box with one hash) + 1
 ```
 
+Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length recommended above.
+
 This suggestion is based roughly on the assumptions that:
 
 * no concurrent processing of database query
 * points are uniformly distributed geographically
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
 * query time is O(n) where n is number of hashes
+
+If you really needed to close approximate the bounding box with hashes then increment the hash length by 1 again but that's as far as I would go. As a quick example for a bounding box proportioned more a less like a screen with Schenectady and Hartford in Massachusets in USA at the corners here are the hash counts for different hash lengths:
+
+length=1  numHashes=1
+length=2  numHashes=2
+length=3  numHashes=4*
+length=4  numHashes=30
+length=5  numHashes=667
+length=6  numHashes=20227
+
+The starred line corresponds to the hash length suggested above.
+
 
 A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link and I'll update this page!
 
