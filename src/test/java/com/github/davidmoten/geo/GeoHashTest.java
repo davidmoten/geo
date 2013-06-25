@@ -160,14 +160,14 @@ public class GeoHashTest {
 
 	@Test
 	public void testMovingHashCentreUpByGeoHashHeightGivesAdjacentHash() {
-		String hash = "drt2";
-		String top = top(hash);
-		double d = heightDegrees(hash.length());
-		assertEquals(top, encodeHash(decodeHash(hash).add(d, 0), hash.length()));
-		assertEquals(top,
-				encodeHash(decodeHash(hash).add(d / 2 + 0.1, 0), hash.length()));
-		assertEquals(hash,
-				encodeHash(decodeHash(hash).add(d / 2 - 0.1, 0), hash.length()));
+		String fullHash = "dqcjqcp84c6e";
+		for (int i = 1; i <= GeoHash.MAX_HASH_LENGTH; i++) {
+			String hash = fullHash.substring(0, i);
+			String top = top(hash);
+			double d = heightDegrees(hash.length());
+			assertEquals(top,
+					encodeHash(decodeHash(hash).add(d, 0), hash.length()));
+		}
 	}
 
 	@Test
@@ -179,7 +179,7 @@ public class GeoHashTest {
 			double d = heightDegrees(hash.length());
 			assertEquals(
 					top,
-					encodeHash(decodeHash(hash).add(d / 2 + 0.1, 0),
+					encodeHash(decodeHash(hash).add(d / 2 * 1.01, 0),
 							hash.length()));
 		}
 	}
@@ -192,7 +192,7 @@ public class GeoHashTest {
 			double d = heightDegrees(hash.length());
 			assertEquals(
 					hash,
-					encodeHash(decodeHash(hash).add(d / 2 - 0.1, 0),
+					encodeHash(decodeHash(hash).add(d / 2 * 0.99, 0),
 							hash.length()));
 		}
 	}
@@ -218,7 +218,7 @@ public class GeoHashTest {
 			double d = widthDegrees(hash.length());
 			assertEquals(
 					right,
-					encodeHash(decodeHash(hash).add(0, d / 2 + 0.1),
+					encodeHash(decodeHash(hash).add(0, d / 2 * 1.01),
 							hash.length()));
 		}
 	}
@@ -231,7 +231,7 @@ public class GeoHashTest {
 			double d = widthDegrees(hash.length());
 			assertEquals(
 					hash,
-					encodeHash(decodeHash(hash).add(0, d / 2 - 0.1),
+					encodeHash(decodeHash(hash).add(0, d / 2 * 0.99),
 							hash.length()));
 		}
 	}
@@ -281,7 +281,8 @@ public class GeoHashTest {
 		Coverage coverage = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
 				HARTFORD_LAT, HARTFORD_LON, 1);
 		assertEquals(Sets.newHashSet("d"), coverage.getHashes());
-		assertEquals(0.0011801509677274082, coverage.getRatio(), PRECISION);
+		System.out.println(coverage.getRatio());
+		assertEquals(1694.6984366342194, coverage.getRatio(), PRECISION);
 	}
 
 	@Test
@@ -355,12 +356,12 @@ public class GeoHashTest {
 		encodeHash(-25.382708, -49.265506, 3);
 		encodeHash(-25.382708, -49.265506, 2);
 		encodeHash(-25.382708, -49.265506, 1);
-		assertEquals(45.0 / 2, heightDegrees(1), 0.00001);
+		assertEquals(45.0, heightDegrees(1), 0.00001);
 
 		assertEquals(11.25 / 2, heightDegrees(2), 0.00001);
-		assertEquals(1.40625 / 2, heightDegrees(3), 0.00001);
+		assertEquals(1.40625, heightDegrees(3), 0.00001);
 		assertEquals(0.3515625 / 2, heightDegrees(4), 0.00001);
-		assertEquals(0.0439453125 / 2, heightDegrees(5), 0.00001);
+		assertEquals(0.0439453125, heightDegrees(5), 0.00001);
 		assertEquals(0.010986328125 / 2, heightDegrees(6), 0.00001);
 	}
 

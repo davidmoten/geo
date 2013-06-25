@@ -35,7 +35,10 @@ public class Coverage {
 	}
 
 	/**
-	 * Returns the measure of how well the hashes cover a region.
+	 * Returns the measure of how well the hashes cover a region. The ratio is
+	 * the total area of hashes divided by the area of the bounding box in
+	 * degrees squared. The closer the ratio is to 1 the better the more closely
+	 * the hashes approximate the bounding box.
 	 * 
 	 * @return
 	 */

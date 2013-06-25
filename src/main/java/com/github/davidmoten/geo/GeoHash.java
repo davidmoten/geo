@@ -460,7 +460,7 @@ public final class GeoHash {
 		double areaDegrees = diff * (topLeftLat - bottomRightLat);
 		double coverageAreaDegrees = hashes.size() * widthDegrees(length)
 				* heightDegrees(length);
-		double ratio = areaDegrees / coverageAreaDegrees;
+		double ratio = coverageAreaDegrees / areaDegrees;
 		return new Coverage(hashes, ratio);
 	}
 
@@ -490,10 +490,10 @@ public final class GeoHash {
 		if (hashHeightCache[n - 1] == null) {
 			double a;
 			if (n % 2 == 0)
-				a = -1;
+				a = 0;
 			else
 				a = -0.5;
-			double result = 90 / Math.pow(2, 2.5 * n + a);
+			double result = 180 / Math.pow(2, 2.5 * n + a);
 			hashHeightCache[n - 1] = result;
 		}
 		return hashHeightCache[n - 1];
