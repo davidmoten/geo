@@ -34,7 +34,7 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 * perform the query using the time range and equality against the geohashes. For example:
 
 ```
-(startTime < t < finishTime) and (hash3='drt' or hash3='dr2'))
+(startTime < t < finishTime) and (hash3='drt' or hash3='dr2')
 ```
 
 * filter the results of the query to include only those results within the bounding box
