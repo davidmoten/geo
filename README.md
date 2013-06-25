@@ -24,7 +24,7 @@ Features
 Bounding box searches using geohashing
 ---------------------------------------
 
-##What is the problem?
+###What is the problem?
 
 Databases of events at specific times occurring at specific places on the earth's surface are likely to be queried in terms of ranges of time and position. One such query is a bounding box query involving a time range and position constraint defined by a bounding lat-long box. 
 
@@ -34,7 +34,7 @@ Some databases may either not support or suffer major performance degradation wh
 
 For example, a search for all ship reports within a time range and within a bounding box could be achieved with a range condition on time combined with a range condition on latitude combined with a range condition on longitude ( *combined with* = logical AND). This type of query *can* perform badly on many database types, SQL and NoSQL. On Google App Engine Datastore for instance only one variable with inequality conditions is allowed per query. This is a sensible step to take to meet scalability guarantees.
 
-##What is a solution?
+###What is a solution?
 The bounding box query with a time range can be rewritten using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
 * store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database
@@ -49,7 +49,7 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
 
-##What hash length to use?
+###What hash length to use?
 So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. If you could boil things down to a *representative* use case I would suggest that a *good* length of geohash to use to cover a bounding box is:
 
 ```
