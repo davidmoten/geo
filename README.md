@@ -56,9 +56,9 @@ My suggestion is that a *good* length of geohash to use to cover a bounding box 
 
 This suggestion is based roughly on the assumptions that:
 
-* no concurrent processing in database query
+* no concurrent processing of database query
 * points are uniformly distributed geographically
-* bounding box is square to screen like in proportions (rather than very wide/high and skinny)
+* bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
 * query time is O(n) where n is number of hashes
 
 A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link and I'll update this page!
