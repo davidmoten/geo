@@ -269,7 +269,7 @@ public final class GeoHash {
 				"length must be greater than zero");
 		Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
 				"latitude must be between -90 and 90 inclusive");
-		longitude = to180(longitude);
+		longitude = Position.to180(longitude);
 
 		boolean isEven = true;
 		double[] lat = new double[2];
@@ -439,7 +439,7 @@ public final class GeoHash {
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
 		Set<String> hashes = Sets.newTreeSet();
-		double diff = longitudeDiff(bottomRightLon, topLeftLon);
+		double diff = Position.longitudeDiff(bottomRightLon, topLeftLon);
 		double maxLon = topLeftLon + diff;
 
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
@@ -475,42 +475,6 @@ public final class GeoHash {
 	private static void addHash(Set<String> hashes, double lat, double lon,
 			int length) {
 		hashes.add(encodeHash(lat, lon, length));
-	}
-
-	/**
-	 * Returns the difference between two longitude values. The returned value
-	 * is always >=0.
-	 * 
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	@VisibleForTesting
-	static double longitudeDiff(double a, double b) {
-		a = to180(a);
-		b = to180(b);
-		if (a < b)
-			return a - b + 360;
-		else
-			return a - b;
-	}
-
-	/**
-	 * Converts an angle in degrees to range -180< x <= 180.
-	 * 
-	 * @param d
-	 * @return
-	 */
-	public static double to180(double d) {
-		if (d < 0)
-			return -to180(Math.abs(d));
-		else {
-			if (d > 180) {
-				long n = Math.round(Math.floor((d + 180) / 360.0));
-				return d - n * 360;
-			} else
-				return d;
-		}
 	}
 
 	private static Double[] hashHeightCache = new Double[MAX_HASH_LENGTH];

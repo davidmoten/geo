@@ -1,5 +1,7 @@
 package com.github.davidmoten.geo;
 
+import static com.github.davidmoten.geo.Position.longitudeDiff;
+import static com.github.davidmoten.geo.Position.to180;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -781,5 +783,24 @@ public class PositionTest {
 		assertFalse(p2.equals(p1));
 		assertTrue(p1.equals(p1));
 		assertFalse(p1.equals("hello"));
+	}
+
+	@Test
+	public void testTo180() {
+		assertEquals(0, to180(0), PRECISION);
+		assertEquals(10, to180(10), PRECISION);
+		assertEquals(-10, to180(-10), PRECISION);
+		assertEquals(180, to180(180), PRECISION);
+		assertEquals(-180, to180(-180), PRECISION);
+		assertEquals(-170, to180(190), PRECISION);
+		assertEquals(170, to180(-190), PRECISION);
+		assertEquals(-170, to180(190 + 360), PRECISION);
+	}
+
+	@Test
+	public void testLongitudeDiff() {
+		assertEquals(10, longitudeDiff(15, 5), PRECISION);
+		assertEquals(10, longitudeDiff(-175, 175), PRECISION);
+		assertEquals(350, longitudeDiff(175, -175), PRECISION);
 	}
 }

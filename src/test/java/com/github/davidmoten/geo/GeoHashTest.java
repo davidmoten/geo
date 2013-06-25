@@ -10,10 +10,8 @@ import static com.github.davidmoten.geo.GeoHash.hashLengthToEncloseBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.instantiate;
 import static com.github.davidmoten.geo.GeoHash.left;
-import static com.github.davidmoten.geo.GeoHash.longitudeDiff;
 import static com.github.davidmoten.geo.GeoHash.neighbours;
 import static com.github.davidmoten.geo.GeoHash.right;
-import static com.github.davidmoten.geo.GeoHash.to180;
 import static com.github.davidmoten.geo.GeoHash.top;
 import static com.github.davidmoten.geo.GeoHash.widthDegrees;
 import static org.junit.Assert.assertEquals;
@@ -307,25 +305,6 @@ public class GeoHashTest {
 	public void testCoverBoundingBoxWithZeroLengthThrowsException() {
 		coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT,
 				HARTFORD_LON, 0);
-	}
-
-	@Test
-	public void testTo180() {
-		assertEquals(0, to180(0), PRECISION);
-		assertEquals(10, to180(10), PRECISION);
-		assertEquals(-10, to180(-10), PRECISION);
-		assertEquals(180, to180(180), PRECISION);
-		assertEquals(-180, to180(-180), PRECISION);
-		assertEquals(-170, to180(190), PRECISION);
-		assertEquals(170, to180(-190), PRECISION);
-		assertEquals(-170, to180(190 + 360), PRECISION);
-	}
-
-	@Test
-	public void testLongitudeDiff() {
-		assertEquals(10, longitudeDiff(15, 5), PRECISION);
-		assertEquals(10, longitudeDiff(-175, 175), PRECISION);
-		assertEquals(350, longitudeDiff(175, -175), PRECISION);
 	}
 
 	@Test

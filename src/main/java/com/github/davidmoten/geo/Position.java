@@ -424,4 +424,39 @@ public class Position {
 	public static Position create(double lat, double lon) {
 		return new Position(lat, lon);
 	}
+
+	/**
+	 * Returns the difference between two longitude values. The returned value
+	 * is always >=0.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static double longitudeDiff(double a, double b) {
+		a = to180(a);
+		b = to180(b);
+		if (a < b)
+			return a - b + 360;
+		else
+			return a - b;
+	}
+
+	/**
+	 * Converts an angle in degrees to range -180< x <= 180.
+	 * 
+	 * @param d
+	 * @return
+	 */
+	public static double to180(double d) {
+		if (d < 0)
+			return -to180(Math.abs(d));
+		else {
+			if (d > 180) {
+				long n = Math.round(Math.floor((d + 180) / 360.0));
+				return d - n * 360;
+			} else
+				return d;
+		}
+	}
 }
