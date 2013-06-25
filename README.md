@@ -54,7 +54,7 @@ The suggested hash length is based roughly on the assumptions that the:
 * database query is not processed using concurrency
 * points are uniformly distributed geographically
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
-* query time is O(n * m / a) where n is number of hashes, m is the size in square degrees of the hash and a is the area of the bounding box.
+* query time is `O(n * m / a)` where `n` is number of hashes, `m` is the size in square degrees of the total hashed area and `a` is the area of the bounding box.
 
 As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
 ```
