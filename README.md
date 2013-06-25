@@ -37,7 +37,7 @@ For example, a search for all ship reports within a time range and within a boun
 ###What is a solution?
 The bounding box query with a time range can be rewritten using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
-* store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database
+* store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database. Note that storing hashes as a single long integer value may be advantageous.
 * calculate a set of geohashes that wholly covers the bounding box
 * perform the query using the time range and equality against the geohashes. For example:
 
@@ -58,14 +58,12 @@ So how long should the hashes be that we try to cover the bounding box with? Thi
 
 Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length recommended above.
 
-The suggested hash length is based roughly on the assumptions that the:
+As a quick example, for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9):
 
-* database query is not processed using concurrency
-* points are uniformly distributed geographically
-* bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
-* query time is `O(n * m / a)` where `n` is number of hashes, `m` is the size in square degrees of the total hashed area and `a` is the area of the bounding box.
+Here are the hash counts for different hash lengths:
 
-As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
+`n` is number of hashes, `m` is the size in square degrees of the total hashed area and `a` is the area of the bounding box.
+
 ```
 length  numHashes m/a    n*m/a
 1       1         1694   1694
