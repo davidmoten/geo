@@ -39,7 +39,7 @@ public class DatabaseTest {
 		long now = System.currentTimeMillis();
 		long n;
 		if (System.getProperty("n") != null)
-			n = Long.parseLong("n");
+			n = Long.parseLong(System.getProperty("n"));
 		else
 			n = 1000;
 		for (int i = 0; i < n; i++) {
@@ -61,9 +61,10 @@ public class DatabaseTest {
 			execute(con, "create index idx_geohash_" + i + " on report(geohash"
 					+ i + ")");
 		for (int length = 2; length <= 5; length++) {
+			System.out.println("--------------------------------------");
 			Coverage coverage = GeoHash.coverBoundingBox(-5, 136, -6, 138,
 					length);
-			System.out.println(coverage.getHashes());
+			System.out.println("numHashes=" + coverage.getHashes().size());
 			StringBuilder s = new StringBuilder();
 			for (String hash : coverage.getHashes()) {
 				if (s.length() > 1)
@@ -72,7 +73,7 @@ public class DatabaseTest {
 			}
 			String sql2 = "select name,lat,lon from report where time >= ? and time <?  and ("
 					+ s + ")";
-			System.out.println(sql2);
+			// System.out.println(sql2);
 			PreparedStatement ps = con.prepareStatement(sql2);
 			ps.setLong(1, now - Math.round(TimeUnit.DAYS.toMillis(1)));
 			ps.setLong(2, now);
