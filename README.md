@@ -50,12 +50,18 @@ So how long should the hashes be that we try to cover the bounding box with? Thi
 * any other metric!
 
 My suggestion is that a *good* length of geohash to use to cover a bounding box is:
-
-
-
 ```
- that if n is the number of hashes and the time taken to run the query as suggested is O(n)
+(the maximum length of hash to completely cover the bounding box with one hash) + 1
+```
 
+This suggestion is based roughly on the assumptions that:
+
+* no concurrent processing in database query
+* points are uniformly distributed geographically
+* bounding box is square to screen like in proportions (rather than very wide/high and skinny)
+* query time is O(n) where n is number of hashes
+
+A rigorous exploration of this topic would be fun. Let me know if you've done it or have a link!
 
 Links
 -------
