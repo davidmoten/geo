@@ -65,7 +65,7 @@ This suggestion is based roughly on the assumptions that:
 * bounding box is square to screen-like in proportions (rather than very wide/high and skinny)
 * query time is O(n) where n is number of hashes
 
-If you really needed to close approximate the bounding box with hashes then increment the hash length by 1 again but that's as far as I would go. As a quick example for a bounding box proportioned more a less like a screen with Schenectady and Hartford in Massachusets in USA at the corners here are the hash counts for different hash lengths:
+If you really needed to close approximate the bounding box with hashes then increment the hash length by 1 again but that's as far as I would go. As a quick example for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9) here are the hash counts for different hash lengths:
 ```
 length  numHashes
 1       1
