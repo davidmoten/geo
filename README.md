@@ -101,7 +101,9 @@ mvn clean test -Dn=10000000
 
 Running with n=1,000,000 is much quicker to run and yields the same primary result:
 
-  multiple range query is 10X slower than geohash lookup if the hash length is chosen judiciously
+```
+multiple range query is 10X slower than geohash lookup if the hash length is chosen judiciously
+```
 
 Links
 -------
