@@ -94,7 +94,7 @@ hashLength numHashes  found   from  time(s)
 5          1128       200k    217K   3.6
 none       none       200k    200k  31.1 (multiple range query)
 ```
-I was pleasantly surprised that H2 allowed me to put over 1000 conditions in the where clause. I tried with the next higher hash length as well with over 22,000 hashes but H2 threw a StackOverFlowError.  
+I was pleasantly surprised that H2 allowed me to put over 1000 conditions in the where clause. I tried with the next higher hash length as well with over 22,000 hashes but H2 understandably threw a StackOverFlowError.  
 
 To run the benchmark:
 
