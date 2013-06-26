@@ -54,7 +54,8 @@ So how long should the hashes be that we try to cover the bounding box with? Thi
 
 ```
  LBB + 1
- where LBB=the maximum length of hash to completely cover the bounding box with one hash
+ where 
+ LBB = the maximum length of hash to completely cover the bounding box with one hash
 ```
 
 Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length LBB+1.
