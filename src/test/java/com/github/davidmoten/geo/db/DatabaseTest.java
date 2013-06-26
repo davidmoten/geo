@@ -72,28 +72,22 @@ public class DatabaseTest {
 					s.append(" or ");
 				s.append("geohash" + hash.length() + "='" + hash + "'");
 			}
+			StringBuilder s2 = new StringBuilder();
+			for (String hash : coverage.getHashes()) {
+				if (s2.length() > 1)
+					s2.append(" or ");
+				s2.append("geohash12 like '" + hash + "%'");
+			}
+
 			String sql2 = "select name,lat,lon from report where time >= ? and time <?  and ("
 					+ s + ")";
 			// System.out.println(sql2);
-			PreparedStatement ps = con.prepareStatement(sql2);
-			ps.setLong(1, now - Math.round(TimeUnit.DAYS.toMillis(1)));
-			ps.setLong(2, now);
-			long t = System.currentTimeMillis();
-			System.out.println("querying...");
-			ResultSet rs = ps.executeQuery();
-			List<String> names = Lists.newArrayList();
-			int count = 0;
-			while (rs.next()) {
-				String name = rs.getString(1);
-				double lat = rs.getDouble(2);
-				double lon = rs.getDouble(3);
-				count++;
-				if (lat >= -6 && lat <= -5 && lon >= 136 && lon <= 138)
-					names.add(name);
-			}
-			System.out.println("found=" + names.size() + " from " + count
-					+ " in " + (System.currentTimeMillis() - t) / 1000.0 + "s");
-			ps.close();
+
+			processQuery(now, con, sql2);
+			String sql3 = "select name,lat,lon from report where time >= ? and time <?  and ("
+					+ s2 + ")";
+			System.out.println("using like:");
+			processQuery(now, con, sql3);
 		}
 
 		System.out.println("--------------------------------------");
@@ -111,6 +105,29 @@ public class DatabaseTest {
 				+ (System.currentTimeMillis() - t) / 1000.0 + "s");
 
 		con.close();
+	}
+
+	private void processQuery(long now, Connection con, String sql)
+			throws SQLException {
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setLong(1, now - Math.round(TimeUnit.DAYS.toMillis(1)));
+		ps.setLong(2, now);
+		long t = System.currentTimeMillis();
+		System.out.println("querying...");
+		ResultSet rs = ps.executeQuery();
+		List<String> names = Lists.newArrayList();
+		int count = 0;
+		while (rs.next()) {
+			String name = rs.getString(1);
+			double lat = rs.getDouble(2);
+			double lon = rs.getDouble(3);
+			count++;
+			if (lat >= -6 && lat <= -5 && lon >= 136 && lon <= 138)
+				names.add(name);
+		}
+		System.out.println("found=" + names.size() + " from " + count + " in "
+				+ (System.currentTimeMillis() - t) / 1000.0 + "s");
+		ps.close();
 	}
 
 	private void execute(Connection con, String command) throws SQLException {

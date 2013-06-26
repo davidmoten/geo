@@ -37,7 +37,7 @@ For example, a search for all ship reports within a time range and within a boun
 ###What is a solution?
 The bounding box query with a time range can be rewritten using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
-* store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database. Note that storing hashes as a single long integer value may be advantageous.
+* store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database. Note that storing hashes as a single long integer value may be advantageous (see `Base32.decodeBase32` to convert a hash to a long).
 * calculate a set of geohashes that wholly covers the bounding box
 * perform the query using the time range and equality against the geohashes. For example:
 
@@ -87,8 +87,8 @@ A rigorous exploration of this topic would be fun to do or see. Let me know if y
 Inserted 10,000,000 records into an embedded H2 filesystem database which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
 
 ```
-hashLength numHashes  found   from  time(s)
-2          2          200K    10m   56.0
+hashLength numHashes  found   from  time(s) 
+2          2          200K    10m   56.0    
 3          6          200k    1.2m  10.5
 4          49         200k    303k   4.5
 5          1128       200k    217K   3.6
@@ -96,7 +96,7 @@ none       none       200k    200k  31.1 (multiple range query)
 ```
 I was pleasantly surprised that H2 allowed me to put over 1000 conditions in the where clause. I tried with the next higher hash length as well with over 22,000 hashes but H2 threw a StackOverFlowError.  
 
-To run this benchmark:
+To run the benchmark:
 
 ```
 mvn clean test -Dn=10000000

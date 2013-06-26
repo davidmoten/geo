@@ -36,7 +36,7 @@ public final class Base32 {
 			lookup.put(c, i++);
 	}
 
-	public static String base32(long i) {
+	public static String encodeBase32(long i) {
 		char[] buf = new char[65];
 		int charPos = 64;
 		boolean negative = (i < 0);
@@ -50,6 +50,32 @@ public final class Base32 {
 		if (negative)
 			buf[--charPos] = '-';
 		return new String(buf, charPos, (65 - charPos));
+	}
+
+	public static long decodeBase32(String s) {
+		boolean isNegative = s.startsWith("-");
+		int startIndex = isNegative ? 1 : 0;
+		long base = 1;
+		long result = 0;
+		for (int i = s.length() - 1; i >= startIndex; i--) {
+			int j = getCharIndex(s.charAt(i));
+			result = result + base * j;
+			base = base * 32;
+		}
+		if (isNegative)
+			result *= -1;
+		return result;
+	}
+
+	private static int getCharIndex(char ch) {
+		for (int i = 0; i < digits.length; i++)
+			if (ch == digits[i])
+				return i;
+		throw new RuntimeException("not a base32 character: " + ch);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(encodeBase32(64));
 	}
 
 }
