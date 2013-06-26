@@ -78,7 +78,7 @@ The starred line corresponds to the hash length suggested above and corresponds 
 The recommended hash length for this example is 3. Increasing to 4 may be advantageous depending on your situation. Increasing to 5 and above could clearly have a big negative impact on processing times but this will depend again on your situation. 
 
 ####Benchmarks
-Inserted 10,000,000 records into an embedded H2 instance which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. 
+Inserted 10,000,000 records into an embedded H2 instance which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows:
 
 ```
 numHashes  found   from  time(s)
