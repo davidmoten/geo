@@ -3,6 +3,7 @@ package com.github.davidmoten.geo;
 import static com.github.davidmoten.geo.GeoHash.adjacentHash;
 import static com.github.davidmoten.geo.GeoHash.bottom;
 import static com.github.davidmoten.geo.GeoHash.coverBoundingBox;
+import static com.github.davidmoten.geo.GeoHash.coverBoundingBoxIncreaseLength;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.gridToString;
@@ -291,6 +292,14 @@ public class GeoHashTest {
 		Coverage coverage = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
 				HARTFORD_LAT, HARTFORD_LON);
 		assertEquals(4, coverage.getHashes().size());
+		assertEquals(3, coverage.getHashLength());
+	}
+
+	@Test
+	public void testCoverBoundingBoxWithIncreasedHashLengthAroundBoston() {
+		Coverage coverage = coverBoundingBoxIncreaseLength(SCHENECTADY_LAT,
+				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
+		assertEquals(4, coverage.getHashLength());
 	}
 
 	@Test

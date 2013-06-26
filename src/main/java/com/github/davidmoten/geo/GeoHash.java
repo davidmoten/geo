@@ -430,6 +430,27 @@ public final class GeoHash {
 	}
 
 	/**
+	 * Returns the hashes that are required to cover the given bounding box.
+	 * Hash length is chosen as the length for a single hash to cover the
+	 * bounding box + 1 + lengthIncrease.
+	 * 
+	 * @param topLeftLat
+	 * @param topLeftLon
+	 * @param bottomRightLat
+	 * @param bottomRightLon
+	 * @param lengthIncrease
+	 * @return
+	 */
+	public static Coverage coverBoundingBoxIncreaseLength(double topLeftLat,
+			final double topLeftLon, final double bottomRightLat,
+			final double bottomRightLon, int lengthIncrease) {
+		int length = hashLengthToEncloseBoundingBox(topLeftLat, topLeftLon,
+				bottomRightLat, bottomRightLon) + 1;
+		return coverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,
+				bottomRightLon, length + lengthIncrease);
+	}
+
+	/**
 	 * Returns the hashes of given length that are required to cover the given
 	 * bounding box.
 	 * 
