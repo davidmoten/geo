@@ -281,6 +281,7 @@ public class GeoHashTest {
 		Coverage coverage = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
 				HARTFORD_LAT, HARTFORD_LON, 1);
 		assertEquals(Sets.newHashSet("d"), coverage.getHashes());
+		assertEquals(1, coverage.getHashLength());
 		System.out.println(coverage.getRatio());
 		assertEquals(1694.6984366342194, coverage.getRatio(), PRECISION);
 	}
