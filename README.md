@@ -53,10 +53,11 @@ The last step is necessary because the set of geohashes contains the bounding bo
 So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. If you could boil things down to a *representative* use case I would suggest that a *reasonable* length of geohash to use to cover a bounding box is:
 
 ```
-(the maximum length of hash to completely cover the bounding box with one hash) + 1
+ LBB + 1
+ where LBB=the maximum length of hash to completely cover the bounding box with one hash
 ```
 
-Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length recommended above.
+Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length LBB+1.
 
 Increasing this value by 1 or 2 should be considered if benchmarking indicates an advantage.
 
@@ -64,16 +65,16 @@ As a quick example, for a bounding box proportioned more a less like a [screen w
 
 Here are the hash counts for different hash lengths:
 
-`n` is number of hashes, `m` is the size in square degrees of the total hashed area and `a` is the area of the bounding box.
+`m` is the size in square degrees of the total hashed area and `a` is the area of the bounding box.
 
 ```
-length  numHashes m/a    n*m/a
-1       1         1694   1694
-2       1         53     53
-3*      4         6.6    26.4
-4       30        1.6    48
-5       667       1.08   720
-6       20227     1.02   20631
+length  numHashes m/a    
+1       1         1694   
+2       1         53     
+3*      4         6.6    
+4       30        1.6    
+5       667       1.08   
+6       20227     1.02   
 ```
 The starred line corresponds to the hash length suggested above and corresponds to the lowest value of `n*m/a`.
 
@@ -85,14 +86,14 @@ A rigorous exploration of this topic would be fun to do or see. Let me know if y
 Inserted 10,000,000 records into an embedded H2 filesystem database which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
 
 ```
-numHashes  found   from  time(s)
-2          200K    10m   56.0
-6          200k    1.2m  10.5
-49         200k    303k   4.5
-1128       200k    217K   3.6
-none       200k    200k  31.1
+hashLength numHashes  found   from  time(s)
+2          2          200K    10m   56.0
+3          6          200k    1.2m  10.5
+4          49         200k    303k   4.5
+5          1128       200k    217K   3.6
+none       none       200k    200k  31.1 (multiple range query)
 ```
-I was a bit surprised that H2 allowed me to put over 1000 conditions in the where clause. I tried with the next higher hash length as well with over 22,000 hashes but H2 threw a StackOverFlowError.
+I was pleasantly surprised that H2 allowed me to put over 1000 conditions in the where clause. I tried with the next higher hash length as well with over 22,000 hashes but H2 threw a StackOverFlowError.  
 
 To run this benchmark:
 
