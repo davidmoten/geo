@@ -40,6 +40,11 @@ public class Base32Test {
 		assertEquals(-123, decodeBase32("-3v"));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetCharIndexThrowsExceptionWhenNonBase32CharacterGiven() {
+		Base32.getCharIndex('?');
+	}
+
 	@Test
 	public void testInstantiation() {
 		Base32.instantiate();

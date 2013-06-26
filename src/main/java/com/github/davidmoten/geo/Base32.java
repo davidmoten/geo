@@ -67,15 +67,12 @@ public final class Base32 {
 		return result;
 	}
 
-	private static int getCharIndex(char ch) {
+	@VisibleForTesting
+	static int getCharIndex(char ch) {
 		for (int i = 0; i < digits.length; i++)
 			if (ch == digits[i])
 				return i;
-		throw new RuntimeException("not a base32 character: " + ch);
-	}
-
-	public static void main(String[] args) {
-		System.out.println(encodeBase32(64));
+		throw new IllegalArgumentException("not a base32 character: " + ch);
 	}
 
 }
