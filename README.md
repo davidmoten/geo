@@ -60,9 +60,9 @@ where
  LBB = the maximum length of hash to completely cover the bounding box with one hash
 ```
 
-Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length `LBB+1`.
+Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length `LBB + 1`.
 
-Calling `GeoHash.coverBoundingBoxIncreaseLength` with an `increase` parameter will use hash length `LBB+1` + `increase`.
+Calling `GeoHash.coverBoundingBoxIncreaseLength` with an `increase` parameter will use hsh length `LBB + 1 + increase`.
 
 Increasing this value by 1 or 2 should be considered if benchmarking indicates an advantage.
 
@@ -83,7 +83,7 @@ length  numHashes m/a
 ```
 The starred line corresponds to the hash length suggested above and corresponds to the lowest value of `n*m/a`.
 
-The recommended hash length for this example is `LBB+1=3`. Increasing to `LBB+2`,`LBB+3`,or even `LBB+4` may be advantageous depending on your situation. Run tests!  
+The recommended hash length for this example is `LBB + 1 = 3`. Increasing to `LBB + 2`,`LBB + 3`,or even `LBB + 4` may be advantageous depending on your situation. Run tests!  
 
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
