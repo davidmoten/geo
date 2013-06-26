@@ -21,10 +21,11 @@ import com.google.common.collect.Lists;
 public class DatabaseTest {
 
 	@Test
-	public void testCreateDatabase() throws IOException, SQLException {
+	public void testCreateDatabaseInsertRecordsAndRunBenchmarkQueries()
+			throws IOException, SQLException {
 		File dir = new File("target/db");
-		dir.mkdir();
 		FileUtils.deleteDirectory(dir);
+		dir.mkdir();
 		String sql = IOUtils.toString(
 				DatabaseTest.class.getResourceAsStream("/create.sql"), "UTF-8");
 		String[] commands = sql.split(";");

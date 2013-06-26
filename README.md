@@ -92,6 +92,7 @@ numHashes  found   from  time(s)
 1128       200k    217K   3.6
 none       200k    200k  31.1
 ```
+I was a bit surprised that H2 allowed me to put over 1000 conditions in the where clause. I tried with the next higher hash length as well with over 22,000 hashes but H2 threw a StackOverFlowError.
 
 To run this benchmark:
 
