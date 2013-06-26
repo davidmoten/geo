@@ -50,13 +50,15 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
 
 ###What hash length to use?
-So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. If you could boil things down to a *representative* use case I would suggest that a *good* length of geohash to use to cover a bounding box is:
+So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. If you could boil things down to a *representative* use case I would suggest that a *reasonable* length of geohash to use to cover a bounding box is:
 
 ```
 (the maximum length of hash to completely cover the bounding box with one hash) + 1
 ```
 
 Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length recommended above.
+
+Increasing this value by 1 or 2 should be considered if benchmarking indicates an advantage.
 
 As a quick example, for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9):
 
@@ -75,7 +77,9 @@ length  numHashes m/a    n*m/a
 ```
 The starred line corresponds to the hash length suggested above and corresponds to the lowest value of `n*m/a`.
 
-The recommended hash length for this example is 3. Increasing to 4 may be advantageous depending on your situation. Increasing to 5 and above could clearly have a big negative impact on processing times but this will depend again on your situation. 
+The recommended hash length for this example is 3. Increasing to 4 or 5 may be advantageous depending on your situation. Increasing to 6 might have a big negative impact on processing times but this will depend again on your situation. 
+
+A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
 ###Benchmarks
 Inserted 10,000,000 records into an embedded H2 instance which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
@@ -89,7 +93,15 @@ numHashes  found   from  time(s)
 none       200k    200k  31.1
 ```
 
-A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
+To run this benchmark:
+
+```
+mvn clean test -Dn=10000000
+```
+
+Running with n=1,000,000 is much quicker to run and yields the same primary result:
+
+  multiple range query is 10X slower than geohash lookup if the hash length is chosen judiciously
 
 Links
 -------
