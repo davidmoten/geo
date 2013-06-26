@@ -14,7 +14,7 @@ Features
 * finds all 8 adjacent hashes to a hash (`GeoHash.neighbours()`)
 * calculates hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
 * calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBox`)
-* encodes and decodes long values from geohashes (`Base32.encodeBase32` and `Base32.decodeBase32`)
+* encodes and decodes `long` values from geohashes (`Base32.encodeBase32` and `Base32.decodeBase32`)
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
