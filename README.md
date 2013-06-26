@@ -62,7 +62,7 @@ where
 
 Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length `LBB+1`.
 
-Calling `GeoHash.coverBoundingBoxIncreaseLength with an `increase` parameter will use hash length `LBB+1` + `increase`.
+Calling `GeoHash.coverBoundingBoxIncreaseLength` with an `increase` parameter will use hash length `LBB+1` + `increase`.
 
 Increasing this value by 1 or 2 should be considered if benchmarking indicates an advantage.
 
