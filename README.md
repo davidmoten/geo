@@ -3,7 +3,7 @@ geo
 
 Java utility methods for creating and performing calculations with geohashes.
 
-Status: **pre-alpha**
+Status: **alpha**
 
 Features
 ----------
