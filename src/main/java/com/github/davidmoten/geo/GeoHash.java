@@ -30,8 +30,7 @@ public final class GeoHash {
 	public static final int MAX_HASH_LENGTH = 12;
 
 	/**
-	 * Private constructor. Instantiated using reflection only for test coverage
-	 * purposes.
+	 * Private constructor.
 	 */
 	private GeoHash() {
 		// prevent instantiation
