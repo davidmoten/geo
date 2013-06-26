@@ -82,7 +82,7 @@ The recommended hash length for this example is 3. Increasing to 4 or 5 may be a
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
 ###Benchmarks
-Inserted 10,000,000 records into an embedded H2 instance which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
+Inserted 10,000,000 records into an embedded H2 filesystem database which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
 
 ```
 numHashes  found   from  time(s)
