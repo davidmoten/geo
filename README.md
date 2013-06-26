@@ -88,8 +88,8 @@ Inserted 10,000,000 records into an embedded H2 filesystem database which uses B
 numHashes  found   from  time(s)
 2          200K    10m   56.0
 6          200k    1.2m  10.5
-49         200k    303k  4.5
-1128       200k    217K  3.6
+49         200k    303k   4.5
+1128       200k    217K   3.6
 none       200k    200k  31.1
 ```
 
