@@ -9,7 +9,6 @@ import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.gridToString;
 import static com.github.davidmoten.geo.GeoHash.hashLengthToEncloseBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
-import static com.github.davidmoten.geo.GeoHash.instantiate;
 import static com.github.davidmoten.geo.GeoHash.left;
 import static com.github.davidmoten.geo.GeoHash.neighbours;
 import static com.github.davidmoten.geo.GeoHash.right;
@@ -34,6 +33,11 @@ public class GeoHashTest {
 	private static final double SCHENECTADY_LON = -73.950691;
 	private static final double SCHENECTADY_LAT = 42.819581;
 	private static final double PRECISION = 0.000000001;
+
+	@Test
+	public void getCoverageOfPrivateConstructor() {
+		TestingUtil.callConstructorAndCheckIsPrivate(GeoHash.class);
+	}
 
 	@Test
 	public void testWhiteHouseHashEncode() {
@@ -141,11 +145,6 @@ public class GeoHashTest {
 		LatLong point = decodeHash("");
 		assertEquals(0, point.getLat(), PRECISION);
 		assertEquals(0, point.getLon(), PRECISION);
-	}
-
-	@Test
-	public void testInstantiation() {
-		instantiate();
 	}
 
 	@Test

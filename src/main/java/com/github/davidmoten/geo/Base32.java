@@ -19,12 +19,6 @@ public final class Base32 {
 		// prevent instantiation.
 	}
 
-	@VisibleForTesting
-	static void instantiate() {
-		// ensure full code coverage
-		new Base32();
-	}
-
 	final static char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p',
 			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };

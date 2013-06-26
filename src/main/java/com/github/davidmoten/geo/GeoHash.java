@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -31,16 +30,11 @@ public final class GeoHash {
 	public static final int MAX_HASH_LENGTH = 12;
 
 	/**
-	 * Private constructor. Instantiated only for test coverage purposes.
+	 * Private constructor. Instantiated using reflection only for test coverage
+	 * purposes.
 	 */
 	private GeoHash() {
 		// prevent instantiation
-	}
-
-	@VisibleForTesting
-	static void instantiate() {
-		// ensure full code coverage
-		new GeoHash();
 	}
 
 	/**

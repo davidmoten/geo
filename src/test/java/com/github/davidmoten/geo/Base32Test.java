@@ -47,7 +47,7 @@ public class Base32Test {
 
 	@Test
 	public void testInstantiation() {
-		Base32.instantiate();
+		TestingUtil.callConstructorAndCheckIsPrivate(Base32.class);
 	}
 
 }
