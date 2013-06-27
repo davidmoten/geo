@@ -23,10 +23,25 @@ import com.google.common.collect.Sets;
  */
 public final class GeoHash {
 
+	/**
+	 * Powers of 2 from 32 down to 1.
+	 */
 	private static final int[] BITS = new int[] { 16, 8, 4, 2, 1 };
+	/**
+	 * The characters used in base 32 representations.
+	 */
 	private static final String BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+	/**
+	 * Utility lookup for neighbouring hashes.
+	 */
 	private static final Map<Direction, Map<Parity, String>> NEIGHBOURS = createNeighbours();
+	/**
+	 * Utility lookup for hash borders.
+	 */
 	private static final Map<Direction, Map<Parity, String>> BORDERS = createBorders();
+	/**
+	 * The standard practical maximum legnth for geohashes.
+	 */
 	public static final int MAX_HASH_LENGTH = 12;
 
 	/**
