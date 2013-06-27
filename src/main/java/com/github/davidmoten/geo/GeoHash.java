@@ -593,9 +593,9 @@ public final class GeoHash {
 	 * @param highlightThese
 	 * @return
 	 */
-	public static String gridToString(String hash, int size,
+	public static String gridAsString(String hash, int size,
 			Set<String> highlightThese) {
-		return gridToString(hash, -size, -size, size, size, highlightThese);
+		return gridAsString(hash, -size, -size, size, size, highlightThese);
 	}
 
 	/**
@@ -616,9 +616,9 @@ public final class GeoHash {
 	 *            negative).
 	 * @return
 	 */
-	public static String gridToString(String hash, int fromRight,
+	public static String gridAsString(String hash, int fromRight,
 			int fromBottom, int toRight, int toBottom) {
-		return gridToString(hash, fromRight, fromBottom, toRight, toBottom,
+		return gridAsString(hash, fromRight, fromBottom, toRight, toBottom,
 				Collections.<String> emptySet());
 	}
 
@@ -649,7 +649,7 @@ public final class GeoHash {
 	 * @param highlightThese
 	 * @return
 	 */
-	public static String gridToString(String hash, int fromRight,
+	public static String gridAsString(String hash, int fromRight,
 			int fromBottom, int toRight, int toBottom,
 			Set<String> highlightThese) {
 		StringBuilder s = new StringBuilder();

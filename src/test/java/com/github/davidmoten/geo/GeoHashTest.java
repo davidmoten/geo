@@ -6,7 +6,7 @@ import static com.github.davidmoten.geo.GeoHash.coverBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.coverBoundingBoxIncreaseLength;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
-import static com.github.davidmoten.geo.GeoHash.gridToString;
+import static com.github.davidmoten.geo.GeoHash.gridAsString;
 import static com.github.davidmoten.geo.GeoHash.hashLengthToCoverBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.left;
@@ -262,7 +262,7 @@ public class GeoHashTest {
 		assertEquals("dr7", adjacentHash("dre", Direction.BOTTOM));
 		assertEquals("drk", adjacentHash("drs", Direction.BOTTOM));
 
-		System.out.println(gridToString("dreb", 5, hashes));
+		System.out.println(gridAsString("dreb", 5, hashes));
 
 		// check corners are in
 		assertTrue(hashes.contains("dre7"));
@@ -397,8 +397,8 @@ public class GeoHashTest {
 
 	@Test
 	public void testGridToString() {
-		System.out.println(gridToString("dred", -5, -5, 5, 5));
-		System.out.println(gridToString("dr", 1,
+		System.out.println(gridAsString("dred", -5, -5, 5, 5));
+		System.out.println(gridAsString("dr", 1,
 				Collections.<String> emptySet()));
 	}
 
