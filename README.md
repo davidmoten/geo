@@ -8,10 +8,10 @@ Status: **alpha**
 Features
 ----------
 
-* encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash()`)
-* decodes latitude, longitude from geohashes (`GeoHash.decodeHash()`)
-* finds adjacent hash in any direction (`GeoHash.adjacentHash()`)
-* finds all 8 adjacent hashes to a hash (`GeoHash.neighbours()`)
+* encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash`)
+* decodes latitude, longitude from geohashes (`GeoHash.decodeHash`)
+* finds adjacent hash in any direction (`GeoHash.adjacentHash`)
+* finds all 8 adjacent hashes to a hash (`GeoHash.neighbours`)
 * calculates hash length to enclose a bounding box (`GeoHash.hashLengthToEncloseBoundingBox`)
 * calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBox`)
 * calculates height and width of geohashes in degrees (`GeoHash.heightDegrees` and `GeoHash.widthDegrees`)
