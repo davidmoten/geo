@@ -8,21 +8,21 @@ package com.github.davidmoten.geo;
  * 
  */
 public enum Direction {
-	BOTTOM, TOP, LEFT, RIGHT;
+    BOTTOM, TOP, LEFT, RIGHT;
 
-	/**
-	 * Returns the opposite direction. For example LEFT.opposite() == RIGHT.
-	 * 
-	 * @return
-	 */
-	public Direction opposite() {
-		if (this == BOTTOM)
-			return TOP;
-		else if (this == TOP)
-			return BOTTOM;
-		else if (this == LEFT)
-			return RIGHT;
-		else
-			return LEFT;
-	}
+    /**
+     * Returns the opposite direction. For example LEFT.opposite() == RIGHT.
+     * 
+     * @return
+     */
+    public Direction opposite() {
+        if (this == BOTTOM)
+            return TOP;
+        else if (this == TOP)
+            return BOTTOM;
+        else if (this == LEFT)
+            return RIGHT;
+        else
+            return LEFT;
+    }
 }
