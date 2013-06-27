@@ -391,6 +391,13 @@ public class GeoHashTest {
 	}
 
 	@Test
+	public void testHashContainsNearLongitudeBoundary() {
+		String hash = encodeHash(-25, -179, 1);
+		assertFalse(GeoHash.hashContains(hash, -25, 179));
+		assertTrue(GeoHash.hashContains(hash, -25, -178));
+	}
+
+	@Test
 	public void testHashLengthToEncloseBoundingBoxReturns0IfBoxTooBig() {
 		assertEquals(0,
 				GeoHash.hashLengthToEncloseBoundingBox(80, -170, -80, 170));

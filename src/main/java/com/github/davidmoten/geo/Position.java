@@ -15,6 +15,7 @@ import com.google.common.base.Preconditions;
  * 
  */
 public class Position {
+
 	private final double lat;
 	private final double lon;
 	private final double altitudeMetres;
@@ -47,10 +48,20 @@ public class Position {
 		this.altitudeMetres = altitudeMetres;
 	}
 
+	/**
+	 * Returns the latitude in decimal degrees.
+	 * 
+	 * @return
+	 */
 	public final double getLat() {
 		return lat;
 	}
 
+	/**
+	 * Returns the longitude in decimal degrees.
+	 * 
+	 * @return
+	 */
 	public final double getLon() {
 		return lon;
 	}
@@ -93,11 +104,26 @@ public class Position {
 				Math.toDegrees(lon3Radians));
 	}
 
+	/**
+	 * Returns the value in decimal degrees of a DMS (degrees minutes seconds)
+	 * value.
+	 * 
+	 * @param degrees
+	 * @param minutes
+	 * @param seconds
+	 * @return
+	 */
 	public static double toDegrees(double degrees, double minutes,
 			double seconds) {
 		return degrees + minutes / 60.0 + seconds / 3600.0;
 	}
 
+	/**
+	 * Returns the square of d.
+	 * 
+	 * @param d
+	 * @return
+	 */
 	private double sqr(double d) {
 		return d * d;
 	}
@@ -173,6 +199,12 @@ public class Position {
 		return Math.abs(distance);
 	}
 
+	/**
+	 * Returns the Great Circle bearing to the given position from this.
+	 * 
+	 * @param position
+	 * @return
+	 */
 	public final double getBearingDegrees(Position position) {
 		double lat1 = Math.toRadians(lat);
 		double lat2 = Math.toRadians(position.lat);
@@ -237,6 +269,13 @@ public class Position {
 		return result;
 	}
 
+	/**
+	 * Returns a string representation of a longitude value in the format
+	 * 00.00[W|E]. For example -25.3 is 25.30W
+	 * 
+	 * @param lon
+	 * @return
+	 */
 	public static String toDegreesMinutesDecimalMinutesLongitude(double lon) {
 		long degrees = Math.round(Math.signum(lon) * Math.floor(Math.abs(lon)));
 		double remaining = Math.abs(lon - degrees);
@@ -247,6 +286,14 @@ public class Position {
 		return result;
 	}
 
+	/**
+	 * Returns the modulus of y/x. This is like % for integers but is for
+	 * doubles.
+	 * 
+	 * @param y
+	 * @param x
+	 * @return
+	 */
 	@VisibleForTesting
 	static double mod(double y, double x) {
 

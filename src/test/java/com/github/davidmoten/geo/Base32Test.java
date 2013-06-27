@@ -46,7 +46,7 @@ public class Base32Test {
 	}
 
 	@Test
-	public void testInstantiation() {
+	public void getCoverageOfConstructorAndCheckConstructorIsPrivate() {
 		TestingUtil.callConstructorAndCheckIsPrivate(Base32.class);
 	}
 

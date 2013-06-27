@@ -1,5 +1,7 @@
 package com.github.davidmoten.geo;
 
+import static com.github.davidmoten.geo.Position.to180;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -396,9 +398,8 @@ public final class GeoHash {
 	 */
 	public static boolean hashContains(String hash, double lat, double lon) {
 		LatLong centre = decodeHash(hash);
-		// TODO normalize longitudes?
 		return Math.abs(centre.getLat() - lat) <= heightDegrees(hash.length()) / 2
-				&& Math.abs(centre.getLon() - lon) <= widthDegrees(hash
+				&& Math.abs(to180(centre.getLon() - lon)) <= widthDegrees(hash
 						.length()) / 2;
 	}
 
@@ -511,38 +512,66 @@ public final class GeoHash {
 	 * @return
 	 */
 	public static double heightDegrees(int n) {
-		if (hashHeightCache[n - 1] == null) {
-			double a;
-			if (n % 2 == 0)
-				a = 0;
-			else
-				a = -0.5;
-			double result = 180 / Math.pow(2, 2.5 * n + a);
-			hashHeightCache[n - 1] = result;
-		}
-		return hashHeightCache[n - 1];
+		if (n > 0 && n <= MAX_HASH_LENGTH) {
+			if (hashHeightCache[n - 1] == null)
+				hashHeightCache[n - 1] = calculateHeightDegrees(n);
+			return hashHeightCache[n - 1];
+		} else
+			return calculateHeightDegrees(n);
+	}
+
+	/**
+	 * Returns the height in degrees of the region represented by a geohash of
+	 * length n.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	private static double calculateHeightDegrees(int n) {
+		double a;
+		if (n % 2 == 0)
+			a = 0;
+		else
+			a = -0.5;
+		double result = 180 / Math.pow(2, 2.5 * n + a);
+		return result;
 	}
 
 	private static Double[] hashWidthCache = new Double[MAX_HASH_LENGTH];
 
 	/**
 	 * Returns width in degrees of all geohashes of length n. Results are
-	 * deterministic and cached to increase performance.
+	 * deterministic and cached to increase performance (might be unnecessary,
+	 * have not benchmarked).
 	 * 
 	 * @param n
 	 * @return
 	 */
 	public synchronized static double widthDegrees(int n) {
-		if (hashWidthCache[n - 1] == null) {
-			double a;
-			if (n % 2 == 0)
-				a = -1;
-			else
-				a = -0.5;
-			double result = 180 / Math.pow(2, 2.5 * n + a);
-			hashWidthCache[n - 1] = result;
-		}
-		return hashWidthCache[n - 1];
+		if (n > 0 && n <= MAX_HASH_LENGTH) {
+			if (hashWidthCache[n - 1] == null) {
+				hashWidthCache[n - 1] = calculateWidthDegrees(n);
+			}
+			return hashWidthCache[n - 1];
+		} else
+			return calculateWidthDegrees(n);
+	}
+
+	/**
+	 * Returns the width in degrees of the region represented by a geohash of
+	 * length n.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	private static double calculateWidthDegrees(int n) {
+		double a;
+		if (n % 2 == 0)
+			a = -1;
+		else
+			a = -0.5;
+		double result = 180 / Math.pow(2, 2.5 * n + a);
+		return result;
 	}
 
 	/**

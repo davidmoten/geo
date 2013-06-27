@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
- <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<groupId>com.github.davidmoten</groupId>
 	<artifactId>geo</artifactId>
@@ -16,7 +16,7 @@
 	<name>${project.artifactId}</name>
 	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
 	<packaging>jar</packaging>
-	
+
 	<url>http://github.com/davidmoten/geo</url>
 
 	<properties>

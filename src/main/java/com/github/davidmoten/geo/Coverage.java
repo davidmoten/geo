@@ -26,7 +26,7 @@ public class Coverage {
 	}
 
 	/**
-	 * Returns the hashes.
+	 * Returns the hashes which are expected to be all of the same length.
 	 * 
 	 * @return
 	 */
@@ -46,6 +46,13 @@ public class Coverage {
 		return ratio;
 	}
 
+	/**
+	 * Returns the length in characters of the first hash returned by an
+	 * iterator on the hash set. All hashes should be of the same length in this
+	 * coverage.
+	 * 
+	 * @return
+	 */
 	public int getHashLength() {
 		if (hashes.size() == 0)
 			return 0;
