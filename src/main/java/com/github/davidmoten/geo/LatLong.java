@@ -1,7 +1,7 @@
 package com.github.davidmoten.geo;
 
 /**
- * A lat, long pair (WGS84).
+ * A lat, long pair (WGS84). Immutable.
  * 
  * @author dave
  * 

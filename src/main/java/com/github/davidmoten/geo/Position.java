@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * Encapsulates latitude, longitude and altitude. Provides great circle
- * navigation methods.
+ * navigation methods. Immutable.
  * 
  * @author dxm
  * 

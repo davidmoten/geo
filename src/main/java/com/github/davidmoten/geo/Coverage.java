@@ -4,6 +4,7 @@ import java.util.Set;
 
 /**
  * A set of hashes and a measure of how well those hashes cover a region.
+ * Immutable.
  * 
  * @author dave
  * 
