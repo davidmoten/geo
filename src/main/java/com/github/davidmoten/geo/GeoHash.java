@@ -24,6 +24,10 @@ import com.google.common.collect.Sets;
 public final class GeoHash {
 
     /**
+     * Default maximum number of hashes for covering a bounding box.
+     */
+    public static final int DEFAULT_MAX_HASHES = 12;
+    /**
      * Powers of 2 from 32 down to 1.
      */
     private static final int[] BITS = new int[] { 16, 8, 4, 2, 1 };
@@ -417,9 +421,8 @@ public final class GeoHash {
     }
 
     /**
-     * Returns the hashes that are required to cover the given bounding box.
-     * Hash length is chosen as the <i>maximum length for a single hash to cover
-     * the bounding box</i> + 1.
+     * Returns the result of coverBoundingBoxMaxHashes with a maxHashes value of
+     * {@link GeoHash}.DEFAULT_MAX_HASHES.
      * 
      * @param topLeftLat
      * @param topLeftLon
@@ -430,18 +433,17 @@ public final class GeoHash {
     public static Coverage coverBoundingBox(double topLeftLat,
             final double topLeftLon, final double bottomRightLat,
             final double bottomRightLon) {
-        int length = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon,
-                bottomRightLat, bottomRightLon) + 1;
-        return coverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,
-                bottomRightLon, length);
+
+        return coverBoundingBoxMaxHashes(topLeftLat, topLeftLon,
+                bottomRightLat, bottomRightLon, DEFAULT_MAX_HASHES);
     }
 
     /**
      * Returns the hashes that are required to cover the given bounding box. The
      * maximum length of hash is selected that satisfies the number of hashes
      * returned is less than <code>maxHashes</code>. Returns null if hashes
-     * cannot be found satisfying that condition. Maximum hash length used will
-     * be {@link GeoHash}.MAX_HASH_LENGTH.
+     * cannot be found satisfying that condition. Maximum hash length returned
+     * will be {@link GeoHash}.MAX_HASH_LENGTH.
      * 
      * @param topLeftLat
      * @param topLeftLon
@@ -454,7 +456,9 @@ public final class GeoHash {
             final double topLeftLon, final double bottomRightLat,
             final double bottomRightLon, int maxHashes) {
         Coverage coverage = null;
-        for (int length = 1; length <= MAX_HASH_LENGTH; length++) {
+        int startLength = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon,
+                bottomRightLat, bottomRightLon);
+        for (int length = startLength; length <= MAX_HASH_LENGTH; length++) {
             Coverage c = coverBoundingBox(topLeftLat, topLeftLon,
                     bottomRightLat, bottomRightLon, length);
             if (c.getHashes().size() > maxHashes)
