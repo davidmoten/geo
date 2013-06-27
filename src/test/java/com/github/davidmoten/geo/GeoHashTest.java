@@ -7,7 +7,7 @@ import static com.github.davidmoten.geo.GeoHash.coverBoundingBoxIncreaseLength;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.gridToString;
-import static com.github.davidmoten.geo.GeoHash.hashLengthToEncloseBoundingBox;
+import static com.github.davidmoten.geo.GeoHash.hashLengthToCoverBoundingBox;
 import static com.github.davidmoten.geo.GeoHash.heightDegrees;
 import static com.github.davidmoten.geo.GeoHash.left;
 import static com.github.davidmoten.geo.GeoHash.neighbours;
@@ -19,6 +19,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -320,7 +321,7 @@ public class GeoHashTest {
 
 	@Test
 	public void testEnclosingHashLengthAroundBoston() {
-		int length = hashLengthToEncloseBoundingBox(SCHENECTADY_LAT,
+		int length = hashLengthToCoverBoundingBox(SCHENECTADY_LAT,
 				SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON);
 		Set<String> hashes = coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON,
 				HARTFORD_LAT, HARTFORD_LON, length).getHashes();
@@ -395,8 +396,10 @@ public class GeoHashTest {
 	}
 
 	@Test
-	public void testMatrix() {
+	public void testGridToString() {
 		System.out.println(gridToString("dred", -5, -5, 5, 5));
+		System.out.println(gridToString("dr", 1,
+				Collections.<String> emptySet()));
 	}
 
 	@Test
@@ -420,6 +423,6 @@ public class GeoHashTest {
 	@Test
 	public void testHashLengthToEncloseBoundingBoxReturns0IfBoxTooBig() {
 		assertEquals(0,
-				GeoHash.hashLengthToEncloseBoundingBox(80, -170, -80, 170));
+				GeoHash.hashLengthToCoverBoundingBox(80, -170, -80, 170));
 	}
 }

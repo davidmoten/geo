@@ -140,7 +140,7 @@ public final class GeoHash {
 	}
 
 	/**
-	 * Returns the adjacent hash to the right.
+	 * Returns the adjacent hash to the right (east).
 	 * 
 	 * @param hash
 	 * @return
@@ -150,7 +150,7 @@ public final class GeoHash {
 	}
 
 	/**
-	 * Returns the adjacent hash to the left.
+	 * Returns the adjacent hash to the left (west).
 	 * 
 	 * @param hash
 	 * @return
@@ -160,7 +160,7 @@ public final class GeoHash {
 	}
 
 	/**
-	 * Returns the adjacent hash to the top.
+	 * Returns the adjacent hash to the top (north).
 	 * 
 	 * @param hash
 	 * @return
@@ -170,7 +170,7 @@ public final class GeoHash {
 	}
 
 	/**
-	 * Returns the adjacent hash to the bottom.
+	 * Returns the adjacent hash to the bottom (south).
 	 * 
 	 * @param hash
 	 * @return
@@ -368,7 +368,7 @@ public final class GeoHash {
 	}
 
 	/**
-	 * Returns the maximum length of hash that encloses the bounding box. If no
+	 * Returns the maximum length of hash that covers the bounding box. If no
 	 * hash can enclose the bounding box then 0 is returned.
 	 * 
 	 * @param topLeftLat
@@ -377,7 +377,7 @@ public final class GeoHash {
 	 * @param bottomRightLon
 	 * @return
 	 */
-	public static int hashLengthToEncloseBoundingBox(double topLeftLat,
+	public static int hashLengthToCoverBoundingBox(double topLeftLat,
 			double topLeftLon, double bottomRightLat, double bottomRightLon) {
 		for (int i = MAX_HASH_LENGTH; i >= 1; i--) {
 			String hash = encodeHash(topLeftLat, topLeftLon, i);
@@ -417,7 +417,7 @@ public final class GeoHash {
 	public static Coverage coverBoundingBox(double topLeftLat,
 			final double topLeftLon, final double bottomRightLat,
 			final double bottomRightLon) {
-		int length = hashLengthToEncloseBoundingBox(topLeftLat, topLeftLon,
+		int length = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon,
 				bottomRightLat, bottomRightLon) + 1;
 		return coverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,
 				bottomRightLon, length);
@@ -438,7 +438,7 @@ public final class GeoHash {
 	public static Coverage coverBoundingBoxIncreaseLength(double topLeftLat,
 			final double topLeftLon, final double bottomRightLat,
 			final double bottomRightLon, int lengthIncrease) {
-		int length = hashLengthToEncloseBoundingBox(topLeftLat, topLeftLon,
+		int length = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon,
 				bottomRightLat, bottomRightLon) + 1;
 		return coverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,
 				bottomRightLon, length + lengthIncrease);
@@ -575,9 +575,18 @@ public final class GeoHash {
 	}
 
 	/**
+	 * <p>
 	 * Returns a String of lines of hashes to represent the relative positions
 	 * of hashes on a map. The grid is of height and width 2*size centred around
-	 * the given hash. Highlighted hashes are displayed in upper case.
+	 * the given hash. Highlighted hashes are displayed in upper case. For
+	 * example, gridToString("dr",1,Collections.<String>emptySet()) returns:
+	 * </p>
+	 * 
+	 * <pre>
+	 * f0 f2 f8 
+	 * dp dr dx 
+	 * dn dq dw
+	 * </pre>
 	 * 
 	 * @param hash
 	 * @param size
@@ -615,7 +624,15 @@ public final class GeoHash {
 
 	/**
 	 * Returns a String of lines of hashes to represent the relative positions
-	 * of hashes on a map. Highlighted hashes are displayed in upper case.
+	 * of hashes on a map. Highlighted hashes are displayed in upper case. For
+	 * example, gridToString("dr",-1,-1,1,1,Sets.newHashSet("f2","f8")) returns:
+	 * </p>
+	 * 
+	 * <pre>
+	 * f0 F2 F8 
+	 * dp dr dx 
+	 * dn dq dw
+	 * </pre>
 	 * 
 	 * @param hash
 	 * @param fromRight
