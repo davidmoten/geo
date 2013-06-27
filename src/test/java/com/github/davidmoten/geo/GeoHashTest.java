@@ -375,6 +375,26 @@ public class GeoHashTest {
 	}
 
 	@Test
+	public void testHeightDegreesForLengthEqualsZero() {
+		assertEquals(180.0, heightDegrees(0), PRECISION);
+	}
+
+	@Test
+	public void testHeightDegreesForLengthGreaterThanMax() {
+		assertEquals(4.190951585769653e-8, heightDegrees(13), PRECISION);
+	}
+
+	@Test
+	public void testWidthDegreesForLengthEqualsZero() {
+		assertEquals(360.0, widthDegrees(0), PRECISION);
+	}
+
+	@Test
+	public void testWidthDegreesForLengthGreaterThanMax() {
+		assertEquals(4.190951585769653e-8, widthDegrees(13), PRECISION);
+	}
+
+	@Test
 	public void testMatrix() {
 		System.out.println(gridToString("dred", -5, -5, 5, 5));
 	}

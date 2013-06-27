@@ -511,7 +511,7 @@ public final class GeoHash {
 	 * @param n
 	 * @return
 	 */
-	public static double heightDegrees(int n) {
+	public synchronized static double heightDegrees(int n) {
 		if (n > 0 && n <= MAX_HASH_LENGTH) {
 			if (hashHeightCache[n - 1] == null)
 				hashHeightCache[n - 1] = calculateHeightDegrees(n);
