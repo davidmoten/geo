@@ -18,8 +18,21 @@ import com.github.davidmoten.geo.Coverage;
 import com.github.davidmoten.geo.GeoHash;
 import com.google.common.collect.Lists;
 
+/**
+ * Displays benchmarks using geohashing with an H2 database.
+ * 
+ * @author dave
+ * 
+ */
 public class DatabaseTest {
 
+	/**
+	 * Tests inserting records into an H2 file system database with geohashes
+	 * and display query times against this database under varying hash lengths.
+	 * 
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@Test
 	public void testCreateDatabaseInsertRecordsAndRunBenchmarkQueries()
 			throws IOException, SQLException {
