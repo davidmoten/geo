@@ -15,9 +15,7 @@ import com.google.common.collect.Sets;
 /**
  * <p>
  * Utility functions for <a
- * href="http://en.wikipedia.org/wiki/Geohash">geohashing</a>. Core hashing code
- * based on Dave Troy's javascript implementation <a
- * href="https://github.com/davetroy/geohash-js">here</a>.
+ * href="http://en.wikipedia.org/wiki/Geohash">geohashing</a>.
  * </p>
  * 
  * @author dxm
