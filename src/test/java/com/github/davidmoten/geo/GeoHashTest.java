@@ -3,7 +3,7 @@ package com.github.davidmoten.geo;
 import static com.github.davidmoten.geo.GeoHash.adjacentHash;
 import static com.github.davidmoten.geo.GeoHash.bottom;
 import static com.github.davidmoten.geo.GeoHash.coverBoundingBox;
-import static com.github.davidmoten.geo.GeoHash.coverBoundingBoxIncreaseLength;
+import static com.github.davidmoten.geo.GeoHash.coverBoundingBoxMaxHashes;
 import static com.github.davidmoten.geo.GeoHash.decodeHash;
 import static com.github.davidmoten.geo.GeoHash.encodeHash;
 import static com.github.davidmoten.geo.GeoHash.gridAsString;
@@ -16,6 +16,7 @@ import static com.github.davidmoten.geo.GeoHash.top;
 import static com.github.davidmoten.geo.GeoHash.widthDegrees;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -296,10 +297,26 @@ public class GeoHashTest {
     }
 
     @Test
-    public void testCoverBoundingBoxWithIncreasedHashLengthAroundBoston() {
-        Coverage coverage = coverBoundingBoxIncreaseLength(SCHENECTADY_LAT,
+    public void testCoverBoundingBoxWithMaxHashesThrowsException() {
+        Coverage coverage = coverBoundingBoxMaxHashes(SCHENECTADY_LAT,
+                SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 0);
+        assertNull(coverage);
+    }
+
+    @Test
+    public void testCoverBoundingBoxWithMaxHashesIsOne() {
+        Coverage coverage = coverBoundingBoxMaxHashes(SCHENECTADY_LAT,
                 SCHENECTADY_LON, HARTFORD_LAT, HARTFORD_LON, 1);
-        assertEquals(4, coverage.getHashLength());
+        assertEquals(1, coverage.getHashes().size());
+        assertEquals(2, coverage.getHashLength());
+    }
+
+    @Test
+    public void testCoverBoundingBoxWithMaxHashesReturnsMoreThanMax() {
+        Coverage coverage = coverBoundingBoxMaxHashes(SCHENECTADY_LAT,
+                SCHENECTADY_LON, SCHENECTADY_LAT - 0.000000001,
+                SCHENECTADY_LON + 0.000000001, Integer.MAX_VALUE);
+        assertEquals(GeoHash.MAX_HASH_LENGTH, coverage.getHashLength());
     }
 
     @Test
