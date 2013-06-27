@@ -1,13 +1,13 @@
 geo
 ===
 
-Java utility methods for creating and performing calculations with geohashes.
+Java utility methods for geohashing.
 
 Status: **alpha**
 
 Features
 ----------
-
+* simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash`)
 * decodes latitude, longitude from geohashes (`GeoHash.decodeHash`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash`)
@@ -16,7 +16,6 @@ Features
 * calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBox`)
 * calculates height and width of geohashes in degrees (`GeoHash.heightDegrees` and `GeoHash.widthDegrees`)
 * encodes and decodes `long` values from geohashes (`Base32.encodeBase32` and `Base32.decodeBase32`)
-* simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * good performance (~3 million `GeoHash.encodeHash` calls per second on an I7, single thread)
 * no mutable types exposed by api
 * threadsafe 
