@@ -124,9 +124,9 @@ public class DatabaseTest {
 		File dir = new File("target/db");
 		FileUtils.deleteDirectory(dir);
 		dir.mkdir();
-		String sql = IOUtils.toString(
+		String script = IOUtils.toString(
 				DatabaseTest.class.getResourceAsStream("/create.sql"), "UTF-8");
-		String[] commands = sql.split(";");
+		String[] commands = script.split(";");
 		String url = "jdbc:h2:file:target/db/test";
 		Connection con = DriverManager.getConnection(url, "sa", "");
 		for (String command : commands) {
