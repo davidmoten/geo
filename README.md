@@ -55,7 +55,7 @@ So how long should the hashes be that we try to cover the bounding box with? Thi
 
 Calling `GeoHash.coverBoundingBox` without just the bounding points and no additional parameters will return hashes of a length such that the number of hashes is as many as possible but less than or equal to `GeoHash.DEFAULT_MAX_HASHES` (12).
 
-You can explicitly control maxHashes by calling 'GeoHash.coverBoundingBoxMaxHashes'.
+You can explicitly control maxHashes by calling `GeoHash.coverBoundingBoxMaxHashes`.
 
 As a quick example, for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9):
 
