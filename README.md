@@ -77,7 +77,7 @@ Only testing against your database and your preferrably real life data will dete
 
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
-###Hash height and width formulae
+###Hash height and width formulas
 This is the relationship between a hash of length n and its height and width in degrees:
 
 First define this function:
