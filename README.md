@@ -5,7 +5,7 @@ Java utility methods for geohashing.
 
 Status: *production*
 
-To use, add this to your pom:
+Add this to your pom:
 
     <dependency>
         <groupId>com.github.davidmoten</groupId>
