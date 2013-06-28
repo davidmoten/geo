@@ -9,7 +9,7 @@ Add this to your pom:
 
     <dependency>
         <groupId>com.github.davidmoten</groupId>
-        <artifactI>geo</artifactId>
+        <artifactId>geo</artifactId>
         <version>0.5</version>
     </dependency>
 
