@@ -13,7 +13,7 @@
 	<version>0.5</version>
 
 	<name>${project.artifactId}</name>
-	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
+	<description>Geohash encoding and decoding utilities including bounding box coverage. </description>
 	<packaging>jar</packaging>
 
 	<url>http://github.com/davidmoten/geo</url>
