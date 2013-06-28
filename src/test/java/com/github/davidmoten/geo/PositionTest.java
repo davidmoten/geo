@@ -15,6 +15,12 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Unit tests of {@link Position}.
+ * 
+ * @author dave
+ * 
+ */
 public class PositionTest {
 
     private static final int ACCEPTABLE_DISTANCE_PRECISION = 3;

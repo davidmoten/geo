@@ -18,7 +18,7 @@ import com.google.common.collect.Sets;
  * href="http://en.wikipedia.org/wiki/Geohash">geohashing</a>.
  * </p>
  * 
- * @author dxm
+ * @author dave
  * 
  */
 public final class GeoHash {

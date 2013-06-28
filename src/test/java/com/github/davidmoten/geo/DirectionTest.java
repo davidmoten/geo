@@ -4,6 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Unit tests for {@link Direction}.
+ * 
+ * @author dave
+ * 
+ */
 public class DirectionTest {
 
     @Test

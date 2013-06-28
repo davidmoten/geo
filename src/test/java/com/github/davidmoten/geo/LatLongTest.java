@@ -4,6 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Unit tests for {@link LatLong}.
+ * 
+ * @author dave
+ * 
+ */
 public class LatLongTest {
 
     @Test

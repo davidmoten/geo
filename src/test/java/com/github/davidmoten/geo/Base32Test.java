@@ -6,6 +6,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Unit tests for {@link Base32}.
+ * 
+ * @author dave
+ * 
+ */
 public class Base32Test {
 
     @Test

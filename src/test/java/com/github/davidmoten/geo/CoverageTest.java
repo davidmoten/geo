@@ -6,6 +6,12 @@ import org.junit.Test;
 
 import com.google.common.collect.Sets;
 
+/**
+ * Unit tests for {@link Coverage}.
+ * 
+ * @author dave
+ * 
+ */
 public class CoverageTest {
 
     @Test

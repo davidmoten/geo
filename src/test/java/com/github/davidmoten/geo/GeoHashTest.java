@@ -28,6 +28,12 @@ import org.junit.Test;
 
 import com.google.common.collect.Sets;
 
+/**
+ * Unit tests for {@link GeoHash}.
+ * 
+ * @author dave
+ * 
+ */
 public class GeoHashTest {
 
     private static final double HARTFORD_LON = -72.727175;
