@@ -51,21 +51,11 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
 
 ###What hash length to use?
-So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. If you could boil things down to a *representative* use case I would suggest that a *reasonable* length of geohash to use to cover a bounding box is:
+So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. 
 
-```
- LBB + 1
-```
-where
-```
- LBB = the maximum length of hash to completely cover the bounding box with one hash
-```
+Calling `GeoHash.coverBoundingBox` without just the bounding points and no additional parameters will return hashes of a length such that the number of hashes is as many as possible but less than or equal to GeoHash.DEFAULT_MAX_HASHES (12).
 
-Calling `GeoHash.coverBoundingBox` without a hash length parameter will use the hash length `LBB + 1`.
-
-Increasing this value by 1 or 2 should be considered if benchmarking indicates an advantage.
-
-Calling `GeoHash.coverBoundingBoxIncreaseLength` with an `increase` parameter will use hash length `LBB + 1 + increase`.
+You can explicitly control maxHashes by calling 'GeoHash.coverBoundingBoxMaxHashes'.
 
 As a quick example, for a bounding box proportioned more a less like a [screen with Schenectady NY and Hartford CT in USA at the corners](https://maps.google.com.au/maps?q=schenectady+to+hartford&saddr=schenectady&daddr=hartford&hl=en&ll=42.287469,-73.265076&spn=1.692503,2.37854&sll=42.37072,-73.262329&sspn=1.690265,2.37854&geocode=FSNLjQIdj8WX-yml-HU1_W3eiTF6shJvjXCyGQ%3BFX9DfQId2-mq-ymlURHyEVPmiTGZWX3pqEqOzA&gl=au&t=m&z=9):
 
@@ -77,14 +67,13 @@ Here are the hash counts for different hash lengths:
 length  numHashes m/a    
 1       1         1694   
 2       1         53     
-3*      4         6.6    
+3      4         6.6    
 4       30        1.6    
 5       667       1.08   
 6       20227     1.02   
 ```
-The starred line corresponds to the hash length suggested above and corresponds to the lowest value of `n*m/a`.
 
-The recommended hash length for this example is `LBB + 1 = 3`. Increasing to `LBB + 2`,`LBB + 3`,or even `LBB + 4` may be advantageous depending on your situation. Run tests!  
+Only testing against your database and your preferrably real life data will determine what the optimal maxHashes value is. In the benchmarks section below a test with H2 database found that optimal query time was when maxHashes is about 700. I doubt that this would be the case for many other databases. 
 
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
