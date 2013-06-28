@@ -3,7 +3,13 @@ geo
 
 Java utility methods for geohashing.
 
-Status: **alpha**
+Status: version 0.5 released to Maven Central
+
+    <dependency>
+        <groupId>com.github.davidmoten</groupId>
+        <artifactI>geo</artifactId>
+        <version>0.5</version>
+    </dependency>
 
 Features
 ----------
