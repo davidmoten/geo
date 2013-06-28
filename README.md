@@ -77,6 +77,21 @@ Only testing against your database and your preferrably real life data will dete
 
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
+###Hash height and width formulae
+This is the relationship between a hash of length n and its height and width in degrees:
+
+First define this function:
+
+&nbsp;&nbsp;&nbsp;&nbsp;parity(n) = 0 if n is even otherwise 1
+
+Then
+
+&nbsp;&nbsp;&nbsp;&nbsp;width = 180 / 2<sup>(5n-parity(n)-1)/2</sup>
+
+&nbsp;&nbsp;&nbsp;&nbsp;height = 180 / 2<sup>(5n-parity(n))/2</sup>
+
+The height and width in kilometres will be dependent on what part of the earth the hash is on and can be calculated using `Position.getDistanceToKm`.
+
 ###Benchmarks
 Inserted 10,000,000 records into an embedded H2 filesystem database which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
 
