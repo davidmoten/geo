@@ -86,9 +86,9 @@ First define this function:
 
 Then
 
-&nbsp;&nbsp;&nbsp;&nbsp;width = 180 / 2<sup>(5n-parity(n)-1)/2</sup>
+&nbsp;&nbsp;&nbsp;&nbsp;width = 180 / 2<sup>(5n-parity(n)-1)/2</sup> degrees
 
-&nbsp;&nbsp;&nbsp;&nbsp;height = 180 / 2<sup>(5n-parity(n))/2</sup>
+&nbsp;&nbsp;&nbsp;&nbsp;height = 180 / 2<sup>(5n-parity(n))/2</sup> degrees
 
 The height and width in kilometres will be dependent on what part of the earth the hash is on and can be calculated using `Position.getDistanceToKm`.
 
