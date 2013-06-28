@@ -72,9 +72,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://github.com:davidmoten/geo.git</connection>
-		<developerConnection>scm:git:https://github.com:davidmoten/geo.git</developerConnection>
-		<url>https://github.com/davidmoten/geo.git</url>
+		<connection>scm:git:git@github.com:davidmoten/geo.git</connection>
+		<developerConnection>scm:git:git@github.com:davidmoten/geo.git</developerConnection>
+		<url>scm:git:git@github.com:davidmoten/geo.git</url>
 	</scm>
 
 	<dependencies>
