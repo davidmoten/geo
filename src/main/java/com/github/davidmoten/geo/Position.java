@@ -11,7 +11,7 @@ import com.google.common.base.Preconditions;
  * Encapsulates latitude, longitude and altitude. Provides great circle
  * navigation methods. Immutable.
  * 
- * @author dxm
+ * @author dave
  * 
  */
 public class Position {
