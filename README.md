@@ -3,7 +3,9 @@ geo
 
 Java utility methods for geohashing.
 
-Status: version 0.5 released to Maven Central
+Status: *production*
+
+To use, add this to your pom:
 
     <dependency>
         <groupId>com.github.davidmoten</groupId>
