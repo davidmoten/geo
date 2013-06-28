@@ -29,6 +29,7 @@ Features
 * threadsafe 
 * 100% [unit test coverage](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/cobertura/index.html) (for what that's worth of course!)
 * Apache 2.0 licence
+* Published to Maven Central
 
 Bounding box searches using geohashing
 ---------------------------------------
