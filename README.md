@@ -62,7 +62,7 @@ The last step is necessary because the set of geohashes contains the bounding bo
 ###What hash length to use?
 So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. 
 
-Calling `GeoHash.coverBoundingBox` without just the bounding points and no additional parameters will return hashes of a length such that the number of hashes is as many as possible but less than or equal to `GeoHash.DEFAULT_MAX_HASHES` (12).
+Calling `GeoHash.coverBoundingBox` with just the bounding points and no additional parameters will return hashes of a length such that the number of hashes is as many as possible but less than or equal to `GeoHash.DEFAULT_MAX_HASHES` (12).
 
 You can explicitly control maxHashes by calling `GeoHash.coverBoundingBoxMaxHashes`.
 
