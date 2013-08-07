@@ -2,3 +2,5 @@
 .classpath
 .settings
 target
+/geo.iml
+/.idea
