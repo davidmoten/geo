@@ -8,8 +8,8 @@ package com.github.davidmoten.geo;
  */
 public class LatLong {
 
-    private final double lat;
-    private final double lon;
+    private final double lat; // [-90;90]
+    private final double lon; // [-180;180]
 
     /**
      * Constructor.

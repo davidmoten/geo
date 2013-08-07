@@ -127,22 +127,41 @@ public final class GeoHash {
     /**
      * Returns the adjacent hash in given {@link Direction}. Based on
      * https://github.com/davetroy/geohash-js/blob/master/geohash.js.
-     * 
+     *
      * @param hash
      * @param direction
      * @return
      */
     public static String adjacentHash(String hash, Direction direction) {
-        checkHash(hash);
-        String source = hash.toLowerCase();
-        char lastChar = source.charAt(source.length() - 1);
-        Parity parity = (source.length() % 2 == 0) ? Parity.EVEN : Parity.ODD;
-        String base = source.substring(0, source.length() - 1);
-        if (BORDERS.get(direction).get(parity).indexOf(lastChar) != -1)
-            base = adjacentHash(base, direction);
-        return base
-                + BASE32.charAt(NEIGHBOURS.get(direction).get(parity)
-                        .indexOf(lastChar));
+        return adjacentHash(hash, direction, true);
+    }
+
+    /**
+     * Returns the adjacent hash in given {@link Direction}. Based on
+     * https://github.com/davetroy/geohash-js/blob/master/geohash.js.
+     * 
+     * @param hash
+     * @param direction
+     * @param throwException true if must throw an exception if direction can't be apply.
+     * @return null if direction can't be apply for this hash and throwException is false.
+     */
+    private static String adjacentHash(String hash, Direction direction, boolean throwException) {
+        if(checkHash(hash, throwException)) {
+            String source = hash.toLowerCase();
+            char lastChar = source.charAt(source.length() - 1);
+            Parity parity = (source.length() % 2 == 0) ? Parity.EVEN : Parity.ODD;
+            String base = source.substring(0, source.length() - 1);
+            if (BORDERS.get(direction).get(parity).indexOf(lastChar) != -1) {
+                base = adjacentHash(base, direction, throwException);
+                if(base == null) {
+                  return null;
+                }
+            }
+            return base
+                    + BASE32.charAt(NEIGHBOURS.get(direction).get(parity)
+                            .indexOf(lastChar));
+        }
+        return null;
     }
 
     /**
@@ -150,10 +169,15 @@ public final class GeoHash {
      * null or blank.
      * 
      * @param hash
+     * @param throwException if hash is not good.
      */
-    private static void checkHash(String hash) {
-        Preconditions.checkArgument(hash != null && hash.length() > 0,
+    private static boolean checkHash(String hash, boolean throwException) {
+        boolean good = hash != null && hash.length() > 0;
+        if(throwException) {
+            Preconditions.checkArgument(good,
                 "hash must be non-null of length>1");
+        }
+        return good;
     }
 
     /**
@@ -220,23 +244,69 @@ public final class GeoHash {
     /**
      * Returns a list of the 8 surrounding hashes for a given hash in order
      * left,right,top,bottom,left-top,left-bottom,right-top,right-bottom.
-     * 
+     *
      * @param hash
      * @return
      */
     public static List<String> neighbours(String hash) {
+        return neighbours(hash, true);
+    }
+
+    /**
+     * Returns a list of the X surrounding hashes for a given hash in order
+     * left,right,top,bottom,left-top,left-bottom,right-top,right-bottom.
+     * 
+     * @param hash
+     * @param throwException throw exception if error, return less result if not
+     * @return
+     */
+    public static List<String> neighbours(String hash, boolean throwException) {
         List<String> list = Lists.newArrayList();
-        String left = adjacentHash(hash, Direction.LEFT);
-        String right = adjacentHash(hash, Direction.RIGHT);
-        list.add(left);
-        list.add(right);
-        list.add(adjacentHash(hash, Direction.TOP));
-        list.add(adjacentHash(hash, Direction.BOTTOM));
-        list.add(adjacentHash(left, Direction.TOP));
-        list.add(adjacentHash(left, Direction.BOTTOM));
-        list.add(adjacentHash(right, Direction.TOP));
-        list.add(adjacentHash(right, Direction.BOTTOM));
+        String left = adjacentHash(hash, Direction.LEFT, throwException);
+        String right = adjacentHash(hash, Direction.RIGHT, throwException);
+        String top = adjacentHash(hash, Direction.TOP, throwException);
+        String bottom = adjacentHash(hash, Direction.BOTTOM, throwException);
+        String leftTop = null;
+        String leftBottom = null;
+        String rightTop = null;
+        String rightBottom = null;
+        if(addIfNotNull(list, left)) {
+            if(top != null) {
+                leftTop = adjacentHash(left, Direction.TOP, throwException);
+            }
+            if(bottom != null) {
+                leftBottom = adjacentHash(left, Direction.BOTTOM, throwException);
+            }
+        }
+        if(addIfNotNull(list, right)) {
+            if(top != null) {
+                rightTop = adjacentHash(right, Direction.TOP, throwException);
+            }
+            if(bottom != null) {
+                rightBottom = adjacentHash(right, Direction.BOTTOM, throwException);
+            }
+        }
+        addIfNotNull(list, top);
+        addIfNotNull(list, bottom);
+        addIfNotNull(list, leftTop);
+        addIfNotNull(list, leftBottom);
+        addIfNotNull(list, rightTop);
+        addIfNotNull(list, rightBottom);
         return list;
+    }
+
+    /**
+     * Add into list if hash is not null.
+     * @param list
+     * @param hash
+     * @return true if added.
+     */
+    private static boolean addIfNotNull(List<String> list, String hash) {
+        if(hash != null) {
+           list.add(hash);
+           return true;
+        }
+        return false;
     }
 
     /**
@@ -250,7 +320,7 @@ public final class GeoHash {
      * @return
      */
     public static String encodeHash(double latitude, double longitude) {
-        return encodeHash(latitude, longitude, 12);
+        return encodeHash(latitude, longitude, DEFAULT_MAX_HASHES);
     }
 
     /**
@@ -262,6 +332,16 @@ public final class GeoHash {
      */
     public static String encodeHash(LatLong p, int length) {
         return encodeHash(p.getLat(), p.getLon(), length);
+    }
+
+    /**
+     * Returns a geohash for the given WGS84 point.
+     *
+     * @param p
+     * @return
+     */
+    public static String encodeHash(LatLong p) {
+        return encodeHash(p, DEFAULT_MAX_HASHES);
     }
 
     /**
