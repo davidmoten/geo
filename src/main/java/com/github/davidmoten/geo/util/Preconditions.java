@@ -5,18 +5,48 @@ package com.github.davidmoten.geo.util;
  */
 public final class Preconditions {
 
+    /**
+     * Constructor, private to prevent instantiation.
+     */
     private Preconditions() {
+        // do nothing
     }
 
-    public static void checkArgument(boolean b, String s) {
-       if (!b) {
-          throw new IllegalArgumentException(s);
+    /**
+     * Ensures the truth of an expression involving one or more parameters to
+     * the calling method.
+     * 
+     * @param expression
+     *            a boolean expression
+     * @param errorMessage
+     *            the exception message to use if the check fails; will be
+     *            converted to a string using {@link String#valueOf(Object)}
+     * @throws IllegalArgumentException
+     *             if {@code expression} is false
+     */
+    public static void checkArgument(boolean expression, Object errorMessage) {
+        if (!expression) {
+            throw new IllegalArgumentException(String.valueOf(errorMessage));
         }
     }
 
-    public static void checkNotNull(Object object, String s) {
-        if (object == null) {
-            throw new NullPointerException(s);
+    /**
+     * Ensures that an object reference passed as a parameter to the calling
+     * method is not null.
+     * 
+     * @param reference
+     *            an object reference
+     * @param errorMessage
+     *            the exception message to use if the check fails; will be
+     *            converted to a string using {@link String#valueOf(Object)}
+     * @return the non-null reference that was validated
+     * @throws NullPointerException
+     *             if {@code reference} is null
+     */
+    public static <T> T checkNotNull(T reference, Object errorMessage) {
+        if (reference == null) {
+            throw new NullPointerException(String.valueOf(errorMessage));
         }
+        return reference;
     }
 }
