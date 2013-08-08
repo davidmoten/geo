@@ -134,6 +134,10 @@ public final class GeoHash {
      */
     public static String adjacentHash(String hash, Direction direction) {
         checkHash(hash);
+        Preconditions
+                .checkArgument(hash.length() > 0,
+                        "adjacent has no meaning for a zero length hash that covers the whole world");
+
         String source = hash.toLowerCase();
         char lastChar = source.charAt(source.length() - 1);
         Parity parity = (source.length() % 2 == 0) ? Parity.EVEN : Parity.ODD;
@@ -152,8 +156,7 @@ public final class GeoHash {
      * @param hash
      */
     private static void checkHash(String hash) {
-        Preconditions.checkArgument(hash != null && hash.length() > 0,
-                "hash must be non-null of length>0");
+        Preconditions.checkArgument(hash != null, "hash must be non-null");
     }
 
     /**
