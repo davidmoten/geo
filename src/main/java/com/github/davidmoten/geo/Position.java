@@ -1,12 +1,12 @@
 package com.github.davidmoten.geo;
 
-import com.github.davidmoten.geo.util.Preconditions;
-import com.github.davidmoten.geo.util.VisibleForTesting;
 import java.awt.Polygon;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
+
+import com.github.davidmoten.geo.util.Preconditions;
 
 /**
  * Encapsulates latitude, longitude and altitude. Provides great circle
@@ -317,7 +317,7 @@ public class Position {
      * @param x
      * @return
      */
-    @VisibleForTesting
+    // @VisibleForTesting
     static double mod(double y, double x) {
 
         x = Math.abs(x);

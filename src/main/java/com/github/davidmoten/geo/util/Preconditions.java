@@ -14,8 +14,8 @@ public final class Preconditions {
         }
     }
 
-    public static void checkNotNull(Object nullable, String s) {
-        if (nullable == null) {
+    public static void checkNotNull(Object object, String s) {
+        if (object == null) {
             throw new NullPointerException(s);
         }
     }

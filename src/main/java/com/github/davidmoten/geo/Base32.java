@@ -1,6 +1,5 @@
 package com.github.davidmoten.geo;
 
-import com.github.davidmoten.geo.util.VisibleForTesting;
 import java.util.HashMap;
 
 /**
@@ -87,7 +86,7 @@ public final class Base32 {
 	 * @param ch
 	 * @return
 	 */
-	@VisibleForTesting
+	// @VisibleForTesting
 	static int getCharIndex(char ch) {
 		Integer result = characterIndexes.get(ch);
 		if (result == null)
