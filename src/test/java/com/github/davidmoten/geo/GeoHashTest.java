@@ -448,4 +448,24 @@ public class GeoHashTest {
         assertEquals(0,
                 GeoHash.hashLengthToCoverBoundingBox(80, -170, -80, 170));
     }
+
+    @Test
+    public void testNeighboursOnLimits() {
+        LatLong latLong = new LatLong(-90, 0);
+        assertEquals(Arrays.asList("5bpbpbpbpbp8", "h00000000000",
+                "5bpbpbpbpbpc", "5bpbpbpbpbp9", "h00000000001"),
+                GeoHash.neighbours(GeoHash.encodeHash(latLong), false));
+        latLong = new LatLong(90, 0);
+        assertEquals(Arrays.asList("gzzzzzzzzzzx", "upbpbpbpbpbp",
+                "gzzzzzzzzzzy", "gzzzzzzzzzzw", "upbpbpbpbpbn"),
+                GeoHash.neighbours(encodeHash(latLong), false));
+        latLong = new LatLong(0, -180);
+        assertEquals(Arrays.asList("2pbpbpbpbpbr", "800000000000",
+                "2pbpbpbpbpbn", "800000000002", "2pbpbpbpbpbq"),
+                GeoHash.neighbours(encodeHash(latLong), false));
+        latLong = new LatLong(0, 180);
+        assertEquals(Arrays.asList("rzzzzzzzzzzx", "xbpbpbpbpbpb",
+                "rzzzzzzzzzzy", "xbpbpbpbpbp8", "rzzzzzzzzzzw"),
+                GeoHash.neighbours(encodeHash(latLong), false));
+    }
 }

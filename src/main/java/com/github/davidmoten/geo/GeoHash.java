@@ -240,8 +240,8 @@ public final class GeoHash {
     }
 
     /**
-     * Returns a geohash of length 12 for the given WGS84 point
-     * (latitude,longitude).
+     * Returns a geohash of length DEFAULT_MAX_HASHES (12) for the given WGS84
+     * point (latitude,longitude).
      * 
      * @param latitude
      *            in decimal degrees (WGS84)
@@ -262,6 +262,18 @@ public final class GeoHash {
      */
     public static String encodeHash(LatLong p, int length) {
         return encodeHash(p.getLat(), p.getLon(), length);
+    }
+
+    /**
+     * Returns a geohash of of length DEFAULT_MAX_HASHES (12) for the given
+     * WGS84 point.
+     * 
+     * @param p
+     * @param length
+     * @return
+     */
+    public static String encodeHash(LatLong p) {
+        return encodeHash(p.getLat(), p.getLon(), DEFAULT_MAX_HASHES);
     }
 
     /**
