@@ -153,7 +153,7 @@ public final class GeoHash {
      */
     private static void checkHash(String hash) {
         Preconditions.checkArgument(hash != null && hash.length() > 0,
-                "hash must be non-null of length>1");
+                "hash must be non-null of length>0");
     }
 
     /**
