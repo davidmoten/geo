@@ -1,13 +1,12 @@
 package com.github.davidmoten.geo;
 
+import com.github.davidmoten.geo.util.Preconditions;
+import com.github.davidmoten.geo.util.VisibleForTesting;
 import java.awt.Polygon;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 
 /**
  * Encapsulates latitude, longitude and altitude. Provides great circle

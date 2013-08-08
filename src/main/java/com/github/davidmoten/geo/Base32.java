@@ -1,8 +1,7 @@
 package com.github.davidmoten.geo;
 
+import com.github.davidmoten.geo.util.VisibleForTesting;
 import java.util.HashMap;
-
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Conversion methods between long values and geohash-style base 32 encoding.
