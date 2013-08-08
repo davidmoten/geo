@@ -2,10 +2,12 @@ package com.github.davidmoten.geo;
 
 import java.awt.Polygon;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import java.util.Locale;
 
 /**
  * Encapsulates latitude, longitude and altitude. Provides great circle
@@ -280,13 +282,16 @@ public class Position {
 		long degrees = Math.round(Math.signum(lat) * Math.floor(Math.abs(lat)));
 		double remaining = Math.abs(lat - degrees);
 		remaining *= 60;
+
+    DecimalFormat numberFormat = createDecimalFormat();
+
 		String result = Math.abs(degrees) + "" + (char) 0x00B0
-				+ new DecimalFormat("00.00").format(remaining) + "'"
+				+ numberFormat.format(remaining) + "'"
 				+ (lat < 0 ? "S" : "N");
 		return result;
 	}
 
-	/**
+  /**
 	 * Returns a string representation of a longitude value in the format
 	 * 00.00[W|E]. For example -25.3 is 25.30W
 	 * 
@@ -297,8 +302,9 @@ public class Position {
 		long degrees = Math.round(Math.signum(lon) * Math.floor(Math.abs(lon)));
 		double remaining = Math.abs(lon - degrees);
 		remaining *= 60;
+    DecimalFormat numberFormat = createDecimalFormat();
 		String result = Math.abs(degrees) + "" + (char) 0x00B0
-				+ new DecimalFormat("00.00").format(remaining) + "'"
+				+ numberFormat.format(remaining) + "'"
 				+ (lon < 0 ? "W" : "E");
 		return result;
 	}
@@ -523,4 +529,10 @@ public class Position {
 				return d;
 		}
 	}
+
+  private static DecimalFormat createDecimalFormat() {
+    DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+    return new DecimalFormat("00.00", otherSymbols);
+  }
+
 }
