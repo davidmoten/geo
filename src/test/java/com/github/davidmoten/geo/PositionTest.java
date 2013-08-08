@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -217,6 +218,30 @@ public class PositionTest {
                 Position.toDegreesMinutesDecimalMinutesLongitude(1.0));
         Assert.assertEquals("1" + d + "00.00" + m + "W",
                 Position.toDegreesMinutesDecimalMinutesLongitude(-1.0));
+    }
+
+    @Test
+    public final void testLatLonPresentationForLocaleFranceLatitude() {
+        char d = 0x00B0;
+        char m = '\'';
+
+        Locale locale = Locale.getDefault();
+        Locale.setDefault(Locale.FRENCH);
+        String s = Position.toDegreesMinutesDecimalMinutesLatitude(-25.5);
+        Locale.setDefault(locale);
+        Assert.assertEquals("25" + d + "30.00" + m + "S", s);
+    }
+
+    @Test
+    public final void testLatLonPresentationForLocaleFranceLongitude() {
+        char d = 0x00B0;
+        char m = '\'';
+
+        Locale locale = Locale.getDefault();
+        Locale.setDefault(Locale.FRENCH);
+        String s = Position.toDegreesMinutesDecimalMinutesLongitude(67.5);
+        Locale.setDefault(locale);
+        Assert.assertEquals("67" + d + "30.00" + m + "E", s);
     }
 
     @Test
@@ -809,4 +834,5 @@ public class PositionTest {
         assertEquals(10, longitudeDiff(-175, 175), PRECISION);
         assertEquals(350, longitudeDiff(175, -175), PRECISION);
     }
+
 }
