@@ -2,15 +2,14 @@ package com.github.davidmoten.geo;
 
 import static com.github.davidmoten.geo.Position.to180;
 
+import com.github.davidmoten.geo.util.Maps;
+import com.github.davidmoten.geo.util.Preconditions;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import java.util.TreeSet;
 
 /**
  * <p>
@@ -228,7 +227,7 @@ public final class GeoHash {
      * @return
      */
     public static List<String> neighbours(String hash) {
-        List<String> list = Lists.newArrayList();
+        List<String> list = new ArrayList<String>();
         String left = adjacentHash(hash, Direction.LEFT);
         String right = adjacentHash(hash, Direction.RIGHT);
         list.add(left);
@@ -272,7 +271,6 @@ public final class GeoHash {
      * WGS84 point.
      * 
      * @param p
-     * @param length
      * @return
      */
     public static String encodeHash(LatLong p) {
@@ -503,7 +501,7 @@ public final class GeoHash {
         final double actualWidthDegreesPerHash = widthDegrees(length);
         final double actualHeightDegreesPerHash = heightDegrees(length);
 
-        Set<String> hashes = Sets.newTreeSet();
+        Set<String> hashes = new TreeSet<String>();
         double diff = Position.longitudeDiff(bottomRightLon, topLeftLon);
         double maxLon = topLeftLon + diff;
 
