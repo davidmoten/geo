@@ -250,7 +250,7 @@ public final class GeoHash {
      * @return
      */
     public static String encodeHash(double latitude, double longitude) {
-        return encodeHash(latitude, longitude, 12);
+        return encodeHash(latitude, longitude, DEFAULT_MAX_HASHES);
     }
 
     /**
