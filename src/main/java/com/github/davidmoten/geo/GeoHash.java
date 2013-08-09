@@ -131,7 +131,9 @@ public final class GeoHash {
 
     /**
      * Returns the adjacent hash in given {@link Direction}. Based on
-     * https://github.com/davetroy/geohash-js/blob/master/geohash.js.
+     * https://github.com/davetroy/geohash-js/blob/master/geohash.js. This
+     * method is an improvement on the original js method because it works at
+     * borders too (at the poles and the -180,180 longitude boundaries).
      * 
      * @param hash
      * @param direction
@@ -143,38 +145,9 @@ public final class GeoHash {
                 .checkArgument(hash.length() > 0,
                         "adjacent has no meaning for a zero length hash that covers the whole world");
 
-        // check if hash is on edge and direction would push us over the edge
-        // if so, wrap round to the other limit for longitude
-        // or if at latitude boundary (a pole) then spin longitude around 180
-        // degrees.
-        LatLong centre = decodeHash(hash);
-
-        // if rightmost hash
-        if (Direction.RIGHT.equals(direction)
-                && Math.abs(centre.getLon() + widthDegrees(hash.length()) / 2
-                        - 180) < PRECISION) {
-            return encodeHash(centre.getLat(), -180, hash.length());
-        }
-        // if leftmost hash
-        if (Direction.LEFT.equals(direction)
-                && Math.abs(centre.getLon() - widthDegrees(hash.length()) / 2
-                        + 180) < PRECISION) {
-            return encodeHash(centre.getLat(), 180, hash.length());
-        }
-        // if topmost hash
-        if (Direction.TOP.equals(direction)
-                && Math.abs(centre.getLat() + widthDegrees(hash.length()) / 2
-                        - 90) < PRECISION) {
-            return encodeHash(centre.getLat(), centre.getLon() + 180,
-                    hash.length());
-        }
-        // if bottommost hash
-        if (Direction.BOTTOM.equals(direction)
-                && Math.abs(centre.getLat() - widthDegrees(hash.length()) / 2
-                        + 90) < PRECISION) {
-            return encodeHash(centre.getLat(), centre.getLon() + 180,
-                    hash.length());
-        }
+        String adjacentHashAtBorder = adjacentHashAtBorder(hash, direction);
+        if (adjacentHashAtBorder != null)
+            return adjacentHashAtBorder;
 
         String source = hash.toLowerCase();
         char lastChar = source.charAt(source.length() - 1);
@@ -185,6 +158,45 @@ public final class GeoHash {
         return base
                 + BASE32.charAt(NEIGHBOURS.get(direction).get(parity)
                         .indexOf(lastChar));
+    }
+
+    private static String adjacentHashAtBorder(String hash, Direction direction) {
+        // check if hash is on edge and direction would push us over the edge
+        // if so, wrap round to the other limit for longitude
+        // or if at latitude boundary (a pole) then spin longitude around 180
+        // degrees.
+        LatLong centre = decodeHash(hash);
+
+        // if rightmost hash
+        if (Direction.RIGHT.equals(direction)) {
+            if (Math.abs(centre.getLon() + widthDegrees(hash.length()) / 2
+                    - 180) < PRECISION) {
+                return encodeHash(centre.getLat(), -180, hash.length());
+            }
+        }
+        // if leftmost hash
+        else if (Direction.LEFT.equals(direction)) {
+            if (Math.abs(centre.getLon() - widthDegrees(hash.length()) / 2
+                    + 180) < PRECISION) {
+                return encodeHash(centre.getLat(), 180, hash.length());
+            }
+        }
+        // if topmost hash
+        else if (Direction.TOP.equals(direction)) {
+            if (Math.abs(centre.getLat() + widthDegrees(hash.length()) / 2 - 90) < PRECISION) {
+                return encodeHash(centre.getLat(), centre.getLon() + 180,
+                        hash.length());
+            }
+        }
+        // if bottommost hash
+        else if (Direction.BOTTOM.equals(direction)) {
+            if (Math.abs(centre.getLat() - widthDegrees(hash.length()) / 2 + 90) < PRECISION) {
+                return encodeHash(centre.getLat(), centre.getLon() + 180,
+                        hash.length());
+            }
+        }
+
+        return null;
     }
 
     /**
