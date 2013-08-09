@@ -455,6 +455,59 @@ public class GeoHashTest {
                 GeoHash.hashLengthToCoverBoundingBox(80, -170, -80, 170));
     }
 
+    @Test
+    public void testRightNeighbourCloseTo180Longitude() {
+        assertEquals("2", GeoHash.adjacentHash("r", Direction.RIGHT));
+    }
+
+    @Test
+    public void testLeftNeighbourCloseToMinus180Longitude() {
+        assertEquals("r", GeoHash.adjacentHash("2", Direction.LEFT));
+    }
+
+    @Test
+    public void testTopNeighbourCloseToNorthPole() {
+        String hash = GeoHash.encodeHash(90, 0, 1);
+        assertEquals("z", GeoHash.adjacentHash(hash, Direction.TOP));
+    }
+
+    @Test
+    public void testBottomNeighbourCloseToSouthPole() {
+        String hash = GeoHash.encodeHash(-90, 0, 1);
+        System.out.println(hash);
+        assertEquals("p", GeoHash.adjacentHash(hash, Direction.BOTTOM));
+    }
+
+    @Test
+    public void testNeighboursAtSouthPole() {
+        // TODO write asserts
+        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(-90, 0)));
+    }
+
+    @Test
+    public void testNeighboursAtNorthPole() {
+        // TODO write asserts
+        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(90, 0)));
+    }
+
+    @Test
+    public void testNeighboursAtLongitude180() {
+        // TODO write asserts
+        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(0, 180)));
+    }
+
+    @Test
+    public void testNeighboursAtLongitudeMinus180() {
+        // TODO write asserts
+        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(0, -180)));
+    }
+
+    // System.out.println(GeoHash.decodeHash("r"));
+    // System.out.println(GeoHash.widthDegrees(1));
+    // System.out.println(GeoHash.encodeHash(-22.5, -180, 1));
+    // System.out
+    // .println(GeoHash.decodeHash(GeoHash.encodeHash(-22.5, 20, 1)));
+
     // @Test
     // Contributed by William Delanoue pull request
     // https://github.com/twillouer/geo/commit/60464f43952b8d51a4b82eaf98bb0dcf3b3e2d76
