@@ -502,35 +502,4 @@ public class GeoHashTest {
         System.out.println(GeoHash.neighbours(GeoHash.encodeHash(0, -180)));
     }
 
-    // System.out.println(GeoHash.decodeHash("r"));
-    // System.out.println(GeoHash.widthDegrees(1));
-    // System.out.println(GeoHash.encodeHash(-22.5, -180, 1));
-    // System.out
-    // .println(GeoHash.decodeHash(GeoHash.encodeHash(-22.5, 20, 1)));
-
-    // @Test
-    // Contributed by William Delanoue pull request
-    // https://github.com/twillouer/geo/commit/60464f43952b8d51a4b82eaf98bb0dcf3b3e2d76
-    // Needs more investigation as to desired behaviour at limits
-    // public void testNeighboursOnLimits() {
-    // LatLong latLong = new LatLong(-90, 0);
-    // System.out.println(GeoHash.decodeHash(GeoHash.encodeHash(latLong)));
-    // System.out.println("neighbours="
-    // + GeoHash.neighbours(GeoHash.encodeHash(latLong)));
-    // assertEquals(Arrays.asList("5bpbpbpbpbp8", "h00000000000",
-    // "5bpbpbpbpbpc", "5bpbpbpbpbp9", "h00000000001"),
-    // GeoHash.neighbours(GeoHash.encodeHash(latLong)));
-    // latLong = new LatLong(90, 0);
-    // assertEquals(Arrays.asList("gzzzzzzzzzzx", "upbpbpbpbpbp",
-    // "gzzzzzzzzzzy", "gzzzzzzzzzzw", "upbpbpbpbpbn"),
-    // GeoHash.neighbours(encodeHash(latLong)));
-    // latLong = new LatLong(0, -180);
-    // assertEquals(Arrays.asList("2pbpbpbpbpbr", "800000000000",
-    // "2pbpbpbpbpbn", "800000000002", "2pbpbpbpbpbq"),
-    // GeoHash.neighbours(encodeHash(latLong)));
-    // latLong = new LatLong(0, 180);
-    // assertEquals(Arrays.asList("rzzzzzzzzzzx", "xbpbpbpbpbpb",
-    // "rzzzzzzzzzzy", "xbpbpbpbpbp8", "rzzzzzzzzzzw"),
-    // GeoHash.neighbours(encodeHash(latLong)));
-    // }
 }
