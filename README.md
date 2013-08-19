@@ -15,7 +15,7 @@ Add this to your pom:
 
 Release Notes
 ----------------
-* 0.6 - handles neighbour calculations on borders, minor api additions
+* 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
 * 0.5 - first release to Maven Central
 
 Features
