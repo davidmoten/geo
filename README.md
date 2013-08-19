@@ -23,7 +23,7 @@ Features
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash`)
 * decodes latitude, longitude from geohashes (`GeoHash.decodeHash`)
-* finds adjacent hash in any direction (`GeoHash.adjacentHash`), works on borders too
+* finds adjacent hash in any direction (`GeoHash.adjacentHash`), works on borders including the poles too
 * finds all 8 adjacent hashes to a hash (`GeoHash.neighbours`)
 * calculates hash length to enclose a bounding box (`GeoHash.hashLengthToCoverBoundingBox`)
 * calculates geohashes of given length to cover a bounding box. Returns coverage ratio as well (`GeoHash.coverBoundingBox`)
