@@ -3,6 +3,7 @@ package com.github.davidmoten.geo.mem;
 import java.util.Map;
 import java.util.SortedMap;
 
+import com.github.davidmoten.geo.Coverage;
 import com.github.davidmoten.geo.GeoHash;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
@@ -18,6 +19,10 @@ public class Geomem<T> {
 	public Iterable<T> find(double topLeftLat, double topLeftLong,
 			double bottomRightLat, double bottomRightLong, long start,
 			long finish) {
+
+		Coverage cover = GeoHash.coverBoundingBox(topLeftLat, topLeftLong,
+				bottomRightLat, bottomRightLong);
+		cover.getHashes();
 		return null;
 	}
 
