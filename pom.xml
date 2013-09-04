@@ -78,13 +78,13 @@
 	</scm>
 
 	<dependencies>
-		<!-- Test Dependencies -->
-		<dependency>
+	<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>14.0.1</version>
-			<scope>test</scope>
+			<optional>true</optional>
 		</dependency>
+		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
