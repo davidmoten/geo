@@ -1,24 +1,25 @@
 package com.github.davidmoten.geo.mem;
 
-public class Info<T> {
+import com.google.common.base.Optional;
 
-    private final long hash;
+public class Info<T, R> {
+
     private final double lat;
     private final double lon;
     private final long time;
     private final T value;
+    private final Optional<R> id;
 
-    public Info(long hash, double lat, double lon, long time, T value) {
-        super();
-        this.hash = hash;
+    public Info(double lat, double lon, long time, T value, Optional<R> id) {
         this.lat = lat;
         this.lon = lon;
         this.time = time;
         this.value = value;
+        this.id = id;
     }
 
-    public long getHash() {
-        return hash;
+    public Optional<R> id() {
+        return id;
     }
 
     public double lat() {
@@ -39,8 +40,8 @@ public class Info<T> {
 
     @Override
     public String toString() {
-        return "Info [hash=" + hash + ", lat=" + lat + ", lon=" + lon
-                + ", time=" + time + ", value=" + value + "]";
+        return "Info [lat=" + lat + ", lon=" + lon + ", time=" + time
+                + ", value=" + value + ", id=" + id + "]";
     }
 
 }
