@@ -45,7 +45,6 @@ public class GeomemTest {
         List<Info<String, String>> list = Lists.newArrayList(g.find(topLeftLat,
                 topLeftLong, bottomRightLat, bottomRightLong, 0, 1000));
         assertTrue(list.isEmpty());
-
     }
 
 }
