@@ -48,23 +48,41 @@ public class GeomemTest {
         assertTrue(list.isEmpty());
     }
 
+    /**
+     * Indicates 4.5MB per 1000 records. Thus one million entries needs 4500
+     * entries.
+     * 
+     * @throws InterruptedException
+     */
     @Test
-    public void testGeomemManyEntries() {
+    public void testGeomemManyEntries() throws InterruptedException {
         System.out.println("maxMemory=" + Runtime.getRuntime().maxMemory()
                 / 1048576 + "MB");
         Geomem<String, String> g = new Geomem<String, String>();
+        System.gc();
+        Thread.sleep(1000);
+        reportMemoryUsage();
         for (int i = 0; i < 10000; i++) {
-            if (i % 1000 == 0)
-                System.out.println("count="
-                        + i
-                        + " memUsed="
-                        + (Runtime.getRuntime().totalMemory() - Runtime
-                                .getRuntime().freeMemory()) / 1048576 + "MB");
+            if (i % 1000 == 0) {
+                System.out.println("count=" + i);
+                reportMemoryUsage();
+            }
             addRandomEntry(g);
         }
+        reportMemoryUsage();
+        System.gc();
+        Thread.sleep(1000);
+        reportMemoryUsage();
         List<Info<String, String>> list = Lists.newArrayList(g.find(topLeftLat,
                 topLeftLong, bottomRightLat, bottomRightLong, 0, 1000));
         System.out.println(list.size());
+
+    }
+
+    private void reportMemoryUsage() {
+        System.out.println("memUsed="
+                + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
+                        .freeMemory()) / 1048576 + "MB");
     }
 
     private void addRandomEntry(Geomem<String, String> g) {
