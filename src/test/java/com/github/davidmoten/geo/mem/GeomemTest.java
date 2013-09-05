@@ -1,6 +1,7 @@
 package com.github.davidmoten.geo.mem;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class GeomemTest {
     }
 
     @Test
-    public void testGeomemFindWhenOneEntry() {
+    public void testGeomemFindWhenOneEntryInsideRegion() {
         Geomem<String, String> g = new Geomem<String, String>();
         g.add(-15, 120, 500, "A1", "a1");
         List<Info<String, String>> list = Lists.newArrayList(g.find(topLeftLat,
@@ -35,6 +36,15 @@ public class GeomemTest {
         assertEquals(500L, list.get(0).time());
         assertEquals("A1", list.get(0).value());
         assertEquals("a1", list.get(0).id().get());
+    }
+
+    @Test
+    public void testGeomemFindWhenOneEntryOutsideRegion() {
+        Geomem<String, String> g = new Geomem<String, String>();
+        g.add(15, 120, 500, "A1", "a1");
+        List<Info<String, String>> list = Lists.newArrayList(g.find(topLeftLat,
+                topLeftLong, bottomRightLat, bottomRightLong, 0, 1000));
+        assertTrue(list.isEmpty());
 
     }
 
