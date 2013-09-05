@@ -14,8 +14,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 /**
- * Provides fast concurrent querying using in memory Concurrent data with time
- * and position.
+ * Provides fast concurrent querying using in memory
+ * {@link ConcurrentSkipListMap}s and geohash to store data with time and
+ * position.
  * 
  * @author dxm
  * 
@@ -69,7 +70,8 @@ public class Geomem<T> {
         return sortedByTime.subMap(start, finish).values();
     }
 
-    public void add(double lat, double lon, long time, T t, long expiryTime) {
+    public void add(double lat, double lon, long time, T t,
+            Optional<Long> expiryTime) {
         String hash = GeoHash.encodeHash(lat, lon);
         // full hash length is 12 so this will insert 12 entries
         for (int i = 1; i <= hash.length(); i++) {
