@@ -53,7 +53,7 @@ public class GeomemTest {
         System.out.println("maxMemory=" + Runtime.getRuntime().maxMemory()
                 / 1048576 + "MB");
         Geomem<String, String> g = new Geomem<String, String>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             if (i % 1000 == 0)
                 System.out.println("count="
                         + i
