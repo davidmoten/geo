@@ -84,9 +84,12 @@ public class Geomem<T, R> {
     }
 
     private void add(double lat, double lon, long time, T t, Optional<R> id) {
-        String hash = GeoHash.encodeHash(lat, lon);
-        // full hash length is 12 so this will insert 12 entries
         Info<T, R> info = new Info<T, R>(lat, lon, time, t, id);
+        add(info);
+    }
+
+    public void add(Info<T, R> info) {
+        String hash = GeoHash.encodeHash(info.lat(), info.lon());
 
         addToMap(mapByGeoHash, info, hash);
         addToMapById(mapById, info, hash);
@@ -111,6 +114,7 @@ public class Geomem<T, R> {
     private void addToMap(Map<Long, SortedMap<Long, Info<T, R>>> map,
             Info<T, R> info, String hash) {
 
+        // full hash length is 12 so this will insert 12 entries
         for (int i = 1; i <= hash.length(); i++) {
             long key = Base32.decodeBase32(hash.substring(0, i));
             synchronized (map) {

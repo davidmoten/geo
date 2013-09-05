@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -47,4 +48,30 @@ public class GeomemTest {
         assertTrue(list.isEmpty());
     }
 
+    @Test
+    public void testGeomemManyEntries() {
+        System.out.println("maxMemory=" + Runtime.getRuntime().maxMemory()
+                / 1048576 + "MB");
+        Geomem<String, String> g = new Geomem<String, String>();
+        for (int i = 0; i < 1000; i++) {
+            if (i % 1000 == 0)
+                System.out.println("count="
+                        + i
+                        + " memUsed="
+                        + (Runtime.getRuntime().totalMemory() - Runtime
+                                .getRuntime().freeMemory()) / 1048576 + "MB");
+            addRandomEntry(g);
+        }
+        List<Info<String, String>> list = Lists.newArrayList(g.find(topLeftLat,
+                topLeftLong, bottomRightLat, bottomRightLong, 0, 1000));
+        System.out.println(list.size());
+    }
+
+    private void addRandomEntry(Geomem<String, String> g) {
+        double lat = GeomemTest.topLeftLat + 5 - Math.random() * 40;
+        double lon = GeomemTest.topLeftLong - 5 + Math.random() * 80;
+        long t = Math.round(Math.random() * 1200);
+        String id = UUID.randomUUID().toString().substring(0, 2);
+        g.add(lat, lon, t, id, id);
+    }
 }
