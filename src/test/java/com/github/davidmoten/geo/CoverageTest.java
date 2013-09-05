@@ -20,4 +20,10 @@ public class CoverageTest {
         assertEquals(0, coverage.getHashLength());
     }
 
+    @Test
+    public void testCoverageOfAnAreaThatCantBeCoveredWithHashOfLengthOne() {
+        Coverage coverage = GeoHash.coverBoundingBox(-5, 100, -45, 170);
+        assertEquals(1, coverage.getHashLength());
+        assertEquals(Sets.newHashSet("n", "p", "q", "r"), coverage.getHashes());
+    }
 }

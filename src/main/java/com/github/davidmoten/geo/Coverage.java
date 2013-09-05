@@ -68,4 +68,9 @@ public class Coverage {
         else
             return hashes.iterator().next().length();
     }
+
+    @Override
+    public String toString() {
+        return "Coverage [hashes=" + hashes + ", ratio=" + ratio + "]";
+    }
 }

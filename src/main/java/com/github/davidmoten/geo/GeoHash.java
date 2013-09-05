@@ -522,6 +522,8 @@ public final class GeoHash {
         Coverage coverage = null;
         int startLength = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon,
                 bottomRightLat, bottomRightLon);
+        if (startLength == 0)
+            startLength = 1;
         for (int length = startLength; length <= MAX_HASH_LENGTH; length++) {
             Coverage c = coverBoundingBox(topLeftLat, topLeftLon,
                     bottomRightLat, bottomRightLon, length);

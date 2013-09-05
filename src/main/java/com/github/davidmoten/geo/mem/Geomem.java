@@ -22,14 +22,13 @@ import com.google.common.collect.Maps;
  * 
  * @param <T>
  */
-public class Geomem<T> {
+public class Geomem<T, R> {
 
     private final Map<Long, SortedMap<Long, Info<T>>> map = Maps
             .newConcurrentMap();
 
-    public Geomem(Optional<Integer> maxSize) {
-        // TODO implement maxSize
-    }
+    private final Map<R, Map<Long, SortedMap<Long, Info<T>>>> mapById = Maps
+            .newConcurrentMap();
 
     public Iterable<Info<T>> find(double topLeftLat, double topLeftLong,
             double bottomRightLat, double bottomRightLong, long start,
@@ -47,7 +46,7 @@ public class Geomem<T> {
         return it;
     }
 
-    public Iterable<Info<T>> find(final double topLeftLat,
+    private Iterable<Info<T>> find(final double topLeftLat,
             final double topLeftLong, final double bottomRightLat,
             final double bottomRightLong, long start, long finish,
             String withinHash) {
@@ -64,20 +63,44 @@ public class Geomem<T> {
         });
     }
 
-    public Iterable<Info<T>> find(long start, long finish, String withinHash) {
+    private Iterable<Info<T>> find(long start, long finish, String withinHash) {
         long key = Base32.decodeBase32(withinHash);
         SortedMap<Long, Info<T>> sortedByTime = map.get(key);
-        return sortedByTime.subMap(start, finish).values();
+        if (sortedByTime == null)
+            return Collections.emptyList();
+        else
+            return sortedByTime.subMap(start, finish).values();
     }
 
-    public void add(double lat, double lon, long time, T t,
-            Optional<Long> expiryTime) {
+    public void add(double lat, double lon, long time, T t, Optional<R> id) {
         String hash = GeoHash.encodeHash(lat, lon);
         // full hash length is 12 so this will insert 12 entries
+        addToMap(map, lat, lon, time, t, hash);
+        addToMapById(lat, lon, time, t, id, hash);
+    }
+
+    private void addToMapById(double lat, double lon, long time, T t,
+            Optional<R> id, String hash) {
+        if (id.isPresent()) {
+            Map<Long, SortedMap<Long, Info<T>>> m = mapById.get(id.get());
+            synchronized (map) {
+                if (m == null) {
+                    m = Maps.newConcurrentMap();
+                    mapById.put(id.get(), m);
+                }
+            }
+            addToMap(m, lat, lon, time, t, hash);
+        }
+    }
+
+    private void addToMap(Map<Long, SortedMap<Long, Info<T>>> map, double lat,
+            double lon, long time, T t, String hash) {
         for (int i = 1; i <= hash.length(); i++) {
             long key = Base32.decodeBase32(hash.substring(0, i));
-            if (map.get(key) == null) {
-                map.put(key, new ConcurrentSkipListMap<Long, Info<T>>());
+            synchronized (map) {
+                if (map.get(key) == null) {
+                    map.put(key, new ConcurrentSkipListMap<Long, Info<T>>());
+                }
             }
             map.get(key).put(time, new Info<T>(key, lat, lon, time, t));
         }
