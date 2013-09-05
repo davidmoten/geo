@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import com.github.davidmoten.geo.Base32;
 import com.github.davidmoten.geo.Coverage;
 import com.github.davidmoten.geo.GeoHash;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -54,7 +55,17 @@ public class Geomem<T, R> {
             String withinHash) {
 
         Iterable<Info<T, R>> it = find(start, finish, withinHash);
-        return Iterables.filter(it, new Predicate<Info<T, R>>() {
+        return Iterables.filter(
+                it,
+                createRegionFilter(topLeftLat, topLeftLong, bottomRightLat,
+                        bottomRightLong));
+    }
+
+    @VisibleForTesting
+    Predicate<Info<T, R>> createRegionFilter(final double topLeftLat,
+            final double topLeftLong, final double bottomRightLat,
+            final double bottomRightLong) {
+        return new Predicate<Info<T, R>>() {
 
             @Override
             public boolean apply(Info<T, R> info) {
@@ -62,7 +73,7 @@ public class Geomem<T, R> {
                         && info.lon() >= topLeftLong
                         && info.lon() <= bottomRightLong;
             }
-        });
+        };
     }
 
     private Iterable<Info<T, R>> find(long start, long finish, String withinHash) {
@@ -83,7 +94,7 @@ public class Geomem<T, R> {
         add(lat, lon, time, t, of(id));
     }
 
-    private void add(double lat, double lon, long time, T t, Optional<R> id) {
+    public void add(double lat, double lon, long time, T t, Optional<R> id) {
         Info<T, R> info = new Info<T, R>(lat, lon, time, t, id);
         add(info);
     }

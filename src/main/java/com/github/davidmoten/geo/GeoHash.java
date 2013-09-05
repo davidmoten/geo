@@ -189,7 +189,7 @@ public final class GeoHash {
             }
         }
         // if bottommost hash
-        else if (Direction.BOTTOM.equals(direction)) {
+        else {
             if (Math.abs(centre.getLat() - widthDegrees(hash.length()) / 2 + 90) < PRECISION) {
                 return encodeHash(centre.getLat(), centre.getLon() + 180,
                         hash.length());

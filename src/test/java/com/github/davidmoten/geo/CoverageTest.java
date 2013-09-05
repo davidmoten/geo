@@ -18,6 +18,8 @@ public class CoverageTest {
     public void testCoverageHashLength() {
         Coverage coverage = new Coverage(Sets.<String> newHashSet(), 1.0);
         assertEquals(0, coverage.getHashLength());
+        // get coverage of toString
+        System.out.println(coverage);
     }
 
     @Test
