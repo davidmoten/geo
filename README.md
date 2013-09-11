@@ -15,6 +15,7 @@ Add this to your pom:
 
 Release Notes
 ----------------
+* 0.6.5 - fixes issue #6 GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
 * 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
 * 0.5 - first release to Maven Central
 
