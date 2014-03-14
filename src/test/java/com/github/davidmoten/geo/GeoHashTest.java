@@ -27,6 +27,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
+import java.util.List;
 
 /**
  * Unit tests for {@link GeoHash}.
@@ -41,6 +42,15 @@ public class GeoHashTest {
     private static final double SCHENECTADY_LON = -73.950691;
     private static final double SCHENECTADY_LAT = 42.819581;
     private static final double PRECISION = 0.000000001;
+    private static final int I_LEFT      = 0;
+    private static final int I_RIGHT     = 1;
+    private static final int I_TOP       = 2;
+    private static final int I_BOTTOM    = 3;
+    private static final int I_LEFT_TOP  = 4;
+    private static final int I_LEFT_BOT  = 5;
+    private static final int I_RIGHT_TOP = 6;
+    private static final int I_RIGHT_BOT = 7;
+    
 
     @Test
     public void getCoverageOfPrivateConstructor() {
@@ -468,38 +478,90 @@ public class GeoHashTest {
     @Test
     public void testTopNeighbourCloseToNorthPole() {
         String hash = GeoHash.encodeHash(90, 0, 1);
-        assertEquals("z", GeoHash.adjacentHash(hash, Direction.TOP));
+        assertEquals("u", hash);
+        assertEquals("b", GeoHash.adjacentHash(hash, Direction.TOP));
     }
 
     @Test
     public void testBottomNeighbourCloseToSouthPole() {
         String hash = GeoHash.encodeHash(-90, 0, 1);
-        System.out.println(hash);
-        assertEquals("p", GeoHash.adjacentHash(hash, Direction.BOTTOM));
+        assertEquals("h", hash);
+        assertEquals("0", GeoHash.adjacentHash(hash, Direction.BOTTOM));
     }
 
+    // Nice map here at poles
+    // http://www.bigdatamodeling.org/2013/01/intuitive-geohash.html
     @Test
     public void testNeighboursAtSouthPole() {
-        // TODO write asserts
-        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(-90, 0)));
+        String poleHash = GeoHash.encodeHash(-90, 0);
+        assertEquals("h00000000000", poleHash);
+
+        List<String> neighbors = GeoHash.neighbours(poleHash);
+        assertEquals(8, neighbors.size());
+
+        assertEquals("5bpbpbpbpbpb", neighbors.get(I_LEFT));
+        assertEquals("h00000000002", neighbors.get(I_RIGHT));
+        assertEquals("h00000000001", neighbors.get(I_TOP));
+        assertEquals("00000000000p", neighbors.get(I_BOTTOM));
+        assertEquals("5bpbpbpbpbpc", neighbors.get(I_LEFT_TOP));
+        assertEquals("pbpbpbpbpbpz", neighbors.get(I_LEFT_BOT));
+        assertEquals("h00000000003", neighbors.get(I_RIGHT_TOP));
+        assertEquals("00000000000r", neighbors.get(I_RIGHT_BOT));
     }
 
     @Test
     public void testNeighboursAtNorthPole() {
-        // TODO write asserts
-        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(90, 0)));
+        String poleHash = GeoHash.encodeHash(90, 0);
+        assertEquals("upbpbpbpbpbp", poleHash);
+        
+        List<String> neighbors = GeoHash.neighbours(poleHash);
+        assertEquals(8, neighbors.size());
+
+        assertEquals("gzzzzzzzzzzz", neighbors.get(I_LEFT));
+        assertEquals("upbpbpbpbpbr", neighbors.get(I_RIGHT));
+        assertEquals("bpbpbpbpbpb0", neighbors.get(I_TOP));
+        assertEquals("upbpbpbpbpbn", neighbors.get(I_BOTTOM));
+        assertEquals("zzzzzzzzzzzb", neighbors.get(I_LEFT_TOP));
+        assertEquals("gzzzzzzzzzzy", neighbors.get(I_LEFT_BOT));
+        assertEquals("bpbpbpbpbpb2", neighbors.get(I_RIGHT_TOP));
+        assertEquals("upbpbpbpbpbq", neighbors.get(I_RIGHT_BOT));
     }
 
     @Test
     public void testNeighboursAtLongitude180() {
-        // TODO write asserts
-        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(0, 180)));
+        String hash = GeoHash.encodeHash(0, 180);
+        assertEquals("xbpbpbpbpbpb", hash);
+        
+        List<String> neighbors = GeoHash.neighbours(hash);
+        assertEquals(8, neighbors.size());
+
+        assertEquals("xbpbpbpbpbp8", neighbors.get(I_LEFT));
+        assertEquals("800000000000", neighbors.get(I_RIGHT));
+        assertEquals("xbpbpbpbpbpc", neighbors.get(I_TOP));
+        assertEquals("rzzzzzzzzzzz", neighbors.get(I_BOTTOM));
+        assertEquals("xbpbpbpbpbp9", neighbors.get(I_LEFT_TOP));
+        assertEquals("rzzzzzzzzzzx", neighbors.get(I_LEFT_BOT));
+        assertEquals("800000000001", neighbors.get(I_RIGHT_TOP));
+        assertEquals("2pbpbpbpbpbp", neighbors.get(I_RIGHT_BOT));
     }
 
     @Test
     public void testNeighboursAtLongitudeMinus180() {
-        // TODO write asserts
-        System.out.println(GeoHash.neighbours(GeoHash.encodeHash(0, -180)));
+        String hash = GeoHash.encodeHash(0, -180);
+        assertEquals("800000000000", hash);
+        
+        List<String> neighbors = GeoHash.neighbours(hash);
+        System.out.println(neighbors);
+        assertEquals(8, neighbors.size());
+
+        assertEquals("xbpbpbpbpbpb", neighbors.get(I_LEFT));
+        assertEquals("800000000002", neighbors.get(I_RIGHT));
+        assertEquals("800000000001", neighbors.get(I_TOP));
+        assertEquals("2pbpbpbpbpbp", neighbors.get(I_BOTTOM));
+        assertEquals("xbpbpbpbpbpc", neighbors.get(I_LEFT_TOP));
+        assertEquals("rzzzzzzzzzzz", neighbors.get(I_LEFT_BOT));
+        assertEquals("800000000003", neighbors.get(I_RIGHT_TOP));
+        assertEquals("2pbpbpbpbpbr", neighbors.get(I_RIGHT_BOT));
     }
 
 }
