@@ -367,14 +367,14 @@ public final class GeoHash {
         while (geohash.length() < length) {
             if (isEven) {
                 double mid = (lon[0] + lon[1]) / 2;
-                if (longitude > mid) {
+                if (longitude >= mid) {
                     ch |= BITS[bit];
                     lon[0] = mid;
                 } else
                     lon[1] = mid;
             } else {
                 double mid = (lat[0] + lat[1]) / 2;
-                if (latitude > mid) {
+                if (latitude >= mid) {
                     ch |= BITS[bit];
                     lat[0] = mid;
                 } else

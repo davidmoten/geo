@@ -26,6 +26,6 @@ public class CoverageTest {
     public void testCoverageOfAnAreaThatCantBeCoveredWithHashOfLengthOne() {
         Coverage coverage = GeoHash.coverBoundingBox(-5, 100, -45, 170);
         assertEquals(1, coverage.getHashLength());
-        assertEquals(Sets.newHashSet("n", "p", "q", "r"), coverage.getHashes());
+        assertEquals(Sets.newHashSet("q", "r"), coverage.getHashes());
     }
 }
