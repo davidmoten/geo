@@ -10,11 +10,12 @@ Add this to your pom:
     <dependency>
         <groupId>com.github.davidmoten</groupId>
         <artifactId>geo</artifactId>
-        <version>0.6.5</version>
+        <version>0.6.6</version>
     </dependency>
 
 Release Notes
 ----------------
+* 0.6.6 - fixes #8 boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
 * 0.6.5 - fixes issue #6 GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
 * 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
 * 0.5 - first release to Maven Central
