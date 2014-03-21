@@ -102,7 +102,7 @@ First define this function:
 
 Then
 
-&nbsp;&nbsp;&nbsp;&nbsp;width = 180 / 2<sup>(5n-parity(n)-1)/2</sup> degrees
+&nbsp;&nbsp;&nbsp;&nbsp;width = 180 / 2<sup>(5n+parity(n)-2)/2</sup> degrees
 
 &nbsp;&nbsp;&nbsp;&nbsp;height = 180 / 2<sup>(5n-parity(n))/2</sup> degrees
 
