@@ -10,11 +10,12 @@ Add this to your pom:
     <dependency>
         <groupId>com.github.davidmoten</groupId>
         <artifactId>geo</artifactId>
-        <version>0.6.6</version>
+        <version>0.6.7</version>
     </dependency>
 
 Release Notes
 ----------------
+* 0.6.7 - fixes issue #9 WARNING GeoHash.encodeBase32 now pads to length MAX_HASH_LENGTH which is a breaking change, fixes issue #10 use of DEFAULT_MAX_HASHES in doco.
 * 0.6.6 - fixes #8 boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
 * 0.6.5 - fixes issue #6 GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
 * 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
