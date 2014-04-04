@@ -41,6 +41,21 @@ public class Base32Test {
     }
 
     @Test
+    public void testDecodeThenEncodeIsIdentity() {
+        assertEquals("1000", encodeBase32(decodeBase32("1000")));
+    }
+
+    @Test
+    public void testDecodeManyZeros() {
+        assertEquals(0, decodeBase32("0000000"));
+    }
+
+    @Test
+    public void testDecodeOneZero() {
+        assertEquals(0, decodeBase32("0"));
+    }
+
+    @Test
     public void testDecodeToNegativeInteger() {
         assertEquals("-3v", encodeBase32(-123));
         assertEquals(-123, decodeBase32("-3v"));
