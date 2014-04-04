@@ -32,7 +32,7 @@
 		<jxr.version>2.3</jxr.version>
 		<taglist.version>2.4</taglist.version>
 		<dashboard.version>1.0.0-beta-1</dashboard.version>
-		<m3.site.version>3.0</m3.site.version>
+		<m3.site.version>3.3</m3.site.version>
 		<changelog.version>2.2</changelog.version>
 		<coverage.reports.dir>${project.build.directory}/target/coverage-reports</coverage.reports.dir>
 		<maven.compiler.target>1.6</maven.compiler.target>
