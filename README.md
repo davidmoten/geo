@@ -83,12 +83,12 @@ Here are the hash counts for different hash lengths:
 
 ```
 length  numHashes m/a    
-1       1         1694   
-2       1         53     
-3      4         6.6    
-4       30        1.6    
-5       667       1.08   
-6       20227     1.02   
+1           1     1694   
+2           1       53     
+3           4        6.6    
+4          30        1.6    
+5         667        1.08   
+6       20227        1.02   
 ```
 
 Only testing against your database and your preferrably real life data will determine what the optimal maxHashes value is. In the benchmarks section below a test with H2 database found that optimal query time was when maxHashes is about 700. I doubt that this would be the case for many other databases. 
