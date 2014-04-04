@@ -15,7 +15,7 @@ Add this to your pom:
 
 Release Notes
 ----------------
-* 0.6.7 - fixes issue #9 WARNING GeoHash.encodeBase32 now pads to length MAX_HASH_LENGTH which is a breaking change, fixes issue #10 use of DEFAULT_MAX_HASHES in doco.
+* 0.6.7 - GeoHash.encodeBase32 now pads to max hash length which is a breaking change (#9), thanks @gnellzynga, fixed use of DEFAULT_MAX_HASHES in doco (#10).
 * 0.6.6 - fixes #8 boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
 * 0.6.5 - fixes issue #6 GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
 * 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
