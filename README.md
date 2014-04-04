@@ -106,7 +106,12 @@ Then
 
 &nbsp;&nbsp;&nbsp;&nbsp;height = 180 / 2<sup>(5n-parity(n))/2</sup> degrees
 
-The height and width in kilometres will be dependent on what part of the earth the hash is on and can be calculated using `Position.getDistanceToKm`.
+The height and width in kilometres will be dependent on what part of the earth the hash is on and can be calculated using `Position.getDistanceToKm`. 
+For example at (lat,lon):
+```java
+double distancePerDegreeWidth =
+     new Position(lat,lon).getDistanceToKm(new Position(lat, lon+1));
+``` 
 
 ###Benchmarks
 Inserted 10,000,000 records into an embedded H2 filesystem database which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
