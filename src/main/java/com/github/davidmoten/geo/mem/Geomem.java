@@ -45,7 +45,7 @@ public class Geomem<T, R> {
 
     /**
      * Returns as an {@link Iterable} the results of a search within the
-     * bounding box given and where start <=time < finish.
+     * bounding box given and where start &lt;=time &lt; finish.
      * 
      * @param topLeftLat
      * @param topLeftLong
