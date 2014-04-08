@@ -26,7 +26,9 @@ public class Coverage {
      * Constructor.
      * 
      * @param hashes
+     *            set of hashes comprising the coverage
      * @param ratio
+     *            ratio of area of hashes to the area of target region
      */
     public Coverage(Set<String> hashes, double ratio) {
         super();
@@ -37,7 +39,7 @@ public class Coverage {
     /**
      * Returns the hashes which are expected to be all of the same length.
      * 
-     * @return
+     * @return set of hashes
      */
     public Set<String> getHashes() {
         return hashes;
@@ -49,7 +51,7 @@ public class Coverage {
      * degrees squared. The closer the ratio is to 1 the better the more closely
      * the hashes approximate the bounding box.
      * 
-     * @return
+     * @return ratio of area of hashes to area of target region.
      */
     public double getRatio() {
         return ratio;
@@ -60,7 +62,7 @@ public class Coverage {
      * iterator on the hash set. All hashes should be of the same length in this
      * coverage.
      * 
-     * @return
+     * @return length of the hash
      */
     public int getHashLength() {
         if (hashes.size() == 0)
