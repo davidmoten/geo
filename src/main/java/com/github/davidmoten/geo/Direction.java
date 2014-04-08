@@ -13,7 +13,7 @@ public enum Direction {
     /**
      * Returns the opposite direction. For example LEFT.opposite() == RIGHT.
      * 
-     * @return
+     * @return the opposite direction
      */
     public Direction opposite() {
         if (this == BOTTOM)
