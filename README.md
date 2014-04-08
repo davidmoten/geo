@@ -10,13 +10,15 @@ Add this to your pom:
     <dependency>
         <groupId>com.github.davidmoten</groupId>
         <artifactId>geo</artifactId>
-        <version>0.6.6</version>
+        <version>0.6.7</version>
     </dependency>
 
 Release Notes
 ----------------
-* 0.6.6 - fixes #8 boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
-* 0.6.5 - fixes issue #6 GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
+* 0.6.7-SNAPSHOT - Base32.encodeBase32 now pads to max hash length which is a *breaking change* ([#9](https://github.com/davidmoten/geo/issues/9)), thanks @gnellzynga, 
+fixed use of DEFAULT_MAX_HASHES in doco ([#10](https://github.com/davidmoten/geo/issues/10)).
+* 0.6.6 - fixes [#8](https://github.com/davidmoten/geo/issues/8) boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
+* 0.6.5 - fixes issue [#6](https://github.com/davidmoten/geo/issues/6) GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
 * 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
 * 0.5 - first release to Maven Central
 
@@ -81,12 +83,12 @@ Here are the hash counts for different hash lengths:
 
 ```
 length  numHashes m/a    
-1       1         1694   
-2       1         53     
-3      4         6.6    
-4       30        1.6    
-5       667       1.08   
-6       20227     1.02   
+1           1     1694   
+2           1       53     
+3           4        6.6    
+4          30        1.6    
+5         667        1.08   
+6       20227        1.02   
 ```
 
 Only testing against your database and your preferrably real life data will determine what the optimal maxHashes value is. In the benchmarks section below a test with H2 database found that optimal query time was when maxHashes is about 700. I doubt that this would be the case for many other databases. 
