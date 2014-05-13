@@ -360,17 +360,40 @@ public final class GeoHash {
      *            length of desired hash
      * @return geohash of given length for the given point
      */
+    public static String encodeHash(double latitude, double longitude,
+            int length) {
+        Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
+                "latitude must be between -90 and 90 inclusive");
+        return encodeHash(latitude, longitude, length, -90, 90, -180, 180);
+    }
+
+    /**
+     * Returns a hash of given length for the given point (latitude,longitude)
+     * of an arbitrary projection. If minLatitude=-90, maxLatitude=90,
+     * minLongitude=-180, maxLongitude=180 then the hash will correspond to a
+     * geoHash. {@link IllegalArgumentException}.
+     * 
+     * @param latitude
+     * @param longitude
+     * @param length
+     * @param minLatitude
+     * @param maxLatitude
+     * @param minLongitude
+     * @param maxLongitude
+     * @return
+     */
     // Translated to java from:
     // geohash.js
     // Geohash library for Javascript
     // (c) 2008 David Troy
     // Distributed under the MIT License
     public static String encodeHash(double latitude, double longitude,
-            int length) {
+            int length, double minLatitude, double maxLatitude,
+            double minLongitude, double maxLongitude) {
+
         Preconditions.checkArgument(length > 0,
                 "length must be greater than zero");
-        Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
-                "latitude must be between -90 and 90 inclusive");
+
         longitude = Position.to180(longitude);
 
         boolean isEven = true;
@@ -380,10 +403,10 @@ public final class GeoHash {
         int ch = 0;
         StringBuilder geohash = new StringBuilder();
 
-        lat[0] = -90.0;
-        lat[1] = 90.0;
-        lon[0] = -180.0;
-        lon[1] = 180.0;
+        lat[0] = minLatitude;
+        lat[1] = maxLatitude;
+        lon[0] = minLongitude;
+        lon[1] = maxLongitude;
 
         while (geohash.length() < length) {
             if (isEven) {
@@ -427,14 +450,27 @@ public final class GeoHash {
     // (c) 2008 David Troy
     // Distributed under the MIT License
     public static LatLong decodeHash(String geohash) {
+        return decodeHash(geohash, -90, 90, -180, 180);
+    }
+
+    /**
+     * Returns a latitude,longitude pair as the centre of the given hash. If
+     * minLatitude=-90, maxLatitude=90, minLongitude=-180, maxLongitude=180 then
+     * the position will correspond to the decode of a geoHash.
+     * 
+     * @param geohash
+     * @return lat long point
+     */
+    public static LatLong decodeHash(String geohash, double minLatitude,
+            double maxLatitude, double minLongitude, double maxLongitude) {
         Preconditions.checkNotNull(geohash, "geohash cannot be null");
         boolean isEven = true;
         double[] lat = new double[2];
         double[] lon = new double[2];
-        lat[0] = -90.0;
-        lat[1] = 90.0;
-        lon[0] = -180.0;
-        lon[1] = 180.0;
+        lat[0] = minLatitude;
+        lat[1] = maxLatitude;
+        lon[0] = minLongitude;
+        lon[1] = maxLongitude;
 
         for (int i = 0; i < geohash.length(); i++) {
             char c = geohash.charAt(i);
