@@ -15,7 +15,7 @@ Add this to your pom:
 
 Release Notes
 ----------------
-* 0.6.8-SNAPSHOT - get Position class from grumpy-core artifact which includes ```Position.longitudeDiff`` fix.
+* 0.6.8-SNAPSHOT - get Position class from grumpy-core artifact which includes ```Position.longitudeDiff``` fix.
 * 0.6.7 - Base32.encodeBase32 now pads to max hash length which is a *breaking change* ([#9](https://github.com/davidmoten/geo/issues/9)), thanks @gnellzynga, 
 fixed use of DEFAULT_MAX_HASHES in doco ([#10](https://github.com/davidmoten/geo/issues/10)).
 * 0.6.6 - fixes [#8](https://github.com/davidmoten/geo/issues/8) boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
