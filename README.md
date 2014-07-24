@@ -5,6 +5,10 @@ Java utility methods for geohashing.
 
 Status: *production*
 
+Continuous integration with Jenkins: <a href="https://xuml-tools.ci.cloudbees.com/"><img src="https://xuml-tools.ci.cloudbees.com/job/geo/badge/icon"/></a>
+
+Project reports including Javadocs are [here](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/project-reports.html).
+
 Add this to your pom:
 
     <dependency>
@@ -146,7 +150,4 @@ Links
 
 Core geohash encoding code was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
 
-Continuous integration with Jenkins for this project is [here](https://xuml-tools.ci.cloudbees.com/). <a href="https://xuml-tools.ci.cloudbees.com/"><img  src="http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png"/></a>
- 
-Project reports including Javadocs are [here](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/project-reports.html).
 
