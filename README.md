@@ -148,6 +148,5 @@ multiple range query is 10X slower than geohash lookup if the hash length is cho
 Links
 -------
 
-Core geohash encoding code was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
-
-[Immutable R-tree implementation](https://github.com/davidmoten/rtree) in java by the same author
+*Core geohash encoding code was a translation to java of https://github.com/davetroy/geohash-js/blob/master/geohash.js.
+*[Immutable R-tree implementation](https://github.com/davidmoten/rtree) in java by the same author
