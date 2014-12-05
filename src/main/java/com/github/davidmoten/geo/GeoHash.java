@@ -375,44 +375,41 @@ public final class GeoHash {
 		longitude = Position.to180(longitude);
 
 		boolean isEven = true;
-		double[] lat = new double[2];
-		double[] lon = new double[2];
+		double minLat = -90.0,  maxLat = 90;
+		double minLon = -180.0, maxLon = 180.0;
 		int bit = 0;
 		int ch = 0;
-		StringBuilder geohash = new StringBuilder();
 
-		lat[0] = -90.0;
-		lat[1] = 90.0;
-		lon[0] = -180.0;
-		lon[1] = 180.0;
+		int count = 0;
+		char[] geohash = new char[length];
 
-		while (geohash.length() < length) {
+		while (count < length) {
 			if (isEven) {
-				double mid = (lon[0] + lon[1]) / 2;
+				double mid = (minLon + maxLon) / 2;
 				if (longitude >= mid) {
 					ch |= BITS[bit];
-					lon[0] = mid;
+					minLon = mid;
 				} else
-					lon[1] = mid;
+					maxLon = mid;
 			} else {
-				double mid = (lat[0] + lat[1]) / 2;
+				double mid = (minLat + maxLat) / 2;
 				if (latitude >= mid) {
 					ch |= BITS[bit];
-					lat[0] = mid;
+					minLat = mid;
 				} else
-					lat[1] = mid;
+					maxLat = mid;
 			}
 
 			isEven = !isEven;
 			if (bit < 4)
 				bit++;
 			else {
-				geohash.append(BASE32.charAt(ch));
+				geohash[count++] = BASE32.charAt(ch);
 				bit = 0;
 				ch = 0;
 			}
 		}
-		return geohash.toString();
+		return new String(geohash);
 	}
 
 	/**
