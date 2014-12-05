@@ -377,7 +377,7 @@ public final class GeoHash {
 		boolean isEven = true;
 		double minLat = -90.0,  maxLat = 90;
 		double minLon = -180.0, maxLon = 180.0;
-		int bit = 0;
+		int bit = 0x10;
 		int ch = 0;
 
 		int count = 0;
@@ -387,25 +387,25 @@ public final class GeoHash {
 			if (isEven) {
 				double mid = (minLon + maxLon) / 2;
 				if (longitude >= mid) {
-					ch |= BITS[bit];
+					ch |= bit;
 					minLon = mid;
 				} else
 					maxLon = mid;
 			} else {
 				double mid = (minLat + maxLat) / 2;
 				if (latitude >= mid) {
-					ch |= BITS[bit];
+					ch |= bit;
 					minLat = mid;
 				} else
 					maxLat = mid;
 			}
 
 			isEven = !isEven;
-			if (bit < 4)
-				bit++;
+			if (bit != 1)
+				bit >>= 1;
 			else {
 				geohash[count++] = BASE32.charAt(ch);
-				bit = 0;
+				bit = 0x10;
 				ch = 0;
 			}
 		}
