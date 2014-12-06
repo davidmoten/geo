@@ -482,12 +482,39 @@ public final class GeoHash {
 	 */
 	public static int hashLengthToCoverBoundingBox(double topLeftLat,
 			double topLeftLon, double bottomRightLat, double bottomRightLon) {
-		for (int i = MAX_HASH_LENGTH; i >= 1; i--) {
-			String hash = encodeHash(topLeftLat, topLeftLon, i);
-			if (hashContains(hash, bottomRightLat, bottomRightLon))
-				return i;
+		boolean isEven = true;
+		double minLat = -90.0,  maxLat = 90;
+		double minLon = -180.0, maxLon = 180.0;
+
+		for(int bits = 0 ; bits < MAX_HASH_LENGTH * 5 ; bits++)
+		{
+			if (isEven) {
+				double mid = (minLon + maxLon) / 2;
+				if(topLeftLon >= mid) {
+					if(bottomRightLon < mid)
+						return bits / 5;
+					minLon = mid;
+				} else {
+					if(bottomRightLon >= mid)
+						return bits / 5;
+					maxLon = mid;
+				}
+			} else {
+				double mid = (minLat + maxLat) / 2;
+				if(topLeftLat >= mid) {
+					if(bottomRightLat < mid)
+						return bits / 5;
+					minLat = mid;
+				} else {
+					if(bottomRightLat >= mid)
+						return bits / 5;
+					maxLat = mid;
+				}
+			}
+
+			isEven = !isEven;
 		}
-		return 0;
+		return MAX_HASH_LENGTH;
 	}
 
 	/**
