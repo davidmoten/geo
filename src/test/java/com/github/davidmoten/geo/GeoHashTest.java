@@ -21,13 +21,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
-import java.util.List;
 
 /**
  * Unit tests for {@link GeoHash}.
@@ -562,6 +563,12 @@ public class GeoHashTest {
         assertEquals("rzzzzzzzzzzz", neighbors.get(I_LEFT_BOT));
         assertEquals("800000000003", neighbors.get(I_RIGHT_TOP));
         assertEquals("2pbpbpbpbpbr", neighbors.get(I_RIGHT_BOT));
+    }
+    
+    @Test
+    public void testGeoHashLengthAcrossLongitude180() {
+        assertTrue( hashLengthToCoverBoundingBox(71.676351, 178.389963, 70.633291,
+                -177.116629)>0);
     }
 
 }
