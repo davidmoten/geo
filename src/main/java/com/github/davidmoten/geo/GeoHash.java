@@ -374,42 +374,52 @@ public final class GeoHash {
 				"latitude must be between -90 and 90 inclusive");
 		longitude = Position.to180(longitude);
 
+		return fromLongToString(encodeHashToLong(latitude, longitude, length));
+	}
+
+	static String fromLongToString(long hash)
+	{
+		int length = (int)(hash & 0xf);
+		char[] geohash = new char[length];
+		for(int i = 0 ; i < length ; i++)
+		{
+			int ch = (int)(hash >>> 59);
+			geohash[i] = BASE32.charAt(ch);
+			hash <<= 5;
+		}
+		return new String(geohash);
+	}
+
+	static long encodeHashToLong(double latitude, double longitude, int length)
+	{
 		boolean isEven = true;
 		double minLat = -90.0,  maxLat = 90;
 		double minLon = -180.0, maxLon = 180.0;
-		int bit = 0x10;
-		int ch = 0;
+		long bit = 0x8000000000000000L;
+		long g = 0;
 
-		int count = 0;
-		char[] geohash = new char[length];
-
-		while (count < length) {
+		long target = 0x8000000000000000L >>> (5 * length);
+		while (bit != target) {
 			if (isEven) {
 				double mid = (minLon + maxLon) / 2;
 				if (longitude >= mid) {
-					ch |= bit;
+					g |= bit;
 					minLon = mid;
 				} else
 					maxLon = mid;
 			} else {
 				double mid = (minLat + maxLat) / 2;
 				if (latitude >= mid) {
-					ch |= bit;
+					g |= bit;
 					minLat = mid;
 				} else
 					maxLat = mid;
 			}
 
 			isEven = !isEven;
-			if (bit != 1)
-				bit >>= 1;
-			else {
-				geohash[count++] = BASE32.charAt(ch);
-				bit = 0x10;
-				ch = 0;
-			}
+			bit >>>= 1;
 		}
-		return new String(geohash);
+		return g |= length;
 	}
 
 	/**
@@ -568,20 +578,20 @@ public final class GeoHash {
 	public static Coverage coverBoundingBoxMaxHashes(double topLeftLat,
 			final double topLeftLon, final double bottomRightLat,
 			final double bottomRightLon, int maxHashes) {
-		Coverage coverage = null;
+		CoverageLongs coverage = null;
 		int startLength = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon,
 				bottomRightLat, bottomRightLon);
 		if (startLength == 0)
 			startLength = 1;
 		for (int length = startLength; length <= MAX_HASH_LENGTH; length++) {
-			Coverage c = coverBoundingBox(topLeftLat, topLeftLon,
+			CoverageLongs c = coverBoundingBoxLongs(topLeftLat, topLeftLon,
 					bottomRightLat, bottomRightLon, length);
 			if (c.getHashes().size() > maxHashes)
-				return coverage;
+				return coverage == null ? null : new Coverage(coverage);
 			else
 				coverage = c;
 		}
-		return coverage;
+		return coverage == null ? null : new Coverage(coverage);
 	}
 
 	/**
@@ -598,48 +608,41 @@ public final class GeoHash {
 	public static Coverage coverBoundingBox(double topLeftLat,
 			final double topLeftLon, final double bottomRightLat,
 			final double bottomRightLon, final int length) {
+		return new Coverage(coverBoundingBoxLongs(topLeftLat, topLeftLon, bottomRightLat, bottomRightLon, length));
+	}
+
+	private static CoverageLongs coverBoundingBoxLongs(double topLeftLat, final double topLeftLon,
+			final double bottomRightLat, final double bottomRightLon, final int length)
+	{
 		Preconditions.checkArgument(length > 0,
 				"length must be greater than zero");
 		final double actualWidthDegreesPerHash = widthDegrees(length);
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
-		Set<String> hashes = new TreeSet<String>();
+		Set<Long> hashes = new TreeSet<Long>();
 		double diff = Position.longitudeDiff(bottomRightLon, topLeftLon);
 		double maxLon = topLeftLon + diff;
 
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
 			for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
-				addHash(hashes, lat, lon, length);
+				hashes.add(encodeHashToLong(lat, lon, length));
 			}
 		}
 		// ensure have the borders covered
 		for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
-			addHash(hashes, lat, maxLon, length);
+			hashes.add(encodeHashToLong(lat, maxLon, length));
 		}
 		for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
-			addHash(hashes, topLeftLat, lon, length);
+			hashes.add(encodeHashToLong(topLeftLat, lon, length));
 		}
 		// ensure that the topRight corner is covered
-		addHash(hashes, topLeftLat, maxLon, length);
+		hashes.add(encodeHashToLong(topLeftLat, maxLon, length));
 
 		double areaDegrees = diff * (topLeftLat - bottomRightLat);
 		double coverageAreaDegrees = hashes.size() * widthDegrees(length)
 				* heightDegrees(length);
 		double ratio = coverageAreaDegrees / areaDegrees;
-		return new Coverage(hashes, ratio);
-	}
-
-	/**
-	 * Add hash of the given length for a lat long point to a set.
-	 * 
-	 * @param hashes
-	 * @param lat
-	 * @param lon
-	 * @param length
-	 */
-	private static void addHash(Set<String> hashes, double lat, double lon,
-			int length) {
-		hashes.add(encodeHash(lat, lon, length));
+		return new CoverageLongs(hashes, ratio);
 	}
 
 	/**

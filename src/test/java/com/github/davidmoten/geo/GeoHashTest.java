@@ -59,6 +59,11 @@ public class GeoHashTest {
     }
 
     @Test
+    public void encodeHashToLong() {
+	    assertEquals(0x65c0000000000002L, GeoHash.encodeHashToLong(41.842967, -72.727175, 2));
+    }
+
+    @Test
     public void testWhiteHouseHashEncode() {
         assertEquals("dqcjqcp84c6e",
                 encodeHash(38.89710201881826, -77.03669792041183));

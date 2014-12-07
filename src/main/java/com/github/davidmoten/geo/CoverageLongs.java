@@ -1,21 +1,20 @@
 package com.github.davidmoten.geo;
 
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
- * A set of hashes and a measure of how well those hashes cover a region.
+ * A set of hashes repesented by longs and a measure of how well those hashes cover a region.
  * Immutable.
  * 
  * @author dave
  * 
  */
-public class Coverage {
+public class CoverageLongs {
 
     /**
      * The hashes providing the coverage.
      */
-    private final Set<String> hashes;
+    private final Set<Long> hashes;
 
     /**
      * How well the coverage is covered by the hashes. Will be >=1. Closer to 1
@@ -31,26 +30,18 @@ public class Coverage {
      * @param ratio
      *            ratio of area of hashes to the area of target region
      */
-    public Coverage(Set<String> hashes, double ratio) {
+    public CoverageLongs(Set<Long> hashes, double ratio) {
         super();
         this.hashes = hashes;
         this.ratio = ratio;
     }
 
-    public Coverage(CoverageLongs coverage) {
-        this.ratio = coverage.getRatio();
-        this.hashes = new TreeSet<String>();
-        for(Long l : coverage.getHashes()) {
-            hashes.add(GeoHash.fromLongToString(l));
-        }
-    }
-
-/**
+    /**
      * Returns the hashes which are expected to be all of the same length.
      * 
      * @return set of hashes
      */
-    public Set<String> getHashes() {
+    public Set<Long> getHashes() {
         return hashes;
     }
 
@@ -77,7 +68,7 @@ public class Coverage {
         if (hashes.size() == 0)
             return 0;
         else
-            return hashes.iterator().next().length();
+            return (int)(hashes.iterator().next() & 0x0f);
     }
 
     @Override
