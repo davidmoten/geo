@@ -380,6 +380,12 @@ public class GeoHashTest {
         coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT,
                 HARTFORD_LON, 0);
     }
+    
+    @Test
+    public void testGeoHashLengthAcrossLongitude180() {
+        assertEquals(0, hashLengthToCoverBoundingBox(71.676351, 178.389963, 70.633291,
+                -177.116629));
+    }
 
     @Test
     public void testGeoHashWidthDegrees() {
@@ -565,10 +571,4 @@ public class GeoHashTest {
         assertEquals("2pbpbpbpbpbr", neighbors.get(I_RIGHT_BOT));
     }
     
-    @Test
-    public void testGeoHashLengthAcrossLongitude180() {
-        assertTrue( hashLengthToCoverBoundingBox(71.676351, 178.389963, 70.633291,
-                -177.116629)>0);
-    }
-
 }
