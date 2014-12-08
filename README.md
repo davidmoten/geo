@@ -1,11 +1,10 @@
 geo
 ===
+<a href="https://travis-ci.org/davidmoten/geo"><img src="https://travis-ci.org/davidmoten/geo.svg"/></a>
 
 Java utility methods for geohashing.
 
 Status: *production*
-
-Continuous integration with Jenkins: <a href="https://xuml-tools.ci.cloudbees.com/"><img src="https://xuml-tools.ci.cloudbees.com/job/geo/badge/icon"/></a>
 
 Project reports including Javadocs are [here](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/project-reports.html).
 
