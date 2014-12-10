@@ -10,7 +10,7 @@
 
 	<groupId>com.github.davidmoten</groupId>
 	<artifactId>geo</artifactId>
-	<version>0.6.9</version>
+	<version>0.6.10-SNAPSHOT</version>
 
 	<name>${project.artifactId}</name>
 	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
