@@ -1,6 +1,6 @@
 package com.github.davidmoten.geo;
 
-import java.util.Set;
+import java.util.Arrays;
 
 /**
  * A set of hashes repesented by longs and a measure of how well those hashes cover a region.
@@ -14,7 +14,9 @@ public class CoverageLongs {
     /**
      * The hashes providing the coverage.
      */
-    private final Set<Long> hashes;
+    private final long[] hashes;
+
+    private final int count;
 
     /**
      * How well the coverage is covered by the hashes. Will be >=1. Closer to 1
@@ -30,9 +32,10 @@ public class CoverageLongs {
      * @param ratio
      *            ratio of area of hashes to the area of target region
      */
-    public CoverageLongs(Set<Long> hashes, double ratio) {
+    public CoverageLongs(long[] hashes, int count, double ratio) {
         super();
         this.hashes = hashes;
+        this.count = count;
         this.ratio = ratio;
     }
 
@@ -41,8 +44,8 @@ public class CoverageLongs {
      * 
      * @return set of hashes
      */
-    public Set<Long> getHashes() {
-        return hashes;
+    public long[] getHashes() {
+        return Arrays.copyOf(hashes, count);
     }
 
     /**
@@ -65,14 +68,18 @@ public class CoverageLongs {
      * @return length of the hash
      */
     public int getHashLength() {
-        if (hashes.size() == 0)
+        if (count == 0)
             return 0;
         else
-            return (int)(hashes.iterator().next() & 0x0f);
+            return (int)(hashes[0] & 0x0f);
     }
 
     @Override
     public String toString() {
-        return "Coverage [hashes=" + hashes + ", ratio=" + ratio + "]";
+        return "Coverage [hashes=" + getHashes() + ", ratio=" + ratio + "]";
+    }
+
+    public int getCount() {
+        return count;
     }
 }

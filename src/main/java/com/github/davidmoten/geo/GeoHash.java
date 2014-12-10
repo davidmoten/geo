@@ -3,12 +3,12 @@ package com.github.davidmoten.geo;
 import static com.github.davidmoten.grumpy.core.Position.to180;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.github.davidmoten.geo.util.Preconditions;
 import com.github.davidmoten.grumpy.core.Position;
@@ -586,7 +586,7 @@ public final class GeoHash {
 		for (int length = startLength; length <= MAX_HASH_LENGTH; length++) {
 			CoverageLongs c = coverBoundingBoxLongs(topLeftLat, topLeftLon,
 					bottomRightLat, bottomRightLon, length);
-			if (c.getHashes().size() > maxHashes)
+			if (c.getCount() > maxHashes)
 				return coverage == null ? null : new Coverage(coverage);
 			else
 				coverage = c;
@@ -611,6 +611,23 @@ public final class GeoHash {
 		return new Coverage(coverBoundingBoxLongs(topLeftLat, topLeftLon, bottomRightLat, bottomRightLon, length));
 	}
 
+	private static class LongSet
+	{
+		int count = 0;
+		private int cap = 16;
+		long[] array = new long[cap];
+
+		void add(long l)
+		{
+			for(int i = 0 ; i < count ; i++)
+				if(array[i] == l)
+					return;
+			if(count == cap)
+				array = Arrays.copyOf(array, cap*=2);
+			array[count++] = l;
+		}
+	}
+
 	private static CoverageLongs coverBoundingBoxLongs(double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon, final int length)
 	{
@@ -619,7 +636,8 @@ public final class GeoHash {
 		final double actualWidthDegreesPerHash = widthDegrees(length);
 		final double actualHeightDegreesPerHash = heightDegrees(length);
 
-		Set<Long> hashes = new TreeSet<Long>();
+		LongSet hashes = new LongSet();
+
 		double diff = Position.longitudeDiff(bottomRightLon, topLeftLon);
 		double maxLon = topLeftLon + diff;
 
@@ -639,10 +657,10 @@ public final class GeoHash {
 		hashes.add(encodeHashToLong(topLeftLat, maxLon, length));
 
 		double areaDegrees = diff * (topLeftLat - bottomRightLat);
-		double coverageAreaDegrees = hashes.size() * widthDegrees(length)
+		double coverageAreaDegrees = hashes.count * widthDegrees(length)
 				* heightDegrees(length);
 		double ratio = coverageAreaDegrees / areaDegrees;
-		return new CoverageLongs(hashes, ratio);
+		return new CoverageLongs(hashes.array, hashes.count, ratio);
 	}
 
 	/**
