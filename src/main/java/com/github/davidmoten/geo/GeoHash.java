@@ -375,44 +375,41 @@ public final class GeoHash {
 		longitude = Position.to180(longitude);
 
 		boolean isEven = true;
-		double[] lat = new double[2];
-		double[] lon = new double[2];
-		int bit = 0;
+		double minLat = -90.0,  maxLat = 90;
+		double minLon = -180.0, maxLon = 180.0;
+		int bit = 0x10;
 		int ch = 0;
-		StringBuilder geohash = new StringBuilder();
 
-		lat[0] = -90.0;
-		lat[1] = 90.0;
-		lon[0] = -180.0;
-		lon[1] = 180.0;
+		int count = 0;
+		char[] geohash = new char[length];
 
-		while (geohash.length() < length) {
+		while (count < length) {
 			if (isEven) {
-				double mid = (lon[0] + lon[1]) / 2;
+				double mid = (minLon + maxLon) / 2;
 				if (longitude >= mid) {
-					ch |= BITS[bit];
-					lon[0] = mid;
+					ch |= bit;
+					minLon = mid;
 				} else
-					lon[1] = mid;
+					maxLon = mid;
 			} else {
-				double mid = (lat[0] + lat[1]) / 2;
+				double mid = (minLat + maxLat) / 2;
 				if (latitude >= mid) {
-					ch |= BITS[bit];
-					lat[0] = mid;
+					ch |= bit;
+					minLat = mid;
 				} else
-					lat[1] = mid;
+					maxLat = mid;
 			}
 
 			isEven = !isEven;
-			if (bit < 4)
-				bit++;
+			if (bit != 1)
+				bit >>= 1;
 			else {
-				geohash.append(BASE32.charAt(ch));
-				bit = 0;
+				geohash[count++] = BASE32.charAt(ch);
+				bit = 0x10;
 				ch = 0;
 			}
 		}
-		return geohash.toString();
+		return new String(geohash);
 	}
 
 	/**
@@ -485,12 +482,39 @@ public final class GeoHash {
 	 */
 	public static int hashLengthToCoverBoundingBox(double topLeftLat,
 			double topLeftLon, double bottomRightLat, double bottomRightLon) {
-		for (int i = MAX_HASH_LENGTH; i >= 1; i--) {
-			String hash = encodeHash(topLeftLat, topLeftLon, i);
-			if (hashContains(hash, bottomRightLat, bottomRightLon))
-				return i;
+		boolean isEven = true;
+		double minLat = -90.0,  maxLat = 90;
+		double minLon = -180.0, maxLon = 180.0;
+
+		for(int bits = 0 ; bits < MAX_HASH_LENGTH * 5 ; bits++)
+		{
+			if (isEven) {
+				double mid = (minLon + maxLon) / 2;
+				if(topLeftLon >= mid) {
+					if(bottomRightLon < mid)
+						return bits / 5;
+					minLon = mid;
+				} else {
+					if(bottomRightLon >= mid)
+						return bits / 5;
+					maxLon = mid;
+				}
+			} else {
+				double mid = (minLat + maxLat) / 2;
+				if(topLeftLat >= mid) {
+					if(bottomRightLat < mid)
+						return bits / 5;
+					minLat = mid;
+				} else {
+					if(bottomRightLat >= mid)
+						return bits / 5;
+					maxLat = mid;
+				}
+			}
+
+			isEven = !isEven;
 		}
-		return 0;
+		return MAX_HASH_LENGTH;
 	}
 
 	/**

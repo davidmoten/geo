@@ -388,6 +388,18 @@ public class GeoHashTest {
     }
 
     @Test
+    public void testGeoHashLengthAcrossEcuador() {
+        assertEquals(0, hashLengthToCoverBoundingBox(2.935289, -82.751538, -5.623710,
+                        -74.753492));
+    }
+
+    @Test
+    public void testGeoHashLengthAcrossSouthPole() {
+        assertEquals(0, hashLengthToCoverBoundingBox(-80, 10, 80,
+                        20));
+    }
+
+    @Test
     public void testGeoHashWidthDegrees() {
         encodeHash(-25.382708, -49.265506, 6);
         encodeHash(-25.382708, -49.265506, 5);
