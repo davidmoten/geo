@@ -628,7 +628,7 @@ public final class GeoHash {
 		}
 	}
 
-	private static CoverageLongs coverBoundingBoxLongs(double topLeftLat, final double topLeftLon,
+	static CoverageLongs coverBoundingBoxLongs(double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon, final int length)
 	{
 		Preconditions.checkArgument(length > 0,
