@@ -5,7 +5,7 @@
 
 	<groupId>com.github.davidmoten</groupId>
 	<artifactId>geo</artifactId>
-	<version>0.6.10-SNAPSHOT</version>
+	<version>0.6.10</version>
 
 	<name>${project.artifactId}</name>
 	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
@@ -70,7 +70,8 @@
 		<connection>scm:git:git@github.com:davidmoten/geo.git</connection>
 		<developerConnection>scm:git:git@github.com:davidmoten/geo.git</developerConnection>
 		<url>scm:git:git@github.com:davidmoten/geo.git</url>
-	</scm>
+	  <tag>0.6.10</tag>
+  </scm>
 
 	<dependencies>
 	<dependency>
