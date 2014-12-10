@@ -3,7 +3,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.davidmoten</groupId>
+	<parent>
+		<groupId>com.github.davidmoten</groupId>
+		<artifactId>sonatype-parent</artifactId>
+		<version>0.1</version>
+	</parent>
+
 	<artifactId>geo</artifactId>
 	<version>0.6.11-SNAPSHOT</version>
 
@@ -14,12 +19,10 @@
 	<url>http://github.com/davidmoten/geo</url>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<cobertura.version>2.5.2</cobertura.version>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<checkstyle.version>2.7</checkstyle.version>
 		<findbugs.version>2.3.2</findbugs.version>
-		<javadoc.version>2.8</javadoc.version>
+		<javadoc.version>2.9.1</javadoc.version>
 		<pmd.version>2.5</pmd.version>
 		<jdepend.version>2.0-beta-2</jdepend.version>
 		<javancss.version>2.0</javancss.version>
@@ -43,8 +46,8 @@
 	</licenses>
 
 	<ciManagement>
-		<system>CloudBees</system>
-		<url>https://xuml-tools.ci.cloudbees.com</url>
+		<system>Travis</system>
+		<url>https://travis-ci.org/davidmoten/geo</url>
 	</ciManagement>
 
 	<issueManagement>
@@ -70,7 +73,6 @@
 		<connection>scm:git:git@github.com:davidmoten/geo.git</connection>
 		<developerConnection>scm:git:git@github.com:davidmoten/geo.git</developerConnection>
 		<url>scm:git:git@github.com:davidmoten/geo.git</url>
-	  <tag>HEAD</tag>
   </scm>
 
 	<dependencies>
@@ -214,83 +216,6 @@
 					</reportPlugins>
 				</configuration>
 			</plugin>
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-release-plugin</artifactId>
-			  <version>2.5</version>
-			  <configuration>
-				<autoVersionSubmodules>true</autoVersionSubmodules>
-				<useReleaseProfile>false</useReleaseProfile>
-				<releaseProfiles>release</releaseProfiles>
-				<goals>deploy</goals>
-			  </configuration>
-			</plugin>
-			<plugin>
-			  <groupId>org.sonatype.plugins</groupId>
-			  <artifactId>nexus-staging-maven-plugin</artifactId>
-			  <version>1.6.3</version>
-			  <extensions>true</extensions>
-			  <configuration>
-				 <serverId>ossrh</serverId>
-				 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-				 <autoReleaseAfterClose>true</autoReleaseAfterClose>
-			  </configuration>
-			</plugin>
 		</plugins>
 	</build>
-<profiles>
-<profile>
-<id>release</id>
-<build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-source-plugin</artifactId>
-      <version>2.2.1</version>
-      <executions>
-        <execution>
-          <id>attach-sources</id>
-          <goals>
-            <goal>jar-no-fork</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-javadoc-plugin</artifactId>
-      <version>2.9.1</version>
-      <executions>
-        <execution>
-          <id>attach-javadocs</id>
-          <goals>
-            <goal>jar</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-gpg-plugin</artifactId>
-      <version>1.5</version>
-      <executions>
-        <execution>
-          <id>sign-artifacts</id>
-          <phase>verify</phase>
-          <goals>
-            <goal>sign</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-  </plugins>
-</build>
-</profile>
-</profiles>
-<distributionManagement>
-  <snapshotRepository>
-    <id>ossrh</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-  </snapshotRepository>
-</distributionManagement>
 </project>
