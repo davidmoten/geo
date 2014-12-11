@@ -377,21 +377,24 @@ public final class GeoHash {
 		return fromLongToString(encodeHashToLong(latitude, longitude, length));
 	}
 
-	static String fromLongToString(long hash)
-	{
+	/** Takes a hash represented as a long and returns it as a string.
+	 *
+	 * @param hash the hash, with the length encoded in the 4 least significant bits
+	 * @return the string encoded geohash
+	 */
+	static String fromLongToString(long hash) {
 		int length = (int)(hash & 0xf);
+		if(length > 12 || length < 1)
+			throw new IllegalArgumentException("invalid long geohash " + hash);
 		char[] geohash = new char[length];
-		for(int i = 0 ; i < length ; i++)
-		{
-			int ch = (int)(hash >>> 59);
-			geohash[i] = BASE32.charAt(ch);
+		for(int pos = 0 ; pos < length ; pos++) {
+			geohash[pos] = BASE32.charAt(((int)(hash >>> 59)));
 			hash <<= 5;
 		}
 		return new String(geohash);
 	}
 
-	static long encodeHashToLong(double latitude, double longitude, int length)
-	{
+	static long encodeHashToLong(double latitude, double longitude, int length) {
 		boolean isEven = true;
 		double minLat = -90.0,  maxLat = 90;
 		double minLon = -180.0, maxLon = 180.0;
