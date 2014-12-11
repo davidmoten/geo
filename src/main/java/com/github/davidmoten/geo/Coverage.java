@@ -37,7 +37,7 @@ public class Coverage {
         this.ratio = ratio;
     }
 
-    public Coverage(CoverageLongs coverage) {
+    Coverage(CoverageLongs coverage) {
         this.ratio = coverage.getRatio();
         this.hashes = new TreeSet<String>();
         for(Long l : coverage.getHashes()) {

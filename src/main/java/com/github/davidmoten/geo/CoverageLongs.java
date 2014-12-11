@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @author dave
  * 
  */
-public class CoverageLongs {
+class CoverageLongs {
 
     /**
      * The hashes providing the coverage.
