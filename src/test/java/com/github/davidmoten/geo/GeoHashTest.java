@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
@@ -56,6 +55,21 @@ public class GeoHashTest {
     @Test
     public void getCoverageOfPrivateConstructor() {
         TestingUtil.callConstructorAndCheckIsPrivate(GeoHash.class);
+    }
+
+    @Test
+    public void encodeHashToLong() {
+        assertEquals(0x65c0000000000002L, GeoHash.encodeHashToLong(41.842967, -72.727175, 2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void fromLongToStringInvalid() {
+        GeoHash.fromLongToString(0xff);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void fromLongToStringZero() {
+        GeoHash.fromLongToString(0);
     }
 
     @Test
