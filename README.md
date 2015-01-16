@@ -19,7 +19,7 @@ Add this to your pom:
 
 Release Notes
 ----------------
-* 0.7 - performance improvements ([#14](https://github.com/davidmoten/geo/issues/14)) ([#14](https://github.com/davidmoten/geo/issues/14)), thanks @niqueco
+* 0.7 - performance improvements to ```GeoHash.encodeHash``` and others ([#13](https://github.com/davidmoten/geo/issues/13)), ([#14](https://github.com/davidmoten/geo/issues/14)), thanks @niqueco
 * 0.6.10 - compiled to java 1.6 for Android compatibility
 * 0.6.8 - get Position class from grumpy-core artifact which includes ```Position.longitudeDiff``` fix.
 * 0.6.7 - Base32.encodeBase32 now pads to max hash length which is a *breaking change* ([#9](https://github.com/davidmoten/geo/issues/9)), thanks @gnellzynga, 
