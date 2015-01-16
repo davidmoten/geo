@@ -5,7 +5,7 @@ geo
 
 Java utility methods for geohashing.
 
-Status: *production*
+Status: *production*, available on Maven Central
 
 Maven site reports are [here](http://davidmoten.github.io/geo/index.html) including [javadoc](http://davidmoten.github.io/geo /apidocs/index.html).
 
