@@ -594,7 +594,8 @@ public final class GeoHash {
 			else
 				coverage = c;
 		}
-		return coverage == null ? null : new Coverage(coverage);
+		//note coverage can never be null
+		return new Coverage(coverage);
 	}
 
 	/**

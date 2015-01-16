@@ -19,7 +19,7 @@
 	<url>http://github.com/davidmoten/geo</url>
 
 	<properties>
-		<cobertura.version>2.5.2</cobertura.version>
+		<cobertura.version>2.6</cobertura.version>
 		<checkstyle.version>2.7</checkstyle.version>
 		<findbugs.version>2.3.2</findbugs.version>
 		<javadoc.version>2.9.1</javadoc.version>
