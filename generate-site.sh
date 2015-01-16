@@ -3,7 +3,7 @@ set -e
 mvn site
 cd ../davidmoten.github.io
 git pull
-mkdir -p geo 
+mkdir -p geo
 cp -r ../geo/target/site/* geo/
 git add .
 git commit -am "update site reports"
