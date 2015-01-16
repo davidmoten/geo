@@ -7,7 +7,7 @@ Java utility methods for geohashing.
 
 Status: *production*
 
-Project reports including Javadocs are [here](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/project-reports.html).
+Maven site reports are [here](http://davidmoten.github.io/geo/index.html) including [javadoc](http://davidmoten.github.io/geo/apidocs/index.html).
 
 Add this to your pom:
 
