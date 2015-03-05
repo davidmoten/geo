@@ -45,7 +45,9 @@ class CoverageLongs {
      * @return set of hashes
      */
     public long[] getHashes() {
-        return Arrays.copyOf(hashes, count);
+        long[] res = new long[count];
+        System.arraycopy(hashes, 0, res, 0, count);
+        return res;
     }
 
     /**
