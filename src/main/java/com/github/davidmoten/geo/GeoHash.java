@@ -626,8 +626,11 @@ public final class GeoHash {
 			for(int i = 0 ; i < count ; i++)
 				if(array[i] == l)
 					return;
-			if(count == cap)
-				array = Arrays.copyOf(array, cap*=2);
+			if(count == cap) {
+				long[] newArray = new long[cap*=2];
+				System.arraycopy(array, 0, newArray, 0, count);
+				array = newArray;
+			}
 			array[count++] = l;
 		}
 	}
