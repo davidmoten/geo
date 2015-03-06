@@ -14,7 +14,7 @@ Add this to your pom:
     <dependency>
         <groupId>com.github.davidmoten</groupId>
         <artifactId>geo</artifactId>
-        <version>0.7</version>
+        <version>0.7.1</version>
     </dependency>
 
 Release Notes
