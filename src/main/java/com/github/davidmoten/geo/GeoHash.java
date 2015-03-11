@@ -3,7 +3,6 @@ package com.github.davidmoten.geo;
 import static com.github.davidmoten.grumpy.core.Position.to180;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,7 @@ public final class GeoHash {
 	private static final double PRECISION = 0.000000000001;
 
 	/**
-	 * The standard practical maximum legnth for geohashes.
+	 * The standard practical maximum length for geohashes.
 	 */
 	public static final int MAX_HASH_LENGTH = 12;
 
