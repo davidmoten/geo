@@ -638,6 +638,8 @@ public final class GeoHash {
 	static CoverageLongs coverBoundingBoxLongs(double topLeftLat, final double topLeftLon,
 			final double bottomRightLat, final double bottomRightLon, final int length)
 	{
+	    Preconditions.checkArgument(topLeftLat>=bottomRightLat,"topLeftLat must be >= bottomRighLat");
+	    Preconditions.checkArgument(topLeftLon<=bottomRightLon,"topLeftLon must be <= bottomRighLon");
 		Preconditions.checkArgument(length > 0,
 				"length must be greater than zero");
 		final double actualWidthDegreesPerHash = widthDegrees(length);

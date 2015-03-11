@@ -596,5 +596,15 @@ public class GeoHashTest {
         assertEquals("800000000003", neighbors.get(I_RIGHT_TOP));
         assertEquals("2pbpbpbpbpbr", neighbors.get(I_RIGHT_BOT));
     }
+
     
+    @Test(expected=IllegalArgumentException.class)
+    public void testCoverBoundingBoxPreconditionLat() {
+        GeoHash.coverBoundingBox(0, 100, 10, 120);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testCoverBoundingBoxPreconditionLon() {
+        GeoHash.coverBoundingBox(10, 120, 0, 100);
+    }
 }
