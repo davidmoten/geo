@@ -28,4 +28,10 @@ public class CoverageTest {
         assertEquals(1, coverage.getHashLength());
         assertEquals(Sets.newHashSet("q", "r"), coverage.getHashes());
     }
+
+    @Test
+    public void testCoverageOfWorld() {
+        Coverage c = GeoHash.coverBoundingBox(90, -180, -90, 180);
+        System.out.println(c);
+    }
 }
