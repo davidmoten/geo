@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>geo</artifactId>
-	<version>0.7.2</version>
+	<version>0.7.3-SNAPSHOT</version>
 
 	<name>${project.artifactId}</name>
 	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
@@ -19,6 +19,8 @@
 	<url>http://github.com/davidmoten/geo</url>
 
 	<properties>
+        <scm.url>scm:git:https://github.com/davidmoten/geo.git</scm.url>
+
 		<cobertura.version>2.6</cobertura.version>
 		<checkstyle.version>2.7</checkstyle.version>
 		<findbugs.version>2.3.2</findbugs.version>
@@ -70,10 +72,10 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:davidmoten/geo.git</connection>
-		<developerConnection>scm:git:git@github.com:davidmoten/geo.git</developerConnection>
-		<url>scm:git:git@github.com:davidmoten/geo.git</url>
-    <tag>0.7.2</tag>
+		<connection>${scm.url}</connection>
+		<developerConnection>${scm.url}</developerConnection>
+		<url>${scm.url}</url>
+    <tag>0.7.3-SNAPSHOT</tag>
   </scm>
 
 	<dependencies>
