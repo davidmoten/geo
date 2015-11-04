@@ -18,8 +18,6 @@ import com.github.davidmoten.grumpy.core.Position;
  * <a href="http://en.wikipedia.org/wiki/Geohash">geohashing</a>.
  * </p>
  * 
- * @author dave
- * 
  */
 public final class GeoHash {
 
@@ -134,7 +132,10 @@ public final class GeoHash {
      * borders too (at the poles and the -180,180 longitude boundaries).
      * 
      * @param hash
+     *            string hash relative to which the adjacent is returned
      * @param direction
+     *            direction relative to {@code hash} for which the adjacent is
+     *            returned
      * @return hash of adjacent hash
      */
     public static String adjacentHash(String hash, Direction direction) {
@@ -413,6 +414,7 @@ public final class GeoHash {
      * Latitude will be between -90 and 90 and longitude between -180 and 180.
      * 
      * @param geohash
+     *            hash to decode
      * @return lat long point
      */
     // Translated to java from:
@@ -471,10 +473,14 @@ public final class GeoHash {
      * hash can enclose the bounding box then 0 is returned.
      * 
      * @param topLeftLat
+     *            latitude of top left point (north west)
      * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
+     *            latitude of bottom right point (south east)
      * @param bottomRightLon
-     * @return
+     *            longitude of bottom right point (south east)
+     * @return length of the hash
      */
     public static int hashLengthToCoverBoundingBox(double topLeftLat, double topLeftLon,
             double bottomRightLat, double bottomRightLon) {
@@ -517,9 +523,12 @@ public final class GeoHash {
      * contains the given lat and long.
      * 
      * @param hash
+     *            hash to test containment in
      * @param lat
+     *            latitude
      * @param lon
-     * @return
+     *            longitude
+     * @return true if and only if the hash contains the given lat and long
      */
     public static boolean hashContains(String hash, double lat, double lon) {
         LatLong centre = decodeHash(hash);
@@ -532,10 +541,14 @@ public final class GeoHash {
      * {@link GeoHash}.DEFAULT_MAX_HASHES.
      * 
      * @param topLeftLat
+     *            latitude of top left point (north west)
      * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
+     *            latitude of bottom right point (south east)
      * @param bottomRightLon
-     * @return
+     *            longitude of bottom right point (south east)
+     * @return coverage
      */
     public static Coverage coverBoundingBox(double topLeftLat, final double topLeftLon,
             final double bottomRightLat, final double bottomRightLon) {
@@ -552,11 +565,16 @@ public final class GeoHash {
      * will be {@link GeoHash}.MAX_HASH_LENGTH.
      * 
      * @param topLeftLat
+     *            latitude of top left point (north west)
      * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
+     *            latitude of bottom right point (south east)
      * @param bottomRightLon
+     *            longitude of bottom right point (south east)
      * @param maxHashes
-     * @return
+     *            maximum number of hashes to use to cover the box
+     * @return coverage
      */
     public static Coverage coverBoundingBoxMaxHashes(double topLeftLat, final double topLeftLon,
             final double bottomRightLat, final double bottomRightLon, int maxHashes) {
@@ -582,11 +600,17 @@ public final class GeoHash {
      * bounding box.
      * 
      * @param topLeftLat
+     *            latitude of top left point (north west)
      * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
+     *            latitude of bottom right point (south east)
      * @param bottomRightLon
+     *            longitude of bottom right point (south east)
      * @param length
-     * @return
+     *            of hash
+     * @return number of hashes of given length required to cover the given
+     *         bounding box
      */
     public static Coverage coverBoundingBox(double topLeftLat, final double topLeftLon,
             final double bottomRightLat, final double bottomRightLon, final int length) {
@@ -649,11 +673,12 @@ public final class GeoHash {
     }
 
     /**
-     * Returns height in degrees of all geohashes of length n. Results are
+     * Returns height in degrees of all geohashes of length {@code n}. Results are
      * deterministic and cached to increase performance.
      * 
      * @param n
-     * @return
+     *            length of geohash
+     * @return height in degrees of the geohash with length {@code n}
      */
     public static double heightDegrees(int n) {
         if (n > MAX_HASH_LENGTH)
@@ -677,10 +702,10 @@ public final class GeoHash {
 
     /**
      * Returns the height in degrees of the region represented by a geohash of
-     * length n.
+     * length {@code n}.
      * 
-     * @param n
-     * @return
+     * @param n length of hash
+     * @return height in degrees of the region represented by a geohash of length {@code n}
      */
     private static double calculateHeightDegrees(int n) {
         double a;
@@ -710,8 +735,8 @@ public final class GeoHash {
      * deterministic and cached to increase performance (might be unnecessary,
      * have not benchmarked).
      * 
-     * @param n
-     * @return
+     * @param n length of hash
+     * @return width in degrees
      */
     public static double widthDegrees(int n) {
         if (n > MAX_HASH_LENGTH)
@@ -724,8 +749,8 @@ public final class GeoHash {
      * Returns the width in degrees of the region represented by a geohash of
      * length n.
      * 
-     * @param n
-     * @return
+     * @param n length of geohash
+     * @return width in degrees
      */
     private static double calculateWidthDegrees(int n) {
         double a;
@@ -742,7 +767,7 @@ public final class GeoHash {
      * Returns a String of lines of hashes to represent the relative positions
      * of hashes on a map. The grid is of height and width 2*size centred around
      * the given hash. Highlighted hashes are displayed in upper case. For
-     * example, gridToString("dr",1,Collections.<String>emptySet()) returns:
+     * example, gridToString("dr",1,Collections.&lt;String&gt;emptySet()) returns:
      * </p>
      * 
      * <pre>
@@ -751,10 +776,10 @@ public final class GeoHash {
      * dn dq dw
      * </pre>
      * 
-     * @param hash
-     * @param size
-     * @param highlightThese
-     * @return
+     * @param hash central hash
+     * @param size size of square grid in hashes
+     * @param highlightThese hashes to highlight
+     * @return String representation of grid
      */
     public static String gridAsString(String hash, int size, Set<String> highlightThese) {
         return gridAsString(hash, -size, -size, size, size, highlightThese);
@@ -764,7 +789,7 @@ public final class GeoHash {
      * Returns a String of lines of hashes to represent the relative positions
      * of hashes on a map.
      * 
-     * @param hash
+     * @param hash reference hash
      * @param fromRight
      *            top left of the grid in hashes to the right (can be negative).
      * @param fromBottom
@@ -776,7 +801,7 @@ public final class GeoHash {
      * @param toBottom
      *            bottom right of the grid in hashes to the bottom (can be
      *            negative).
-     * @return
+     * @return string representation of grid
      */
     public static String gridAsString(String hash, int fromRight, int fromBottom, int toRight,
             int toBottom) {
@@ -785,7 +810,7 @@ public final class GeoHash {
     }
 
     /**
-     * Returns a String of lines of hashes to represent the relative positions
+     * <p>Returns a String of lines of hashes to represent the relative positions
      * of hashes on a map. Highlighted hashes are displayed in upper case. For
      * example, gridToString("dr",-1,-1,1,1,Sets.newHashSet("f2","f8")) returns:
      * </p>
@@ -796,7 +821,7 @@ public final class GeoHash {
      * dn dq dw
      * </pre>
      * 
-     * @param hash
+     * @param hash reference hash
      * @param fromRight
      *            top left of the grid in hashes to the right (can be negative).
      * @param fromBottom
@@ -808,8 +833,8 @@ public final class GeoHash {
      * @param toBottom
      *            bottom right of the grid in hashes to the bottom (can be
      *            negative).
-     * @param highlightThese
-     * @return
+     * @param highlightThese hashes to highlight
+     * @return String representation of grid
      */
     public static String gridAsString(String hash, int fromRight, int fromBottom, int toRight,
             int toBottom, Set<String> highlightThese) {

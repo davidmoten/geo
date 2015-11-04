@@ -3,8 +3,6 @@ package com.github.davidmoten.geo;
 /**
  * A lat, long pair (WGS84). Immutable.
  * 
- * @author dave
- * 
  */
 public class LatLong {
 
@@ -14,11 +12,10 @@ public class LatLong {
     /**
      * Constructor.
      * 
-     * @param lat
-     * @param lon
+     * @param lat latitude in decimal degrees
+     * @param lon longitude in decimal degrees
      */
     public LatLong(double lat, double lon) {
-        super();
         this.lat = lat;
         this.lon = lon;
     }
@@ -26,7 +23,7 @@ public class LatLong {
     /**
      * Returns the latitude in decimal degrees.
      * 
-     * @return
+     * @return latitude in decimal degrees
      */
     public double getLat() {
         return lat;
@@ -35,7 +32,7 @@ public class LatLong {
     /**
      * Returns the longitude in decimal degrees.
      * 
-     * @return
+     * @return longitude in decimal degrees
      */
     public double getLon() {
         return lon;
@@ -45,9 +42,9 @@ public class LatLong {
      * Returns a new {@link LatLong} object with lat, lon increased by deltaLat,
      * deltaLon.
      * 
-     * @param deltaLat
-     * @param deltaLon
-     * @return
+     * @param deltaLat change in latitude
+     * @param deltaLon change in longitude
+     * @return latitude and longitude
      */
     public LatLong add(double deltaLat, double deltaLon) {
         return new LatLong(lat + deltaLat, lon + deltaLon);

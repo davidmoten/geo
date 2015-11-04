@@ -21,8 +21,6 @@ import com.google.common.collect.Maps;
  * {@link ConcurrentSkipListMap}s and geohash to store data with time and
  * position. Depends on guava library.
  * 
- * @author dxm
- * 
  * @param <T>
  *            The type of the record with position and time.
  * @param <R>
@@ -34,39 +32,40 @@ public class Geomem<T, R> {
      * Maps from base32 geohash (long) to a map of time in epoch ms to
      * {@link Info}.
      */
-    private final Map<Long, SortedMap<Long, Info<T, R>>> mapByGeoHash = Maps
-            .newConcurrentMap();
+    private final Map<Long, SortedMap<Long, Info<T, R>>> mapByGeoHash = Maps.newConcurrentMap();
 
     /**
      * Records a mapByGeoHash as above for each id of type R.
      */
-    private final Map<R, Map<Long, SortedMap<Long, Info<T, R>>>> mapById = Maps
-            .newConcurrentMap();
+    private final Map<R, Map<Long, SortedMap<Long, Info<T, R>>>> mapById = Maps.newConcurrentMap();
 
     /**
      * Returns as an {@link Iterable} the results of a search within the
      * bounding box given and where start &lt;=time &lt; finish.
      * 
      * @param topLeftLat
-     * @param topLeftLong
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
-     * @param bottomRightLong
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
      * @param start
+     *            start time inclusive
      * @param finish
-     * @return
+     *            finish time exclusive
+     * @return info records
      */
-    public Iterable<Info<T, R>> find(double topLeftLat, double topLeftLong,
-            double bottomRightLat, double bottomRightLong, long start,
-            long finish) {
+    public Iterable<Info<T, R>> find(double topLeftLat, double topLeftLon, double bottomRightLat,
+            double bottomRightLon, long start, long finish) {
 
-        Coverage cover = GeoHash.coverBoundingBox(topLeftLat, topLeftLong,
-                bottomRightLat, bottomRightLong);
+        Coverage cover = GeoHash.coverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,
+                bottomRightLon);
         Iterable<Info<T, R>> it = Collections.emptyList();
         for (String hash : cover.getHashes()) {
-            it = Iterables.concat(
-                    it,
-                    find(topLeftLat, topLeftLong, bottomRightLat,
-                            bottomRightLong, start, finish, hash));
+            it = Iterables.concat(it, find(topLeftLat, topLeftLon, bottomRightLat, bottomRightLon,
+                    start, finish, hash));
         }
         return it;
     }
@@ -78,24 +77,28 @@ public class Geomem<T, R> {
      * Filters first on withinHash, then time, then bounding box.
      * 
      * @param topLeftLat
-     * @param topLeftLong
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
-     * @param bottomRightLong
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
      * @param start
+     *            start time inclusive
      * @param finish
+     *            finish time exclusive
      * @param withinHash
-     * @return
+     *            items returned are within this hash
+     * @return Info records
      */
-    private Iterable<Info<T, R>> find(final double topLeftLat,
-            final double topLeftLong, final double bottomRightLat,
-            final double bottomRightLong, long start, long finish,
+    private Iterable<Info<T, R>> find(final double topLeftLat, final double topLeftLon,
+            final double bottomRightLat, final double bottomRightLon, long start, long finish,
             String withinHash) {
 
         Iterable<Info<T, R>> it = find(start, finish, withinHash);
-        return Iterables.filter(
-                it,
-                createRegionFilter(topLeftLat, topLeftLong, bottomRightLat,
-                        bottomRightLong));
+        return Iterables.filter(it,
+                createRegionFilter(topLeftLat, topLeftLon, bottomRightLat, bottomRightLon));
     }
 
     /**
@@ -104,22 +107,24 @@ public class Geomem<T, R> {
      * edges.
      * 
      * @param topLeftLat
-     * @param topLeftLong
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
      * @param bottomRightLat
-     * @param bottomRightLong
-     * @return
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
+     * @return predicate
      */
     @VisibleForTesting
-    Predicate<Info<T, R>> createRegionFilter(final double topLeftLat,
-            final double topLeftLong, final double bottomRightLat,
-            final double bottomRightLong) {
+    Predicate<Info<T, R>> createRegionFilter(final double topLeftLat, final double topLeftLon,
+            final double bottomRightLat, final double bottomRightLon) {
         return new Predicate<Info<T, R>>() {
 
             @Override
             public boolean apply(Info<T, R> info) {
                 return info.lat() >= bottomRightLat && info.lat() < topLeftLat
-                        && info.lon() > topLeftLong
-                        && info.lon() <= bottomRightLong;
+                        && info.lon() > topLeftLon && info.lon() <= bottomRightLon;
             }
         };
     }
@@ -129,9 +134,12 @@ public class Geomem<T, R> {
      * inside the geohash withinHash.
      * 
      * @param start
+     *            start time inclusive
      * @param finish
+     *            finish time exclusive
      * @param withinHash
-     * @return
+     *            returned records are within hash
+     * @return iterable
      */
     private Iterable<Info<T, R>> find(long start, long finish, String withinHash) {
         long key = Base32.decodeBase32(withinHash);
@@ -147,9 +155,13 @@ public class Geomem<T, R> {
      * is same as t.
      * 
      * @param lat
+     *            latitiude
      * @param lon
+     *            longitude
      * @param time
+     *            time in epoch ms
      * @param t
+     *            object
      */
     @SuppressWarnings("unchecked")
     public void add(double lat, double lon, long time, T t) {
@@ -161,10 +173,15 @@ public class Geomem<T, R> {
      * and id.
      * 
      * @param lat
+     *            latitude
      * @param lon
+     *            longitude
      * @param time
+     *            time in epoch ms
      * @param t
+     *            object
      * @param id
+     *            identifier
      */
     public void add(double lat, double lon, long time, T t, R id) {
         add(lat, lon, time, t, of(id));
@@ -175,10 +192,15 @@ public class Geomem<T, R> {
      * id.
      * 
      * @param lat
+     *            latitude
      * @param lon
+     *            longitude
      * @param time
+     *            time in epoch ms
      * @param t
+     *            object
      * @param id
+     *            identifier
      */
     public void add(double lat, double lon, long time, T t, Optional<R> id) {
         Info<T, R> info = new Info<T, R>(lat, lon, time, t, id);
@@ -190,6 +212,7 @@ public class Geomem<T, R> {
      * id.
      * 
      * @param info
+     *            info record to add
      */
     public void add(Info<T, R> info) {
         String hash = GeoHash.encodeHash(info.lat(), info.lon());
@@ -198,19 +221,10 @@ public class Geomem<T, R> {
         addToMapById(mapById, info, hash);
     }
 
-    /**
-     * Adds {@link Info}to the map by id.
-     * 
-     * @param mapById
-     * @param info
-     * @param hash
-     */
-    private void addToMapById(
-            Map<R, Map<Long, SortedMap<Long, Info<T, R>>>> mapById,
+    private void addToMapById(Map<R, Map<Long, SortedMap<Long, Info<T, R>>>> mapById,
             Info<T, R> info, String hash) {
         if (info.id().isPresent()) {
-            Map<Long, SortedMap<Long, Info<T, R>>> m = mapById.get(info.id()
-                    .get());
+            Map<Long, SortedMap<Long, Info<T, R>>> m = mapById.get(info.id().get());
             synchronized (mapByGeoHash) {
                 if (m == null) {
                     m = Maps.newConcurrentMap();
@@ -221,15 +235,8 @@ public class Geomem<T, R> {
         }
     }
 
-    /**
-     * Adds {@link Info} to the map by geohash.
-     * 
-     * @param map
-     * @param info
-     * @param hash
-     */
-    private void addToMap(Map<Long, SortedMap<Long, Info<T, R>>> map,
-            Info<T, R> info, String hash) {
+    private void addToMap(Map<Long, SortedMap<Long, Info<T, R>>> map, Info<T, R> info,
+            String hash) {
 
         // full hash length is 12 so this will insert 12 entries
         for (int i = 1; i <= hash.length(); i++) {
