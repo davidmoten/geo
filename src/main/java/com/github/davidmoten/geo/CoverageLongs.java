@@ -1,10 +1,8 @@
 package com.github.davidmoten.geo;
 
-import java.util.Arrays;
-
 /**
- * A set of hashes repesented by longs and a measure of how well those hashes cover a region.
- * Immutable.
+ * A set of hashes repesented by longs and a measure of how well those hashes
+ * cover a region. Immutable.
  * 
  * @author dave
  * 
@@ -73,7 +71,7 @@ class CoverageLongs {
         if (count == 0)
             return 0;
         else
-            return (int)(hashes[0] & 0x0f);
+            return (int) (hashes[0] & 0x0f);
     }
 
     @Override
