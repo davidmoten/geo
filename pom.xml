@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>geo</artifactId>
-	<version>0.7.2-SNAPSHOT</version>
+	<version>0.7.2</version>
 
 	<name>${project.artifactId}</name>
 	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
@@ -73,7 +73,7 @@
 		<connection>scm:git:git@github.com:davidmoten/geo.git</connection>
 		<developerConnection>scm:git:git@github.com:davidmoten/geo.git</developerConnection>
 		<url>scm:git:git@github.com:davidmoten/geo.git</url>
-    <tag>HEAD</tag>
+    <tag>0.7.2</tag>
   </scm>
 
 	<dependencies>
