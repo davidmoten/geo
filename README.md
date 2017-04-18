@@ -50,7 +50,7 @@ Features
 Bounding box searches using geohashing
 ---------------------------------------
 
-###What is the problem?
+### What is the problem?
 
 Databases of events at specific times occurring at specific places on the earth's surface are likely to be queried in terms of ranges of time and position. One such query is a bounding box query involving a time range and position constraint defined by a bounding lat-long box. 
 
@@ -60,7 +60,7 @@ Some databases may either not support or suffer significant performance degradat
 
 For example, a search for all ship reports within a time range and within a bounding box could be achieved with a range condition on time combined with a range condition on latitude combined with a range condition on longitude ( *combined with* = logical AND). This type of query *can* perform badly on many database types, SQL and NoSQL. On Google App Engine Datastore for instance only one variable with inequality conditions is allowed per query. This is a sensible step to take to meet scalability guarantees.
 
-###What is a solution?
+### What is a solution?
 The bounding box query with a time range can be rewritten using geohashes so that only one variable is subject to a range condition: time.  The method is:
 
 * store geohashes of all lengths (depends on the indexing strategies available, a single full length hash may be enough) in indexed fields against each lat long position in the database. Note that storing hashes as a single long integer value may be advantageous (see `Base32.decodeBase32` to convert a hash to a long).
@@ -75,7 +75,7 @@ The bounding box query with a time range can be rewritten using geohashes so tha
 
 The last step is necessary because the set of geohashes contains the bounding box but may be larger than it.
 
-###What hash length to use?
+### What hash length to use?
 So how long should the hashes be that we try to cover the bounding box with? This will depend on your aims which might be one or more of minimizing: cpu, url fetch time, financial cost, total data transferred from datastore, database load, 2nd tier load, or a heap of other possible metrics. 
 
 Calling `GeoHash.coverBoundingBox` with just the bounding points and no additional parameters will return hashes of a length such that the number of hashes is as many as possible but less than or equal to `GeoHash.DEFAULT_MAX_HASHES` (12).
@@ -102,7 +102,7 @@ Only testing against your database and your preferrably real life data will dete
 
 A rigorous exploration of this topic would be fun to do or see. Let me know if you've done it or have a link and I'll update this page!
 
-###Hash height and width formulas
+### Hash height and width formulas
 This is the relationship between a hash of length n and its height and width in degrees:
 
 First define this function:
@@ -122,7 +122,7 @@ double distancePerDegreeWidth =
      new Position(lat,lon).getDistanceToKm(new Position(lat, lon+1));
 ``` 
 
-###Benchmarks
+### Benchmarks
 Inserted 10,000,000 records into an embedded H2 filesystem database which uses B-tree indexes. The records were geographically randomly distributed across a region then a bounding box of 1/50th the area of the region was chosen. Query performed as follows (time is the time to run the query and iterate the results):
 
 ```
