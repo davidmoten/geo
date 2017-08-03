@@ -100,6 +100,21 @@ public class GeoHashTest {
     public void testHashOfNonDefaultLength() {
         assertEquals("6gkzwg", encodeHash(-25.382708, -49.265506, 6));
     }
+    
+    @Test
+    public void testHashOfLength12() {
+        assertEquals("6gkzwgjzn820", encodeHash(-25.382708, -49.265506, 12));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHashOfLength13() {
+        encodeHash(-25.382708, -49.265506, 13);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHashOfLength20() {
+        encodeHash(-25.382708, -49.265506, 20);
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testHashEncodeGivenNonPositiveLength() {

@@ -350,7 +350,7 @@ public final class GeoHash {
     // (c) 2008 David Troy
     // Distributed under the MIT License
     public static String encodeHash(double latitude, double longitude, int length) {
-        Preconditions.checkArgument(length > 0, "length must be greater than zero");
+        Preconditions.checkArgument(length > 0 && length <=12, "length must be between 1 and 12");
         Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
                 "latitude must be between -90 and 90 inclusive");
         longitude = Position.to180(longitude);
