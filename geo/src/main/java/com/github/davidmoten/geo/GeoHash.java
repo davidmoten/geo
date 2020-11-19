@@ -1,7 +1,5 @@
 package com.github.davidmoten.geo;
 
-import static com.github.davidmoten.grumpy.core.Position.to180;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.github.davidmoten.geo.util.Preconditions;
-import com.github.davidmoten.grumpy.core.Position;
 
 /**
  * <p>
@@ -350,10 +347,10 @@ public final class GeoHash {
     // (c) 2008 David Troy
     // Distributed under the MIT License
     public static String encodeHash(double latitude, double longitude, int length) {
-        Preconditions.checkArgument(length > 0, "length must be greater than zero");
+        Preconditions.checkArgument(length > 0 && length <=12, "length must be between 1 and 12");
         Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
                 "latitude must be between -90 and 90 inclusive");
-        longitude = Position.to180(longitude);
+        longitude = to180(longitude);
 
         return fromLongToString(encodeHashToLong(latitude, longitude, length));
     }
@@ -852,4 +849,37 @@ public final class GeoHash {
         return s.toString();
     }
 
+    /**
+     * Converts an angle in degrees to range -180< x <= 180.
+     * 
+     * @param d angle in degrees
+     * @return converted angle in degrees
+     */
+    private static double to180(double d) {
+        if (d < 0)
+            return -to180(Math.abs(d));
+        else {
+            if (d > 180) {
+                long n = Math.round(Math.floor((d + 180) / 360.0));
+                return d - n * 360;
+            } else
+                return d;
+        }
+    }
+    
+    /**
+     * Returns the difference between two longitude values. The returned value
+     * is always >=0.
+     * 
+     * @param a first longitude value in degrees
+     * @param b second longitude value in degrees
+     * @return difference between the values adjusted so is always >=0
+     */
+    private static double longitudeDiff(double a, double b) {
+        a = to180(a);
+        b = to180(b);
+        return Math.abs(to180(a - b));
+    }
+
+    
 }
