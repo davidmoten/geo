@@ -645,7 +645,7 @@ public final class GeoHash {
 
         LongSet hashes = new LongSet();
 
-        double diff = longitudeDiff(bottomRightLon, topLeftLon);
+        double diff = to180(bottomRightLon) - to180(topLeftLon);
         double maxLon = topLeftLon + diff;
 
         for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
