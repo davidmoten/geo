@@ -31,7 +31,8 @@ public class CoverageTest {
     }
 
     /**
-     * tests a bug where this bounding box doesn't return the correct results.  (-30,174) is in the "r" hash, and so
+     * bug fixed by https://github.com/davidmoten/geo/pull/25/files where this bounding box
+     * didn't return the correct results.  (-30,174) is in the "r" hash, and so
      * any coverBoundingBox should include "r", but this one doesn't
      */
     @Test 
@@ -46,7 +47,8 @@ public class CoverageTest {
     }
 
     /**
-     * this test passes, while the one above fails, but the only difference is one degree in the left edge longitude
+     * before https://github.com/davidmoten/geo/pull/25/files this test would pass while
+     * testWideCoverageBug would fail
      */
     @Test
     public void testLessWideCoverageBug() {
