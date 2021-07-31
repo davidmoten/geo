@@ -1,6 +1,6 @@
 geo
 ===
-<a href="https://travis-ci.org/davidmoten/geo"><img src="https://travis-ci.org/davidmoten/geo.svg"/></a><br/>
+<a href="https://github.com/davidmoten/geo/actions/workflows/ci.yml"><img src="https://github.com/davidmoten/geo/actions/workflows/ci.yml/badge.svg"/></a><br/>
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/geo/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/geo)
 
 Java utility methods for geohashing.
