@@ -29,7 +29,7 @@
 		<changelog.version>2.2</changelog.version>
 		<coverage.reports.dir>${project.build.directory}/target/coverage-reports</coverage.reports.dir>
 		<maven.compiler.target>1.6</maven.compiler.target>
-		<jmh.version>1.11.1</jmh.version>
+		<jmh.version>1.32</jmh.version>
 	</properties>
 
 	<dependencies>
