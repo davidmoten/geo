@@ -633,35 +633,42 @@ public final class GeoHash {
         }
     }
 
-    static CoverageLongs coverBoundingBoxLongs(double topLeftLat, final double topLeftLon,
-            final double bottomRightLat, final double bottomRightLon, final int length) {
+    static CoverageLongs coverBoundingBoxLongs(double topLeftLat, double topLeftLon,
+            double bottomRightLat, double bottomRightLon, final int length) {
         Preconditions.checkArgument(topLeftLat >= bottomRightLat,
                 "topLeftLat must be >= bottomRighLat");
-        Preconditions.checkArgument(topLeftLon <= bottomRightLon,
-                "topLeftLon must be <= bottomRighLon");
         Preconditions.checkArgument(length > 0, "length must be greater than zero");
         final double actualWidthDegreesPerHash = widthDegrees(length);
         final double actualHeightDegreesPerHash = heightDegrees(length);
 
         LongSet hashes = new LongSet();
 
-        double diff = longitudeDiff(bottomRightLon, topLeftLon);
-        double maxLon = topLeftLon + diff;
+        double diff = bottomRightLon - topLeftLon;
+        if (diff < 0) {
+            // case where bottomRightLon cross the antimeridian
+            bottomRightLon += 360;
+            diff = bottomRightLon - topLeftLon;
+        } else if (diff > 360) {
+            // case where this bounding box displays more than one copy of the world
+            topLeftLon = -180;
+            bottomRightLon = 180;
+            diff = 360;
+        }
 
         for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
-            for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
-                hashes.add(encodeHashToLong(lat, lon, length));
+            for (double lon = topLeftLon; lon <= bottomRightLon; lon += actualWidthDegreesPerHash) {
+                hashes.add(encodeHashToLong(lat, to180(lon), length));
             }
         }
         // ensure have the borders covered
         for (double lat = bottomRightLat; lat <= topLeftLat; lat += actualHeightDegreesPerHash) {
-            hashes.add(encodeHashToLong(lat, maxLon, length));
+            hashes.add(encodeHashToLong(lat, to180(bottomRightLon), length));
         }
-        for (double lon = topLeftLon; lon <= maxLon; lon += actualWidthDegreesPerHash) {
-            hashes.add(encodeHashToLong(topLeftLat, lon, length));
+        for (double lon = topLeftLon; lon <= bottomRightLon; lon += actualWidthDegreesPerHash) {
+            hashes.add(encodeHashToLong(topLeftLat, to180(lon), length));
         }
         // ensure that the topRight corner is covered
-        hashes.add(encodeHashToLong(topLeftLat, maxLon, length));
+        hashes.add(encodeHashToLong(topLeftLat, to180(bottomRightLon), length));
 
         double areaDegrees = diff * (topLeftLat - bottomRightLat);
         double coverageAreaDegrees = hashes.count * widthDegrees(length) * heightDegrees(length);
