@@ -1,6 +1,7 @@
 geo
 ===
 <a href="https://github.com/davidmoten/geo/actions/workflows/ci.yml"><img src="https://github.com/davidmoten/geo/actions/workflows/ci.yml/badge.svg"/></a><br/>
+[![codecov](https://codecov.io/gh/davidmoten/geo/branch/master/graph/badge.svg)](https://codecov.io/gh/davidmoten/geo)<br/>
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/geo/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/geo)
 
 Java utility methods for geohashing.
