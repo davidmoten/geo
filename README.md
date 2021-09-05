@@ -5,32 +5,7 @@ geo
 
 Java utility methods for geohashing.
 
-Status: *production*, available on Maven Central
-
-Maven site reports are [here](http://davidmoten.github.io/geo/index.html) including [javadoc](http://davidmoten.github.io/geo/apidocs/index.html).
-
-Add this to your pom:
-
-    <dependency>
-        <groupId>com.github.davidmoten</groupId>
-        <artifactId>geo</artifactId>
-        <version>0.7.1</version>
-    </dependency>
-
-Release Notes
-----------------
-* 0.7 - performance improvements to ```GeoHash.encodeHash``` and others ([#13](https://github.com/davidmoten/geo/issues/13)), ([#14](https://github.com/davidmoten/geo/issues/14)), thanks @niqueco
-* 0.6.10 - compiled to java 1.6 for Android compatibility
-* 0.6.8 - get Position class from grumpy-core artifact which includes ```Position.longitudeDiff``` fix.
-* 0.6.7 - Base32.encodeBase32 now pads to max hash length which is a *breaking change* ([#9](https://github.com/davidmoten/geo/issues/9)), thanks @gnellzynga, 
-fixed use of DEFAULT_MAX_HASHES in doco ([#10](https://github.com/davidmoten/geo/issues/10)).
-* 0.6.6 - fixes [#8](https://github.com/davidmoten/geo/issues/8) boundary hash calculations should match geohash.org reference implementation (thanks D J Hagberg)
-* 0.6.5 - fixes issue [#6](https://github.com/davidmoten/geo/issues/6) GeoHash.coverBoundingBox fails when extent is larger than that covered by a single 1 letter hash
-* 0.6 - handles neighbour calculations on borders, removed guava dependency, minor api additions
-* 0.5 - first release to Maven Central
-
-Features
-----------
+**Features**
 * simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
 * encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash`)
 * decodes latitude, longitude from geohashes (`GeoHash.decodeHash`)
@@ -47,8 +22,20 @@ Features
 * Apache 2.0 licence
 * Published to Maven Central
 
-Bounding box searches using geohashing
----------------------------------------
+Status: *production*, available on Maven Central
+
+Maven site reports are [here](http://davidmoten.github.io/geo/index.html) including [javadoc](http://davidmoten.github.io/geo/apidocs/index.html).
+
+## Getting started
+Add this to your pom:
+
+    <dependency>
+        <groupId>com.github.davidmoten</groupId>
+        <artifactId>geo</artifactId>
+        <version>VERSION_HERE</version>
+    </dependency>
+
+## Bounding box searches using geohashing
 
 ### What is the problem?
 
