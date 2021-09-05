@@ -874,19 +874,4 @@ public final class GeoHash {
         }
     }
     
-    /**
-     * Returns the difference between two longitude values. The returned value
-     * is always >=0.
-     * 
-     * @param a first longitude value in degrees
-     * @param b second longitude value in degrees
-     * @return difference between the values adjusted so is always >=0
-     */
-    private static double longitudeDiff(double a, double b) {
-        a = to180(a);
-        b = to180(b);
-        return Math.abs(to180(a - b));
-    }
-
-    
 }
