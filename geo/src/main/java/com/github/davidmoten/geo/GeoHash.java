@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -144,7 +145,7 @@ public final class GeoHash {
         if (adjacentHashAtBorder != null)
             return adjacentHashAtBorder;
 
-        String source = hash.toLowerCase();
+        String source = hash.toLowerCase(Locale.ENGLISH);
         char lastChar = source.charAt(source.length() - 1);
         Parity parity = (source.length() % 2 == 0) ? Parity.EVEN : Parity.ODD;
         String base = source.substring(0, source.length() - 1);
@@ -350,9 +351,7 @@ public final class GeoHash {
         Preconditions.checkArgument(length > 0 && length <=12, "length must be between 1 and 12");
         Preconditions.checkArgument(latitude >= -90 && latitude <= 90,
                 "latitude must be between -90 and 90 inclusive");
-        longitude = to180(longitude);
-
-        return fromLongToString(encodeHashToLong(latitude, longitude, length));
+        return fromLongToString(encodeHashToLong(latitude, to180(longitude), length));
     }
 
     /**
@@ -403,7 +402,7 @@ public final class GeoHash {
             isEven = !isEven;
             bit >>>= 1;
         }
-        return g |= length;
+        return g | length;
     }
 
     /**
@@ -848,7 +847,7 @@ public final class GeoHash {
                 String h = adjacentHash(hash, Direction.RIGHT, right);
                 h = adjacentHash(h, Direction.BOTTOM, bottom);
                 if (highlightThese.contains(h))
-                    h = h.toUpperCase();
+                    h = h.toUpperCase(Locale.ENGLISH);
                 s.append(h).append(" ");
             }
             s.append("\n");
