@@ -618,8 +618,4 @@ public class GeoHashTest {
         GeoHash.coverBoundingBox(0, 100, 10, 120);
     }
     
-    @Test(expected=IllegalArgumentException.class)
-    public void testCoverBoundingBoxPreconditionLon() {
-        GeoHash.coverBoundingBox(10, 120, 0, 100);
-    }
 }
