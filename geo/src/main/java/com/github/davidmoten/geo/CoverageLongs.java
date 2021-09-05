@@ -1,5 +1,7 @@
 package com.github.davidmoten.geo;
 
+import java.util.Arrays;
+
 /**
  * A set of hashes repesented by longs and a measure of how well those hashes
  * cover a region. Immutable.
@@ -76,7 +78,7 @@ class CoverageLongs {
 
     @Override
     public String toString() {
-        return "Coverage [hashes=" + getHashes() + ", ratio=" + ratio + "]";
+        return "Coverage [hashes=" + Arrays.toString(getHashes()) + ", ratio=" + ratio + "]";
     }
 
     public int getCount() {
