@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.davidmoten</groupId>
         <artifactId>geo-parent</artifactId>
-        <version>0.8.0</version>
+        <version>0.8.1-SNAPSHOT</version>
     </parent>
     <artifactId>geo</artifactId>
     <name>${project.artifactId}</name>
