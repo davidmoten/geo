@@ -48,7 +48,7 @@ public final class Base32 {
     public static String encodeBase32(long i, int length) {
         char[] buf = new char[65];
         int charPos = 64;
-        boolean negative = (i < 0);
+        boolean negative = i < 0;
         if (!negative)
             i = -i;
         while (i <= -32) {
@@ -57,7 +57,7 @@ public final class Base32 {
         }
         buf[charPos] = characters[(int) (-i)];
         String result = padLeftWithZerosToLength(new String(buf, charPos,
-                (65 - charPos)), length);
+                65 - charPos), length);
         if (negative)
             return "-" + result;
         else

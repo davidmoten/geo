@@ -368,7 +368,7 @@ public final class GeoHash {
             throw new IllegalArgumentException("invalid long geohash " + hash);
         char[] geohash = new char[length];
         for (int pos = 0; pos < length; pos++) {
-            geohash[pos] = BASE32.charAt(((int) (hash >>> 59)));
+            geohash[pos] = BASE32.charAt((int) (hash >>> 59));
             hash <<= 5;
         }
         return new String(geohash);
