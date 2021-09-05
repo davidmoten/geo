@@ -13,25 +13,6 @@
 	<description>Geohash encoding and decoding utilities including bounding box coverage.</description>
 	<packaging>jar</packaging>
 
-	<properties>
-		<cobertura.version>2.6</cobertura.version>
-		<checkstyle.version>2.7</checkstyle.version>
-		<findbugs.version>2.3.2</findbugs.version>
-		<javadoc.version>3.3.0</javadoc.version>
-		<pmd.version>2.5</pmd.version>
-		<jdepend.version>2.0-beta-2</jdepend.version>
-		<javancss.version>2.0</javancss.version>
-		<project.info.version>2.4</project.info.version>
-		<jxr.version>2.3</jxr.version>
-		<taglist.version>2.4</taglist.version>
-		<dashboard.version>1.0.0-beta-1</dashboard.version>
-		<m3.site.version>3.3</m3.site.version>
-		<changelog.version>2.2</changelog.version>
-		<coverage.reports.dir>${project.build.directory}/target/coverage-reports</coverage.reports.dir>
-		<maven.compiler.target>1.6</maven.compiler.target>
-		<jmh.version>1.33</jmh.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.davidmoten</groupId>
@@ -41,7 +22,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>16.0.1</version>
+			<version>${guava.version}</version>
 		</dependency>
 		<!-- Test Dependencies -->
 		<dependency>

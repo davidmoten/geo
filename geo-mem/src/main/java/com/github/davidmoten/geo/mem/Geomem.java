@@ -38,6 +38,8 @@ public class Geomem<T, R> {
      * Records a mapByGeoHash as above for each id of type R.
      */
     private final Map<R, Map<Long, SortedMap<Long, Info<T, R>>>> mapById = Maps.newConcurrentMap();
+    
+    private final Object lock = new Object();
 
     /**
      * Returns as an {@link Iterable} the results of a search within the
@@ -123,8 +125,12 @@ public class Geomem<T, R> {
 
             @Override
             public boolean apply(Info<T, R> info) {
-                return info.lat() >= bottomRightLat && info.lat() < topLeftLat
-                        && info.lon() > topLeftLon && info.lon() <= bottomRightLon;
+                if (info == null) {
+                    throw new IllegalArgumentException("info cannot be null");
+                } else {
+                    return info.lat() >= bottomRightLat && info.lat() < topLeftLat
+                            && info.lon() > topLeftLon && info.lon() <= bottomRightLon;
+                }
             }
         };
     }
@@ -225,7 +231,7 @@ public class Geomem<T, R> {
             Info<T, R> info, String hash) {
         if (info.id().isPresent()) {
             Map<Long, SortedMap<Long, Info<T, R>>> m = mapById.get(info.id().get());
-            synchronized (mapByGeoHash) {
+            synchronized (lock) {
                 if (m == null) {
                     m = Maps.newConcurrentMap();
                     mapById.put(info.id().get(), m);
@@ -241,7 +247,7 @@ public class Geomem<T, R> {
         // full hash length is 12 so this will insert 12 entries
         for (int i = 1; i <= hash.length(); i++) {
             long key = Base32.decodeBase32(hash.substring(0, i));
-            synchronized (map) {
+            synchronized (lock) {
                 if (map.get(key) == null) {
                     map.put(key, new ConcurrentSkipListMap<Long, Info<T, R>>());
                 }
