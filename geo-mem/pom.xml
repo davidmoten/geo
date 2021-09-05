@@ -17,7 +17,7 @@
 		<cobertura.version>2.6</cobertura.version>
 		<checkstyle.version>2.7</checkstyle.version>
 		<findbugs.version>2.3.2</findbugs.version>
-		<javadoc.version>2.10.3</javadoc.version>
+		<javadoc.version>3.3.0</javadoc.version>
 		<pmd.version>2.5</pmd.version>
 		<jdepend.version>2.0-beta-2</jdepend.version>
 		<javancss.version>2.0</javancss.version>
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.7</version>
+			<version>2.11.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
