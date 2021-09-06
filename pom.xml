@@ -261,4 +261,10 @@
         </plugins>
     </reporting>
 
+   <distributionManagement>
+    <site>
+      <id>site</id>
+      <url>scp://doesntexist</url>
+    </site>
+  </distributionManagement>
 </project>
