@@ -7,7 +7,7 @@ geo
 Java utility methods for geohashing.
 
 **Features**
-* simple [api](https://xuml-tools.ci.cloudbees.com/job/geo%20site/site/apidocs/index.html)
+* simple [api](http://davidmoten.github.io/geo/apidocs/index.html)
 * encodes geohashes from latitude, longitude to arbitrary length (`GeoHash.encodeHash`)
 * decodes latitude, longitude from geohashes (`GeoHash.decodeHash`)
 * finds adjacent hash in any direction (`GeoHash.adjacentHash`), works on borders including the poles too
