@@ -127,7 +127,7 @@ public class DatabaseTest {
 		String script = IOUtils.toString(
 				DatabaseTest.class.getResourceAsStream("/create.sql"), "UTF-8");
 		String[] commands = script.split(";");
-		String url = "jdbc:h2:file:target/db/test";
+		String url = "jdbc:h2:file:" + dir.getAbsolutePath() + "/test";
 		Connection con = DriverManager.getConnection(url, "sa", "");
 		for (String command : commands) {
 			execute(con, command);
