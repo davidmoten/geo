@@ -17,7 +17,7 @@
 
         <jmh.version>1.33</jmh.version>
         <guava.version>31.0.1-jre</guava.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.0.204</h2.version>
         
         <checkstyle.version>3.1.2</checkstyle.version>
         <checkstyle.xml>src/main/checkstyle/checkstyle.xml</checkstyle.xml>
