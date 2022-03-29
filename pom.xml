@@ -28,7 +28,7 @@
         <project.info.version>3.1.2</project.info.version>
         <jxr.version>3.2.0</jxr.version>
         <taglist.version>3.0.0</taglist.version>
-        <spotbugs.version>4.2.3</spotbugs.version>
+        <spotbugs.version>4.6.0.0</spotbugs.version>
         <m3.site.version>3.11.0</m3.site.version>
         <changelog.version>2.2</changelog.version>
         <changelog.version>2.2</changelog.version>
@@ -157,23 +157,6 @@
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs.version}</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <xmlOutput>true</xmlOutput>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
