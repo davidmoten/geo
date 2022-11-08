@@ -28,7 +28,7 @@
         <project.info.version>3.1.2</project.info.version>
         <jxr.version>3.3.0</jxr.version>
         <taglist.version>3.0.0</taglist.version>
-        <spotbugs.version>4.7.2.1</spotbugs.version>
+        <spotbugs.version>4.7.3.0</spotbugs.version>
         <m3.site.version>3.12.1</m3.site.version>
         <changelog.version>2.2</changelog.version>
         <changelog.version>2.2</changelog.version>
