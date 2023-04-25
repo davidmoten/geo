@@ -32,7 +32,7 @@
         <m3.site.version>3.12.1</m3.site.version>
         <changelog.version>2.2</changelog.version>
         <changelog.version>2.2</changelog.version>
-        <jacoco.version>0.8.9</jacoco.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <m3.site.version>3.9.1</m3.site.version>
     </properties>
 
