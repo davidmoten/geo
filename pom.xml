@@ -19,7 +19,7 @@
         <guava.version>31.1-jre</guava.version>
         <h2.version>2.1.214</h2.version>
         
-        <checkstyle.version>3.2.2</checkstyle.version>
+        <checkstyle.version>3.3.0</checkstyle.version>
         <checkstyle.xml>src/main/checkstyle/checkstyle.xml</checkstyle.xml>
         <checkstyle.suppressions.xml>src/main/checkstyle/suppressions.xml</checkstyle.suppressions.xml>
         <checkstyle.core.version>8.45.1</checkstyle.core.version>
