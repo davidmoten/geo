@@ -25,7 +25,7 @@
         <checkstyle.core.version>8.45.1</checkstyle.core.version>
         <javadoc.version>3.5.0</javadoc.version>
         <pmd.version>3.21.0</pmd.version>
-        <project.info.version>3.4.4</project.info.version>
+        <project.info.version>3.4.5</project.info.version>
         <jxr.version>3.3.0</jxr.version>
         <taglist.version>3.0.0</taglist.version>
         <spotbugs.version>4.7.3.4</spotbugs.version>
