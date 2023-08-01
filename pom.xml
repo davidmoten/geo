@@ -16,7 +16,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <jmh.version>1.36</jmh.version>
-        <guava.version>32.1.1-jre</guava.version>
+        <guava.version>32.1.2-jre</guava.version>
         <h2.version>2.2.220</h2.version>
         
         <checkstyle.version>3.3.0</checkstyle.version>
