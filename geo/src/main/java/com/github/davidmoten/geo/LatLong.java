@@ -1,7 +1,5 @@
 package com.github.davidmoten.geo;
 
-import java.util.Objects;
-
 /**
  * A lat, long pair (WGS84). Immutable.
  * 
@@ -77,7 +75,7 @@ public class LatLong {
 
     @Override
     public int hashCode() {
-        return Objects.hash(lat, lon);
+        return 31 * Double.hashCode(lat) + Double.hashCode(lon);
     }
 
 }
