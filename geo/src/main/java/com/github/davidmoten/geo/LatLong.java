@@ -1,5 +1,7 @@
 package com.github.davidmoten.geo;
 
+import java.util.Objects;
+
 /**
  * A lat, long pair (WGS84). Immutable.
  * 
@@ -59,6 +61,23 @@ public class LatLong {
         builder.append(lon);
         builder.append("]");
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final LatLong latLong = (LatLong) o;
+        return Double.compare(lat, latLong.lat) == 0 && Double.compare(lon, latLong.lon) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lat, lon);
     }
 
 }
