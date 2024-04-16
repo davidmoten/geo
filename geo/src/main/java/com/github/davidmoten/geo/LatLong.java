@@ -61,4 +61,21 @@ public class LatLong {
         return builder.toString();
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final LatLong latLong = (LatLong) o;
+        return Double.compare(lat, latLong.lat) == 0 && Double.compare(lon, latLong.lon) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * Double.hashCode(lat) + Double.hashCode(lon);
+    }
+
 }
