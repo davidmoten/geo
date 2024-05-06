@@ -52,10 +52,10 @@ public final class Base32 {
         if (!negative)
             i = -i;
         while (i <= -32) {
-            buf[charPos--] = characters[(int) (-(i % 32))];
+            buf[charPos--] = characters[(int) -(i % 32)];
             i /= 32;
         }
-        buf[charPos] = characters[(int) (-i)];
+        buf[charPos] = characters[(int) -i];
         String result = padLeftWithZerosToLength(new String(buf, charPos,
                 65 - charPos), length);
         if (negative)
