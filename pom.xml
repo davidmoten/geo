@@ -29,7 +29,7 @@
         <jxr.version>3.4.0</jxr.version>
         <taglist.version>3.1.0</taglist.version>
         <spotbugs.version>4.8.6.2</spotbugs.version>
-        <m3.site.version>3.12.1</m3.site.version>
+        <m3.site.version>3.20.0</m3.site.version>
         <changelog.version>2.2</changelog.version>
         <changelog.version>2.2</changelog.version>
         <jacoco.version>0.8.12</jacoco.version>
