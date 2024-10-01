@@ -23,7 +23,7 @@
         <checkstyle.xml>src/main/checkstyle/checkstyle.xml</checkstyle.xml>
         <checkstyle.suppressions.xml>src/main/checkstyle/suppressions.xml</checkstyle.suppressions.xml>
         <checkstyle.core.version>8.45.1</checkstyle.core.version>
-        <javadoc.version>3.10.0</javadoc.version>
+        <javadoc.version>3.10.1</javadoc.version>
         <pmd.version>3.25.0</pmd.version>
         <project.info.version>3.7.0</project.info.version>
         <jxr.version>3.5.0</jxr.version>
@@ -119,7 +119,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.10.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
