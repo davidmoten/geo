@@ -1,8 +1,7 @@
 package com.github.davidmoten.geo;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link CoverageLongs}.

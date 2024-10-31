@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
 
 import com.github.davidmoten.geo.Coverage;
 import com.github.davidmoten.geo.GeoHash;
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.Test;
 
 /**
  * Displays benchmarks using geohashing with an H2 database.

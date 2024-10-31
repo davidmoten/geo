@@ -1,10 +1,11 @@
 package com.github.davidmoten.geo;
 
-import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Utility methods for unit tests.
@@ -17,7 +18,7 @@ public class TestingUtil {
     /**
      * Checks that a class has a no-argument private constructor and calls that
      * constructor to instantiate the class.
-     * 
+     *
      * @param cls
      */
     public static <T> void callConstructorAndCheckIsPrivate(Class<T> cls) {
@@ -43,5 +44,4 @@ public class TestingUtil {
             throw new RuntimeException(e);
         }
     }
-
 }

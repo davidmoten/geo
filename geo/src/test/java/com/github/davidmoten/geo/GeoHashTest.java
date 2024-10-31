@@ -14,10 +14,7 @@ import static com.github.davidmoten.geo.GeoHash.neighbours;
 import static com.github.davidmoten.geo.GeoHash.right;
 import static com.github.davidmoten.geo.GeoHash.top;
 import static com.github.davidmoten.geo.GeoHash.widthDegrees;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,9 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.junit.Test;
-
 import com.google.common.collect.Sets;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link GeoHash}.
@@ -62,14 +58,14 @@ public class GeoHashTest {
         assertEquals(0x65c0000000000002L, GeoHash.encodeHashToLong(41.842967, -72.727175, 2));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromLongToStringInvalid() {
-        GeoHash.fromLongToString(0xff);
+        assertThrows(IllegalArgumentException.class, () -> GeoHash.fromLongToString(0xff));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromLongToStringZero() {
-        GeoHash.fromLongToString(0);
+        assertThrows(IllegalArgumentException.class, () -> GeoHash.fromLongToString(0));
     }
 
     @Test
@@ -100,25 +96,25 @@ public class GeoHashTest {
     public void testHashOfNonDefaultLength() {
         assertEquals("6gkzwg", encodeHash(-25.382708, -49.265506, 6));
     }
-    
+
     @Test
     public void testHashOfLength12() {
         assertEquals("6gkzwgjzn820", encodeHash(-25.382708, -49.265506, 12));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testHashOfLength13() {
-        encodeHash(-25.382708, -49.265506, 13);
+        assertThrows(IllegalArgumentException.class, () -> encodeHash(-25.382708, -49.265506, 13));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testHashOfLength20() {
-        encodeHash(-25.382708, -49.265506, 20);
+        assertThrows(IllegalArgumentException.class, () -> encodeHash(-25.382708, -49.265506, 20));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testHashEncodeGivenNonPositiveLength() {
-        encodeHash(-25.382708, -49.265506, 0);
+        assertThrows(IllegalArgumentException.class, () -> encodeHash(-25.382708, -49.265506, 0));
     }
 
     @Test
@@ -126,24 +122,24 @@ public class GeoHashTest {
         assertEquals("sew1c2vs2q5r", encodeHash(20, 31));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testEncodeHashWithLatTooBig() {
-        encodeHash(1000, 100, 4);
+        assertThrows(IllegalArgumentException.class, () -> encodeHash(1000, 100, 4));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testEncodeHashWithLatTooSmall() {
-        encodeHash(-1000, 100, 4);
+        assertThrows(IllegalArgumentException.class, () -> encodeHash(-1000, 100, 4));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAdjacentHashThrowsExceptionGivenNullHash() {
-        GeoHash.adjacentHash(null, Direction.RIGHT);
+        assertThrows(IllegalArgumentException.class, () -> GeoHash.adjacentHash(null, Direction.RIGHT));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAdjacentHashThrowsExceptionGivenBlankHash() {
-        GeoHash.adjacentHash("", Direction.RIGHT);
+        assertThrows(IllegalArgumentException.class, () -> GeoHash.adjacentHash("", Direction.RIGHT));
     }
 
     @Test
@@ -404,10 +400,12 @@ public class GeoHashTest {
         assertEquals(Sets.newHashSet("dr7", "dre", "drk", "drs"), hashes);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCoverBoundingBoxWithZeroLengthThrowsException() {
-        coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT,
-                HARTFORD_LON, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                coverBoundingBox(SCHENECTADY_LAT, SCHENECTADY_LON, HARTFORD_LAT,
+                        HARTFORD_LON, 0)
+        );
     }
     
     @Test
@@ -612,10 +610,10 @@ public class GeoHashTest {
         assertEquals("2pbpbpbpbpbr", neighbors.get(I_RIGHT_BOT));
     }
 
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test
     public void testCoverBoundingBoxPreconditionLat() {
-        GeoHash.coverBoundingBox(0, 100, 10, 120);
+        assertThrows(IllegalArgumentException.class, () -> GeoHash.coverBoundingBox(0, 100, 10, 120));
     }
     
 }

@@ -1,17 +1,13 @@
 package com.github.davidmoten.geo.mem;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 import java.util.UUID;
-
-import org.junit.Test;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GeomemTest {
 
@@ -118,7 +114,7 @@ public class GeomemTest {
     /**
      * Indicates 4.5MB per 1000 records. Thus one million entries needs 4500
      * entries.
-     * 
+     *
      * @throws InterruptedException
      */
     @Test
