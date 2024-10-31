@@ -2,10 +2,11 @@ package com.github.davidmoten.geo;
 
 import static com.github.davidmoten.geo.Base32.decodeBase32;
 import static com.github.davidmoten.geo.Base32.encodeBase32;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
 
+import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@link Base32}.
  * 
@@ -66,9 +67,9 @@ public class Base32Test {
 		assertEquals("00000000003v", encodeBase32(123));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testGetCharIndexThrowsExceptionWhenNonBase32CharacterGiven() {
-		Base32.getCharIndex('?');
+		assertThrows(IllegalArgumentException.class, () -> Base32.getCharIndex('?'));
 	}
 
 	@Test

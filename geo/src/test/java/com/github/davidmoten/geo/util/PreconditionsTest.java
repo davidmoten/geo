@@ -1,8 +1,10 @@
 package com.github.davidmoten.geo.util;
 
-import org.junit.Test;
-
+import com.github.davidmoten.geo.Base32;
 import com.github.davidmoten.geo.TestingUtil;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PreconditionsTest {
 
@@ -11,9 +13,9 @@ public class PreconditionsTest {
         TestingUtil.callConstructorAndCheckIsPrivate(Preconditions.class);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testCheckNotNullGivenNullThrowsException() {
-        Preconditions.checkNotNull(null, "message");
+        assertThrows(NullPointerException.class, () -> Preconditions.checkNotNull(null, "message"));
     }
 
 }
