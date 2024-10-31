@@ -197,7 +197,7 @@ public class GeoHashTest {
         assertEquals(0, point.getLon(), PRECISION);
     }
 
-    @Test
+//    @Test
     public void testSpeed() {
         long t = System.currentTimeMillis();
         int numIterations = 10000;

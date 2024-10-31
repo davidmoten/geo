@@ -1,6 +1,5 @@
 package com.github.davidmoten.geo.util;
 
-import com.github.davidmoten.geo.Base32;
 import com.github.davidmoten.geo.TestingUtil;
 import org.junit.jupiter.api.Test;
 
