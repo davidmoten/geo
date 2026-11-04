@@ -155,4 +155,31 @@ public class GeomemTest {
         String id = UUID.randomUUID().toString().substring(0, 2);
         g.add(lat, lon, t, id, id);
     }
+
+    @Test
+    public void findAcrossAntimeridianIncludesBothSides() {
+        Geomem<String, String> g = new Geomem<String, String>();
+        g.add(0, 175, 100, "east");
+        g.add(0, -175, 200, "west");
+        g.add(0, 0, 300, "outside");
+        List<Info<String, String>> found = Lists.newArrayList(g.find(10, 170, -10, -170, 0, 1000));
+        java.util.Set<String> values = new java.util.HashSet<String>();
+        for (Info<String, String> info : found) {
+            values.add(info.value());
+        }
+        assertEquals(new java.util.HashSet<String>(java.util.Arrays.asList("east", "west")), values);
+    }
+
+
+    @Test
+    public void antimeridianFilterPreservesEdgeRules() {
+        Geomem<String, String> g = new Geomem<String, String>();
+        Predicate<Info<String, String>> filter = g.createRegionFilter(10, 170, -10, -170);
+        assertFalse(filter.apply(createInfo(0, 170)));
+        assertTrue(filter.apply(createInfo(0, -170)));
+        assertFalse(filter.apply(createInfo(10, 175)));
+        assertTrue(filter.apply(createInfo(-10, 175)));
+        assertFalse(filter.apply(createInfo(0, 0)));
+    }
+
 }

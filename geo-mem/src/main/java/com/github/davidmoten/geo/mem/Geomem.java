@@ -128,8 +128,11 @@ public class Geomem<T, R> {
                 if (info == null) {
                     throw new IllegalArgumentException("info cannot be null");
                 } else {
+                    boolean longitudeInRange = topLeftLon <= bottomRightLon
+                            ? info.lon() > topLeftLon && info.lon() <= bottomRightLon
+                            : info.lon() > topLeftLon || info.lon() <= bottomRightLon;
                     return info.lat() >= bottomRightLat && info.lat() < topLeftLat
-                            && info.lon() > topLeftLon && info.lon() <= bottomRightLon;
+                            && longitudeInRange;
                 }
             }
         };
